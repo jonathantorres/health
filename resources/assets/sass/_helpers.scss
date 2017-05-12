@@ -1,0 +1,27 @@
+// Padding and margins
+@for $i from 1 through 500 {
+    .padding-#{$i}-top {
+        padding-top: #{$i}px;
+    }
+    .padding-#{$i}-right {
+        padding-right: #{$i}px;
+    }
+    .padding-#{$i}-bottom {
+        padding-bottom: #{$i}px;
+    }
+    .padding-#{$i}-left {
+        padding-left: #{$i}px;
+    }
+    .margin-#{$i}-top {
+        margin-top: #{$i}px;
+    }
+    .margin-#{$i}-right {
+        margin-right: #{$i}px;
+    }
+    .margin-#{$i}-bottom {
+        margin-bottom: #{$i}px;
+    }
+    .margin-#{$i}-left {
+        margin-left: #{$i}px;
+    }
+}
