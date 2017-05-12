@@ -7,7 +7,17 @@ use Illuminate\Http\Request;
 class AppController extends Controller
 {
     /**
-     * Show the main index view.
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
+     * Show the main dashboard view.
      *
      * @return Illuminate\View\View
      */
