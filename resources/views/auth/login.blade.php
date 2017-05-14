@@ -54,6 +54,10 @@
                                     Login
                                 </button>
 
+                                <a class="btn btn-default" href="{{ route('register') }}">
+                                    Sign up
+                                </a>
+
                                 <a class="btn btn-link" href="{{ route('password.request') }}">
                                     Forgot Your Password?
                                 </a>

@@ -65,6 +65,10 @@
                                 <button type="submit" class="btn btn-primary">
                                     Register
                                 </button>
+
+                                <a class="btn btn-link" href="{{ route('login') }}">
+                                    Cancel
+                                </a>
                             </div>
                         </div>
                     </form>
