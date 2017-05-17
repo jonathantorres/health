@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\BloodPressure;
 use Illuminate\Http\Request;
 
 class BloodPressureController extends Controller
@@ -22,8 +23,26 @@ class BloodPressureController extends Controller
      *
      * @return Illuminate\View\View
      */
-    public function add()
+    public function add(Request $request)
     {
+        if ($request->isMethod('post')) {
+            $this->validate($request, [
+                'sys' => 'required|numeric',
+                'dia' => 'required|numeric',
+                'pulse' => 'required|numeric',
+                'reading-date' => 'required',
+            ]);
+
+            BloodPressure::create([
+                'systolic' => $request->input('sys'),
+                'diastolic' => $request->input('dia'),
+                'pulse' => $request->input('pulse'),
+                'reading_date' => $request->input('reading-date'),
+            ]);
+
+            return redirect()->route('add-blood-pressure')->with('success', 'Blood Pressure reading added succesfully.');
+        }
+
         return view('blood_pressure.add');
     }
 }
