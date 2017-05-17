@@ -27,7 +27,7 @@
                             <a href="#">See all readings</a>
                         </li>
                         <li>
-                            <a href="#">Enter new reading</a>
+                            <a href="{{ route('add-blood-pressure') }}">Enter new reading</a>
                         </li>
                     </ul>
                 </li>

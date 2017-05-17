@@ -12,5 +12,6 @@
 */
 
 Route::get('/', 'AppController@index')->name('index');
+Route::any('blood-pressure/add', 'BloodPressureController@add')->name('add-blood-pressure');
 
 Auth::routes();
