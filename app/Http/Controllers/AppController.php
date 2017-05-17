@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\BloodPressure;
 use Illuminate\Http\Request;
 
 class AppController extends Controller
@@ -23,6 +24,10 @@ class AppController extends Controller
      */
     public function index()
     {
-        return view('index');
+        $bloodPressureReadings = BloodPressure::orderBy('reading_date', 'desc')->limit(10)->get();
+
+        return view('index', [
+            'readings' => $bloodPressureReadings,
+        ]);
     }
 }

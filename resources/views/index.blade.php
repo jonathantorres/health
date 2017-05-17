@@ -22,12 +22,12 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @for($i = 0; $i < 10; $i++)
+                                @foreach($readings as $reading)
                                     <tr>
-                                        <td class="text-center">120</td>
-                                        <td class="text-center">80</td>
-                                        <td class="text-center">60</td>
-                                        <td class="text-center">May 26, 1985</td>
+                                        <td class="text-center">{{ $reading->systolic }}</td>
+                                        <td class="text-center">{{ $reading->diastolic }}</td>
+                                        <td class="text-center">{{ $reading->pulse }}</td>
+                                        <td class="text-center">{{ date('M, j Y', strtotime($reading->reading_date)) }}</td>
                                         <td class="text-center">Normal</td>
                                         <td class="text-center">
                                             <a class="" href="#">
@@ -35,7 +35,7 @@
                                             </a>
                                         </td>
                                     </tr>
-                                @endfor
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
