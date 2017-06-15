@@ -45,4 +45,18 @@ class BloodPressureController extends Controller
 
         return view('blood_pressure.add');
     }
+
+    /**
+     * View to show all blood pressure readings.
+     *
+     * @return Illuminate\View\View
+     */
+    public function all()
+    {
+        $readings = BloodPressure::orderBy('reading_date', 'desc')->get();
+
+        return view('blood_pressure.all', [
+            'readings' => $readings,
+        ]);
+    }
 }

@@ -24,7 +24,7 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="#">See all readings</a>
+                            <a href="{{ route('all-blood-pressure') }}">See all readings</a>
                         </li>
                         <li>
                             <a href="{{ route('add-blood-pressure') }}">Enter new reading</a>
