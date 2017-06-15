@@ -59,4 +59,20 @@ class BloodPressureController extends Controller
             'readings' => $readings,
         ]);
     }
+
+    /**
+     * Show details of a blood pressure reading.
+     *
+     * @param  int $id
+     *
+     * @return Illuminate\View\View
+     */
+    public function details($id)
+    {
+        $reading = BloodPressure::find($id);
+
+        return view('blood_pressure.details', [
+            'reading' => $reading,
+        ]);
+    }
 }
