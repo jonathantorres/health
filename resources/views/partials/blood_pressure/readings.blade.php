@@ -20,7 +20,7 @@
                             <td class="text-center">{{ $reading->diastolic }}</td>
                             <td class="text-center">{{ $reading->pulse }}</td>
                             <td class="text-center">{{ date('M, j Y', strtotime($reading->reading_date)) }}</td>
-                            <td class="text-center">Normal</td>
+                            <td class="text-center">{{ $reading->severity() }}</td>
                             <td class="text-center">
                                 <a class="" href="#">
                                     <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
