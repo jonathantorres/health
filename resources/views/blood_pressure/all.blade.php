@@ -9,5 +9,10 @@
             @include('partials.blood_pressure.readings')
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            {{ $readings->links() }}
+        </div>
+    </div>
 </div>
 @endsection

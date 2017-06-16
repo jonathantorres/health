@@ -53,7 +53,7 @@ class BloodPressureController extends Controller
      */
     public function all()
     {
-        $readings = BloodPressure::orderBy('reading_date', 'desc')->get();
+        $readings = BloodPressure::orderBy('reading_date', 'desc')->paginate(10);
 
         return view('blood_pressure.all', [
             'readings' => $readings,
