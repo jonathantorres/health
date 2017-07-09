@@ -41,6 +41,7 @@ class ImportReadings extends Command
     {
         $this->info('Importing predefined readings...');
 
+        DB::table('blood_pressures')->truncate();
         DB::table('blood_pressures')->insert($this->readingsToImport());
 
         $this->info('Done.');
