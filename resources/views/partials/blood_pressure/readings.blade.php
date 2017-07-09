@@ -1,5 +1,5 @@
 <div class="panel panel-default">
-    <div class="panel-heading">Blood Pressure Readings</div>
+    <div class="panel-heading">{{ $title }}</div>
     <div class="panel-body">
         <div class="table-responsive">
             <table class="table table-striped table-hover table-condensed">

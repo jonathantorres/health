@@ -6,7 +6,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            @include('partials.blood_pressure.readings')
+            @include('partials.blood_pressure.readings', [ 'title' => $title])
         </div>
     </div>
     <div class="row">

@@ -25,9 +25,11 @@ class AppController extends Controller
     public function index()
     {
         $bloodPressureReadings = BloodPressure::orderBy('reading_date', 'desc')->limit(10)->get();
+        $title = 'Latest Blood Pressure Readings';
 
         return view('index', [
             'readings' => $bloodPressureReadings,
+            'title' => $title,
         ]);
     }
 }
