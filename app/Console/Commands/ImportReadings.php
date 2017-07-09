@@ -121,25 +121,65 @@ class ImportReadings extends Command
                 'updated_at' => Carbon::now(),
             ],
             [
-                'systolic' => 129,
-                'diastolic' => 74,
-                'pulse' => 0,
+                'systolic' => 124,
+                'diastolic' => 66,
+                'pulse' => 78,
                 'reading_date' => Carbon::createFromDate(2017, 5, 2), // Year, month, day
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
-                'systolic' => 127,
-                'diastolic' => 71,
-                'pulse' => 0,
+                'systolic' => 106,
+                'diastolic' => 66,
+                'pulse' => 106,
+                'reading_date' => Carbon::createFromDate(2017, 5, 2), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 129,
+                'diastolic' => 64,
+                'pulse' => 102,
+                'reading_date' => Carbon::createFromDate(2017, 5, 2), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 121,
+                'diastolic' => 77,
+                'pulse' => 80,
                 'reading_date' => Carbon::createFromDate(2017, 5, 6), // Year, month, day
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
                 'systolic' => 128,
+                'diastolic' => 75,
+                'pulse' => 70,
+                'reading_date' => Carbon::createFromDate(2017, 5, 6), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 127,
+                'diastolic' => 71,
+                'pulse' => 73,
+                'reading_date' => Carbon::createFromDate(2017, 5, 6), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 127,
+                'diastolic' => 67,
+                'pulse' => 83,
+                'reading_date' => Carbon::createFromDate(2017, 5, 7), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 128,
                 'diastolic' => 69,
-                'pulse' => 0,
+                'pulse' => 81,
                 'reading_date' => Carbon::createFromDate(2017, 5, 7), // Year, month, day
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
@@ -147,15 +187,31 @@ class ImportReadings extends Command
             [
                 'systolic' => 122,
                 'diastolic' => 67,
-                'pulse' => 0,
+                'pulse' => 61,
+                'reading_date' => Carbon::createFromDate(2017, 5, 8), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 128,
+                'diastolic' => 63,
+                'pulse' => 61,
                 'reading_date' => Carbon::createFromDate(2017, 5, 8), // Year, month, day
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
                 'systolic' => 115,
+                'diastolic' => 62,
+                'pulse' => 67,
+                'reading_date' => Carbon::createFromDate(2017, 5, 9), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 115,
                 'diastolic' => 63,
-                'pulse' => 0,
+                'pulse' => 73,
                 'reading_date' => Carbon::createFromDate(2017, 5, 9), // Year, month, day
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
@@ -163,23 +219,71 @@ class ImportReadings extends Command
             [
                 'systolic' => 120,
                 'diastolic' => 71,
-                'pulse' => 0,
+                'pulse' => 74,
                 'reading_date' => Carbon::createFromDate(2017, 5, 11), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 117,
+                'diastolic' => 61,
+                'pulse' => 74,
+                'reading_date' => Carbon::createFromDate(2017, 5, 13), // Year, month, day
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
                 'systolic' => 129,
                 'diastolic' => 65,
-                'pulse' => 0,
+                'pulse' => 98,
                 'reading_date' => Carbon::createFromDate(2017, 5, 13), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 97,
+                'diastolic' => 45,
+                'pulse' => 72,
+                'reading_date' => Carbon::createFromDate(2017, 5, 14), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 110,
+                'diastolic' => 55,
+                'pulse' => 90,
+                'reading_date' => Carbon::createFromDate(2017, 5, 14), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 108,
+                'diastolic' => 59,
+                'pulse' => 89,
+                'reading_date' => Carbon::createFromDate(2017, 5, 14), // Year, month, day
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
                 'systolic' => 126,
                 'diastolic' => 70,
-                'pulse' => 0,
+                'pulse' => 74,
+                'reading_date' => Carbon::createFromDate(2017, 5, 14), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 131,
+                'diastolic' => 73,
+                'pulse' => 74,
+                'reading_date' => Carbon::createFromDate(2017, 5, 14), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 114,
+                'diastolic' => 52,
+                'pulse' => 67,
                 'reading_date' => Carbon::createFromDate(2017, 5, 14), // Year, month, day
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
@@ -187,7 +291,15 @@ class ImportReadings extends Command
             [
                 'systolic' => 120,
                 'diastolic' => 71,
-                'pulse' => 0,
+                'pulse' => 94,
+                'reading_date' => Carbon::createFromDate(2017, 5, 15), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 120,
+                'diastolic' => 71,
+                'pulse' => 96,
                 'reading_date' => Carbon::createFromDate(2017, 5, 15), // Year, month, day
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
@@ -195,7 +307,15 @@ class ImportReadings extends Command
             [
                 'systolic' => 122,
                 'diastolic' => 66,
-                'pulse' => 0,
+                'pulse' => 69,
+                'reading_date' => Carbon::createFromDate(2017, 5, 17), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 120,
+                'diastolic' => 64,
+                'pulse' => 86,
                 'reading_date' => Carbon::createFromDate(2017, 5, 17), // Year, month, day
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
@@ -203,23 +323,47 @@ class ImportReadings extends Command
             [
                 'systolic' => 122,
                 'diastolic' => 74,
-                'pulse' => 0,
+                'pulse' => 88,
                 'reading_date' => Carbon::createFromDate(2017, 5, 18), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 118,
+                'diastolic' => 70,
+                'pulse' => 92,
+                'reading_date' => Carbon::createFromDate(2017, 5, 18), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 132,
+                'diastolic' => 72,
+                'pulse' => 85,
+                'reading_date' => Carbon::createFromDate(2017, 5, 19), // Year, month, day
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
                 'systolic' => 121,
                 'diastolic' => 70,
-                'pulse' => 0,
+                'pulse' => 80,
                 'reading_date' => Carbon::createFromDate(2017, 5, 19), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 131,
+                'diastolic' => 63,
+                'pulse' => 72,
+                'reading_date' => Carbon::createFromDate(2017, 5, 20), // Year, month, day
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
                 'systolic' => 124,
                 'diastolic' => 63,
-                'pulse' => 0,
+                'pulse' => 69,
                 'reading_date' => Carbon::createFromDate(2017, 5, 20), // Year, month, day
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
@@ -227,7 +371,7 @@ class ImportReadings extends Command
             [
                 'systolic' => 125,
                 'diastolic' => 68,
-                'pulse' => 0,
+                'pulse' => 71,
                 'reading_date' => Carbon::createFromDate(2017, 5, 21), // Year, month, day
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
