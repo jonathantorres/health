@@ -29,9 +29,9 @@ class BloodPressure extends Model
      */
     public function severity()
     {
-        if ($this->systolic < 120 && $this->diastolic < 80) {
+        if ($this->systolic <= 120 && $this->diastolic <= 80) {
             return 'Normal';
-        } elseif (($this->systolic >= 120 && $this->systolic <= 139) || ($this->diastolic >= 80 && $this->diastolic <= 89)) {
+        } elseif (($this->systolic > 120 && $this->systolic <= 139) || ($this->diastolic > 80 && $this->diastolic <= 89)) {
             return 'Pre Hypertension';
         } elseif (($this->systolic >= 140 && $this->systolic <= 159) || ($this->diastolic >= 90 && $this->diastolic <= 99)) {
             return 'Stage 1 Hypertension';
