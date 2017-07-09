@@ -232,6 +232,230 @@ class ImportReadings extends Command
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
+            [
+                'systolic' => 119,
+                'diastolic' => 69,
+                'pulse' => 66,
+                'reading_date' => Carbon::createFromDate(2017, 5, 21), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 118,
+                'diastolic' => 64,
+                'pulse' => 80,
+                'reading_date' => Carbon::createFromDate(2017, 5, 23), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 112,
+                'diastolic' => 61,
+                'pulse' => 78,
+                'reading_date' => Carbon::createFromDate(2017, 5, 23), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 114,
+                'diastolic' => 62,
+                'pulse' => 101,
+                'reading_date' => Carbon::createFromDate(2017, 5, 26), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 107,
+                'diastolic' => 60,
+                'pulse' => 96,
+                'reading_date' => Carbon::createFromDate(2017, 5, 26), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 118,
+                'diastolic' => 63,
+                'pulse' => 98,
+                'reading_date' => Carbon::createFromDate(2017, 5, 26), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 146,
+                'diastolic' => 72,
+                'pulse' => 90,
+                'reading_date' => Carbon::createFromDate(2017, 5, 31), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 139,
+                'diastolic' => 68,
+                'pulse' => 95,
+                'reading_date' => Carbon::createFromDate(2017, 5, 31), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 122,
+                'diastolic' => 72,
+                'pulse' => 86,
+                'reading_date' => Carbon::createFromDate(2017, 5, 31), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 115,
+                'diastolic' => 73,
+                'pulse' => 84,
+                'reading_date' => Carbon::createFromDate(2017, 5, 31), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 131,
+                'diastolic' => 64,
+                'pulse' => 86,
+                'reading_date' => Carbon::createFromDate(2017, 6, 1), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 131,
+                'diastolic' => 64,
+                'pulse' => 87,
+                'reading_date' => Carbon::createFromDate(2017, 6, 1), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 130,
+                'diastolic' => 69,
+                'pulse' => 70,
+                'reading_date' => Carbon::createFromDate(2017, 6, 6), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 130,
+                'diastolic' => 71,
+                'pulse' => 71,
+                'reading_date' => Carbon::createFromDate(2017, 6, 6), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 122,
+                'diastolic' => 65,
+                'pulse' => 67,
+                'reading_date' => Carbon::createFromDate(2017, 6, 7), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 114,
+                'diastolic' => 63,
+                'pulse' => 74,
+                'reading_date' => Carbon::createFromDate(2017, 6, 7), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 128,
+                'diastolic' => 67,
+                'pulse' => 61,
+                'reading_date' => Carbon::createFromDate(2017, 6, 11), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 126,
+                'diastolic' => 66,
+                'pulse' => 58,
+                'reading_date' => Carbon::createFromDate(2017, 6, 11), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 131,
+                'diastolic' => 69,
+                'pulse' => 95,
+                'reading_date' => Carbon::createFromDate(2017, 6, 14), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 128,
+                'diastolic' => 67,
+                'pulse' => 96,
+                'reading_date' => Carbon::createFromDate(2017, 6, 14), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 120,
+                'diastolic' => 61,
+                'pulse' => 76,
+                'reading_date' => Carbon::createFromDate(2017, 6, 15), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 125,
+                'diastolic' => 63,
+                'pulse' => 95,
+                'reading_date' => Carbon::createFromDate(2017, 6, 17), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 126,
+                'diastolic' => 72,
+                'pulse' => 88,
+                'reading_date' => Carbon::createFromDate(2017, 6, 22), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 132,
+                'diastolic' => 74,
+                'pulse' => 61,
+                'reading_date' => Carbon::createFromDate(2017, 6, 25), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 120,
+                'diastolic' => 63,
+                'pulse' => 95,
+                'reading_date' => Carbon::createFromDate(2017, 6, 27), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 121,
+                'diastolic' => 68,
+                'pulse' => 80,
+                'reading_date' => Carbon::createFromDate(2017, 7, 4), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 127,
+                'diastolic' => 70,
+                'pulse' => 73,
+                'reading_date' => Carbon::createFromDate(2017, 7, 7), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'systolic' => 124,
+                'diastolic' => 66,
+                'pulse' => 68,
+                'reading_date' => Carbon::createFromDate(2017, 7, 9), // Year, month, day
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
         ];
     }
 }
