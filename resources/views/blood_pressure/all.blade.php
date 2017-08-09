@@ -14,5 +14,6 @@
             {{ $readings->links() }}
         </div>
     </div>
+    @include('partials.footer')
 </div>
 @endsection

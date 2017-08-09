@@ -17,5 +17,6 @@
             <a href="{{ url()->previous() }}" class="btn btn-default">Go Back</a>
         </div>
     </div>
+    @include('partials.footer')
 </div>
 @endsection
