@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class BloodPressure extends Model
@@ -19,7 +20,7 @@ class BloodPressure extends Model
      * @var array
      */
     protected $fillable = [
-        'systolic', 'diastolic', 'pulse', 'reading_date',
+        'systolic', 'diastolic', 'pulse', 'reading_date', 'user_id',
     ];
 
     /**
@@ -40,6 +41,16 @@ class BloodPressure extends Model
         } else {
             return 'N/A';
         }
+    }
+
+    /**
+     * The user for whom this blood pressure belongs to.
+     *
+     * @return HasOne
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\BloodPressure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BloodPressureController extends Controller
 {
