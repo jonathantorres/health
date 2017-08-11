@@ -16,7 +16,7 @@ class AddUserIdToBloodPressuresTable extends Migration
         Schema::table('blood_pressures', function (Blueprint $table) {
             $table->unsignedInteger('user_id')->after('id')->default(1)->index();
 
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -27,6 +27,8 @@ class AddUserIdToBloodPressuresTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('blood_pressures', function (Blueprint $table) {
+            $table->dropColumn('user_id');
+        });
     }
 }
