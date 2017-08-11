@@ -1,5 +1,5 @@
 # Health
-Health app to track basic health things. Work in progress.
+Web based app for health tracking and monitoring. Work in progress.
 
 #### Running unit tests
 Unit tests are done with PHPUnit. Run the unit test suite like so.
