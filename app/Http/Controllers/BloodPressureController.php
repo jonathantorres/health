@@ -35,6 +35,7 @@ class BloodPressureController extends Controller
             ]);
 
             BloodPressure::create([
+                'user_id' => Auth::user()->id,
                 'systolic' => $request->input('sys'),
                 'diastolic' => $request->input('dia'),
                 'pulse' => $request->input('pulse'),
@@ -54,8 +55,10 @@ class BloodPressureController extends Controller
      */
     public function all()
     {
-        $readings = BloodPressure::orderBy('reading_date', 'desc')->paginate(20);
         $title = 'Blood Pressure Readings';
+        $readings = Auth::user()->bloodPressures()
+                        ->orderBy('reading_date', 'desc')
+                        ->paginate(20);
 
         return view('blood_pressure.all', [
             'readings' => $readings,

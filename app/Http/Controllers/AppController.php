@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\BloodPressure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AppController extends Controller
 {
@@ -24,8 +25,10 @@ class AppController extends Controller
      */
     public function index()
     {
-        $bloodPressureReadings = BloodPressure::orderBy('reading_date', 'desc')->limit(10)->get();
         $title = 'Latest Blood Pressure Readings';
+        $bloodPressureReadings = Auth::user()->bloodPressures()
+                                     ->orderBy('reading_date', 'desc')
+                                     ->limit(10)->get();
 
         return view('index', [
             'readings' => $bloodPressureReadings,
