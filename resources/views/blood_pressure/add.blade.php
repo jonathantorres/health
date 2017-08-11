@@ -6,11 +6,8 @@
 <div class="container">
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
-            @if (session('success'))
-                <div class="alert alert-success">
-                    <p>{{ session('success') }}</p>
-                </div>
-            @endif
+            @include('partials.flash_messages')
+
             <div class="panel panel-default">
                 <div class="panel-heading">Add New Blood Pressure Reading</div>
                 <div class="panel-body">

@@ -6,6 +6,12 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
+            @include('partials.flash_messages')
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
             @include('partials.blood_pressure.readings', [ 'title' => $title])
         </div>
     </div>

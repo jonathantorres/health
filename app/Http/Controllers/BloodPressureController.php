@@ -77,6 +77,12 @@ class BloodPressureController extends Controller
     {
         $reading = BloodPressure::find($id);
 
+        // user doesn't own that reading
+        if ($reading->user_id !== Auth::user()->id) {
+            return redirect()->route('index')
+                             ->with('error', 'Error! You do not have access to that reading.');
+        }
+
         return view('blood_pressure.details', [
             'reading' => $reading,
         ]);
