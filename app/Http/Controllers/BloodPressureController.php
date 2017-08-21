@@ -47,7 +47,7 @@ class BloodPressureController extends Controller
             return redirect()->route('add-blood-pressure')->with('success', 'Blood Pressure reading added succesfully.');
         }
 
-        return view('blood_pressure.add');
+        return view('blood_pressure.add', $this->data);
     }
 
     /**
