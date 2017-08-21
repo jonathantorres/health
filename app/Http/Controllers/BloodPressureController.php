@@ -15,6 +15,8 @@ class BloodPressureController extends Controller
      */
     public function __construct()
     {
+        parent::__construct();
+
         $this->middleware('auth');
     }
 
@@ -60,10 +62,10 @@ class BloodPressureController extends Controller
                         ->orderBy('reading_date', 'desc')
                         ->paginate(20);
 
-        return view('blood_pressure.all', [
-            'readings' => $readings,
-            'title' => $title,
-        ]);
+        $this->data['readings'] = $readings;
+        $this->data['title'] = $title;
+
+        return view('blood_pressure.all', $this->data);
     }
 
     /**
@@ -83,8 +85,8 @@ class BloodPressureController extends Controller
                              ->with('error', 'Error! You do not have access to that reading.');
         }
 
-        return view('blood_pressure.details', [
-            'reading' => $reading,
-        ]);
+        $this->data['reading'] = $reading;
+
+        return view('blood_pressure.details', $this->data);
     }
 }

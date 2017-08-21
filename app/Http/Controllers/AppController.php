@@ -15,6 +15,8 @@ class AppController extends Controller
      */
     public function __construct()
     {
+        parent::__construct();
+
         $this->middleware('auth');
     }
 
@@ -30,9 +32,9 @@ class AppController extends Controller
                                      ->orderBy('reading_date', 'desc')
                                      ->limit(10)->get();
 
-        return view('index', [
-            'readings' => $bloodPressureReadings,
-            'title' => $title,
-        ]);
+        $this->data['readings'] = $bloodPressureReadings;
+        $this->data['title'] = $title;
+
+        return view('index', $this->data);
     }
 }
