@@ -5,6 +5,7 @@
   - Ignoring compiled css and js files
   - Including footer on registration and login screens
   - Version string appears in the footer
+  - Added a deployment script
 
 #### v0.1.1 `2017-08-10`
 - Improvements:
