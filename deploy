@@ -1,7 +1,4 @@
 #!/usr/bin/env bash
-#git stash save "Status" # did a git stash cause there were modified changes :/
-git pull origin master # shouldn't prompt for .ssh passphrase
-
 composer install
 
 php artisan migrate --force
