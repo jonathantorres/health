@@ -1,6 +1,8 @@
 # Changelog
 
 #### [unreleased] `2017-xx-xx`
+
+#### v0.1.2 `2017-09-07`
 - Improvements:
   - Ignoring compiled css and js files
   - Including footer on registration and login screens
