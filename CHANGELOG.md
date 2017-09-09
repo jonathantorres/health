@@ -1,6 +1,11 @@
 # Changelog
 
 #### [unreleased] `2017-xx-xx`
+- Bug fix
+  - Fixed url to redirect to if the user is already authenticated
+
+- Improvements
+  - Browser tests can be run on local environment
 
 #### v0.1.2 `2017-09-07`
 - Improvements:
