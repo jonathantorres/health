@@ -9,15 +9,11 @@ use Tests\DuskTestCase;
 
 class RegistrationTest extends DuskTestCase
 {
+    use DatabaseMigrations;
+
     public function setUp()
     {
         parent::setUp();
-
-        $registeredUser = User::where('email', '=', 'charles@strong.com')->first();
-
-        if ($registeredUser) {
-            $registeredUser->delete();
-        }
     }
 
     /** @test */
@@ -33,7 +29,8 @@ class RegistrationTest extends DuskTestCase
                     ->type('password_confirmation', 'strong')
                     ->press('Register')
                     ->assertPathIs('/')
-                    ->assertSee('Dashboard');
+                    ->assertSee('Latest Blood Pressure Readings')
+                    ->logout();
         });
     }
 
@@ -47,8 +44,8 @@ class RegistrationTest extends DuskTestCase
                     ->type('name', $user->name)
                     ->type('last_name', $user->last_name)
                     ->type('email', $user->email)
-                    ->type('password', 'strong')
-                    ->type('password_confirmation', 'strong')
+                    ->type('password', 'secret')
+                    ->type('password_confirmation', 'secret')
                     ->press('Register')
                     ->assertPathIs('/register')
                     ->assertSee('The email has already been taken.');

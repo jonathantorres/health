@@ -9,15 +9,25 @@ use Tests\DuskTestCase;
 
 class LoginTest extends DuskTestCase
 {
+    use DatabaseMigrations;
+
     public function setUp()
     {
         parent::setUp();
+    }
 
-        $usersToDelete = User::where('email', '!=', 'jonathantorres41@gmail.com')->get();
-
-        foreach ($usersToDelete as $userToDelete) {
-            $userToDelete->delete();
-        }
+    /** @test */
+    public function unexisting_user_should_not_be_able_to_login()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/login')
+                    ->assertSee('Login')
+                    ->type('email', 'someone@email.com')
+                    ->type('password', 'mypass')
+                    ->press('Login')
+                    ->assertPathIs('/login')
+                    ->assertSee('These credentials do not match our records.');
+        });
     }
 
     /** @test */
@@ -31,7 +41,8 @@ class LoginTest extends DuskTestCase
                     ->type('password', 'secret')
                     ->press('Login')
                     ->assertPathIs('/')
-                    ->assertSee('Dashboard');
+                    ->assertSee('Latest Blood Pressure Readings')
+                    ->logout();
         });
     }
 
@@ -42,24 +53,10 @@ class LoginTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
                     ->visit('/')
-                    ->assertSee('Dashboard')
+                    ->assertSee('Latest Blood Pressure Readings')
                     ->clickLink('Logout')
                     ->assertPathIs('/login')
                     ->assertSee('Login');
-        });
-    }
-
-    public function unexisting_user_should_not_be_able_to_login()
-    {
-        $this->browse(function (Browser $browser) use ($user) {
-            $browser->visit('/login')
-                    ->assertSee('Login')
-                    ->type('email', 'someone@email.com')
-                    ->type('password', 'mypass')
-                    ->type('password_confirmation', 'mypass')
-                    ->press('Login')
-                    ->assertPathIs('/login')
-                    ->assertSee('These credentials do not match our records.');
         });
     }
 }
