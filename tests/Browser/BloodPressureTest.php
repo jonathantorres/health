@@ -16,6 +16,7 @@ class BloodPressureTest extends DuskTestCase
     {
         parent::setUp();
     }
+
      /** @test */
     public function user_should_can_see_all_blood_pressure_readings()
     {
