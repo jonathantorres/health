@@ -6,6 +6,7 @@
 
 - Improvements
   - Browser tests can be run on local environment
+  - Add acceptance tests for blood pressure readings
 
 #### v0.1.2 `2017-09-07`
 - Improvements:
