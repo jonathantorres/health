@@ -4,6 +4,9 @@
 - Bug fix
   - Fixed url to redirect to if the user is already authenticated
 
+- New Feature
+  - Implemented password resets for users
+
 - Improvements
   - Browser tests can be run on local environment
   - Add acceptance tests for blood pressure readings
