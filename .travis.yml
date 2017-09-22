@@ -1,0 +1,26 @@
+language: php
+
+git:
+  depth: 2
+
+matrix:
+  include:
+    - php: hhvm
+    - php: nightly
+    - php: 7.1
+    - php: 7.0
+  fast_finish: true
+  allow_failures:
+    - php: nightly
+    - php: hhvm
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+before_script:
+  - composer self-update
+  - composer install -n
+
+script:
+  - vendor/bin/phpunit && php artisan dusk
