@@ -12,6 +12,7 @@
   - Add acceptance tests for blood pressure readings
   - Add initial docs for installation and running the application locally
   - Add initial TravisCI file
+  - Added color code for the severity on the blood pressure readings
 
 #### v0.1.2 `2017-09-07`
 - Improvements:
