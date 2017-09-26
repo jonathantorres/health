@@ -21,7 +21,9 @@
                                 <td class="text-center">{{ $reading->diastolic }}</td>
                                 <td class="text-center">{{ $reading->pulse }}</td>
                                 <td class="text-center">{{ date('M, j Y', strtotime($reading->reading_date)) }}</td>
-                                <td class="text-center">{{ $reading->severity() }}</td>
+                                <td class="text-center text-{{ $reading->severity()['class'] }}">
+                                    {{ $reading->severity()['text'] }}
+                                </td>
                                 <td class="text-center">
                                     <a href="{{ route('blood-pressure-details', ['id' => $reading->id]) }}">
                                         <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
