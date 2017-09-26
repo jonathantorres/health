@@ -12,8 +12,8 @@
             <p>Diastolic: <strong>{{ $reading->diastolic }}</strong></p>
             <p>Pulse: <strong>{{ $reading->pulse }}</strong></p>
             <p>Date: <strong>{{ date('M, j Y', strtotime($reading->reading_date)) }}</strong></p>
-            <p class="text-{{ $reading->severity()['class'] }}">
-                Severity: <strong>{{ $reading->severity()['text'] }}</strong>
+            <p>
+                Severity: <strong class="text-{{ $reading->severity()['class'] }}">{{ $reading->severity()['text'] }}</strong>
             </p>
             <hr>
             <a href="{{ url()->previous() }}" class="btn btn-default">Go Back</a>
