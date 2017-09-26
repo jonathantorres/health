@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\BloodPressure;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -12,9 +13,13 @@ class BloodPressureTest extends TestCase
 {
     use DatabaseMigrations;
 
+    private $user;
+
     public function setUp()
     {
         parent::setUp();
+
+        $this->user = factory(User::class)->create();
     }
 
     /** @test */
@@ -24,6 +29,7 @@ class BloodPressureTest extends TestCase
             'systolic' => 120,
             'diastolic' => 80,
             'pulse' => 0,
+            'user_id' => $this->user->id,
             'reading_date' => Carbon::now(),
         ]);
         $this->assertSame($normalReading->severity()['text'], 'Normal');
@@ -36,6 +42,7 @@ class BloodPressureTest extends TestCase
             'systolic' => 130,
             'diastolic' => 85,
             'pulse' => 0,
+            'user_id' => $this->user->id,
             'reading_date' => Carbon::now(),
         ]);
         $this->assertSame($preReading->severity()['text'], 'Pre Hypertension');
@@ -48,6 +55,7 @@ class BloodPressureTest extends TestCase
             'systolic' => 140,
             'diastolic' => 99,
             'pulse' => 0,
+            'user_id' => $this->user->id,
             'reading_date' => Carbon::now(),
         ]);
         $this->assertSame($stage1Reading->severity()['text'], 'Stage 1 Hypertension');
@@ -60,6 +68,7 @@ class BloodPressureTest extends TestCase
             'systolic' => 161,
             'diastolic' => 101,
             'pulse' => 0,
+            'user_id' => $this->user->id,
             'reading_date' => Carbon::now(),
         ]);
         $this->assertSame($stage2Reading->severity()['text'], 'Stage 2 Hypertension');
