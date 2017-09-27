@@ -1,6 +1,6 @@
 # Changelog
 
-#### [unreleased] `2017-xx-xx`
+#### v0.2.0 `2017-09-26`
 - Bug fix
   - Fixed url to redirect to if the user is already authenticated
 
