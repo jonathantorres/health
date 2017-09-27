@@ -4,9 +4,12 @@ namespace App;
 
 use App\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class BloodPressure extends Model
 {
+    use SoftDeletes;
+
     /**
      * The table associated with the model.
      *
@@ -22,6 +25,13 @@ class BloodPressure extends Model
     protected $fillable = [
         'systolic', 'diastolic', 'pulse', 'reading_date', 'user_id',
     ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
 
     /**
      * Calculate the severity of this reading.
