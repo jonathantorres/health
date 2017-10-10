@@ -1,5 +1,11 @@
 # Changelog
 
+#### [unreleased] `2017-xx-xx`
+- Improvements
+  - Blood Pressure records are now soft deletable
+  - Added an MIT license and contribution guidelines
+  - A dump of the database is saved on every deployment
+
 #### v0.2.0 `2017-09-26`
 - Bug fix
   - Fixed url to redirect to if the user is already authenticated
