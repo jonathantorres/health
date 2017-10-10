@@ -47,7 +47,7 @@ Once everything is installed in order, you can run your server.
 php artisan serve
 ```
 
-Alternatively, if you have Laravel Valet installed (like I do) and configured you should be able to see your app running locally on `http://health.dev`.
+Alternatively, if you have Laravel [Valet](https://laravel.com/docs/5.4/valet) installed (like I do) and configured you should be able to see your app running locally on `http://health.dev`.
 
 #### Running unit tests
 Unit tests are done with PHPUnit. Run the unit test with the following command.
