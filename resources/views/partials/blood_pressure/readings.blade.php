@@ -1,7 +1,7 @@
 <div class="panel panel-default">
     <div class="panel-heading">{{ $title }}</div>
     <div class="panel-body">
-        @if (count($readings) > 0)
+        @if (count($bloodPressureReadings) > 0)
             <div class="table-responsive">
                 <table class="table table-striped table-hover table-condensed">
                     <thead>
@@ -15,7 +15,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($readings as $reading)
+                        @foreach($bloodPressureReadings as $reading)
                             <tr>
                                 <td class="text-center">{{ $reading->systolic }}</td>
                                 <td class="text-center">{{ $reading->diastolic }}</td>

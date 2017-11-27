@@ -58,11 +58,11 @@ class BloodPressureController extends Controller
     public function all()
     {
         $title = 'Blood Pressure Readings';
-        $readings = Auth::user()->bloodPressures()
-                        ->orderBy('reading_date', 'desc')
-                        ->paginate(20);
+        $bloodPressureReadings = Auth::user()->bloodPressures()
+                                    ->orderBy('reading_date', 'desc')
+                                    ->paginate(20);
 
-        $this->data['readings'] = $readings;
+        $this->data['bloodPressureReadings'] = $bloodPressureReadings;
         $this->data['title'] = $title;
 
         return view('blood_pressure.all', $this->data);
