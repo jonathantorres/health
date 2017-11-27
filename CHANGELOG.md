@@ -1,6 +1,9 @@
 # Changelog
 
 #### [unreleased] `2017-xx-xx`
+- New Feature
+  - Displaying and entering weight entries
+
 - Improvements
   - Blood Pressure records are now soft deletable
   - Added an MIT license and contribution guidelines
