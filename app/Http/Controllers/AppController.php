@@ -27,13 +27,18 @@ class AppController extends Controller
      */
     public function index()
     {
-        $title = 'Latest Blood Pressure Readings';
         $bloodPressureReadings = Auth::user()->bloodPressures()
                                      ->orderBy('reading_date', 'desc')
                                      ->limit(10)->get();
 
-        $this->data['readings'] = $bloodPressureReadings;
-        $this->data['title'] = $title;
+        $weightEntries = Auth::user()->weights()
+                             ->orderBy('entered_date', 'desc')
+                             ->limit(10)->get();
+
+        $this->data['weightEntries'] = $weightEntries;
+        $this->data['bloodPressureReadings'] = $bloodPressureReadings;
+        $this->data['pressureTitle'] = 'Latest Blood Pressure Readings';
+        $this->data['weightTitle'] = 'Latest Weight Entries';
 
         return view('index', $this->data);
     }

@@ -3,6 +3,7 @@
 namespace App;
 
 use App\BloodPressure;
+use App\Weight;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -48,5 +49,15 @@ class User extends Authenticatable implements CanResetPasswordContract
     public function bloodPressures()
     {
         return $this->hasMany(BloodPressure::class);
+    }
+
+    /**
+     * The weight entries entered by the user.
+     *
+     * @return HasMany
+     */
+    public function weights()
+    {
+        return $this->hasMany(Weight::class);
     }
 }

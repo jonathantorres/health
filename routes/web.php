@@ -15,5 +15,7 @@ Route::get('/', 'AppController@index')->name('index');
 Route::any('blood-pressure/add', 'BloodPressureController@add')->name('add-blood-pressure');
 Route::get('blood-pressure/all', 'BloodPressureController@all')->name('all-blood-pressure');
 Route::get('blood-pressure/details/{id}', 'BloodPressureController@details')->name('blood-pressure-details');
+Route::any('weight/add', 'WeightController@add')->name('add-weight');
+Route::get('weight/all', 'WeightController@all')->name('all-weights');
 
 Auth::routes();

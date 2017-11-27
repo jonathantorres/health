@@ -12,19 +12,12 @@
 
     <div class="row">
         <div class="col-md-12">
-            @include('partials.blood_pressure.readings', [ 'title' => $title])
+            @include('partials.blood_pressure.readings', ['title' => $pressureTitle])
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">Weight</div>
-                <div class="panel-body">
-                    <div class="alert alert-warning">
-                        There are no weight entries.
-                    </div>
-                </div>
-            </div>
+            @include('partials.weight.entries', ['title' => $weightTitle])
         </div>
     </div>
     <div class="row hidden">
