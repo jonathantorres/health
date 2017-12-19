@@ -1,6 +1,6 @@
 # Changelog
 
-#### [unreleased] `2017-xx-xx`
+#### v0.3.0 `2017-12-18`
 - New Feature
   - Displaying and entering weight entries
 
