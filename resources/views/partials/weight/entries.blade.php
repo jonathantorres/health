@@ -13,7 +13,7 @@
                     <tbody>
                         @foreach($weightEntries as $entry)
                             <tr>
-                                <td class="text-center">{{ $entry->weight }}</td>
+                                <td class="text-center">{{ number_format($entry->weight, 1) }} lbs</td>
                                 <td class="text-center">{{ date('M, j Y', strtotime($entry->entered_date)) }}</td>
                             </tr>
                         @endforeach
