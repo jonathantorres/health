@@ -36,3 +36,12 @@ $factory->define(App\BloodPressure::class, function (Faker\Generator $faker) {
         'reading_date' => Carbon::now(),
     ];
 });
+
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(App\Weight::class, function (Faker\Generator $faker) {
+    return [
+        'user_id' => 0,
+        'weight' => rand(150.0, 180.0),
+        'entered_date' => Carbon::now(),
+    ];
+});
