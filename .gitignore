@@ -13,3 +13,5 @@ npm-debug.log
 .env
 *.sublime-project
 *.sublime-workspace
+composer.lock
+package-lock.json
