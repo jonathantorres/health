@@ -18,7 +18,7 @@ class BloodPressureTest extends DuskTestCase
     }
 
      /** @test */
-    public function user_should_can_see_all_blood_pressure_readings()
+    public function user_should_see_all_blood_pressure_readings()
     {
         $user = factory(User::class)->create();
         $this->browse(function (Browser $browser) use ($user) {
