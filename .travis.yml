@@ -3,6 +3,12 @@ language: php
 git:
   depth: 2
 
+services:
+  - mysql
+
+before_install:
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS health_test;'
+
 matrix:
   include:
     - php: hhvm
