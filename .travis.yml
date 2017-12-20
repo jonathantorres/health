@@ -8,6 +8,7 @@ services:
 
 before_install:
   - mysql -e 'CREATE DATABASE IF NOT EXISTS health_test;'
+  - cp .env.testing .env
 
 install:
   - travis_retry composer install --no-interaction
@@ -31,7 +32,6 @@ before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - ./vendor/laravel/dusk/bin/chromedriver-linux &
-  - cp .env.testing .env
   - php artisan env
   - php artisan serve &
 
