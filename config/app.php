@@ -168,7 +168,6 @@ return [
          */
         Laravel\Tinker\TinkerServiceProvider::class,
         Spatie\Backup\BackupServiceProvider::class,
-        // Laravel\Dusk\DuskServiceProvider::class,
 
         /*
          * Application Service Providers...
