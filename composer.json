@@ -31,6 +31,16 @@
             "Tests\\": "tests/"
         }
     },
+    "scripts": {
+        "post-install-cmd": [
+            // "Illuminate\\Foundation\\ComposerScripts::postInstall",
+            // "php artisan optimize"
+        ],
+        "post-update-cmd": [
+            // "Illuminate\\Foundation\\ComposerScripts::postUpdate",
+            // "php artisan optimize"
+        ]
+    },
     "config": {
         "preferred-install": "dist",
         "sort-packages": true,
