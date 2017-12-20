@@ -1,8 +1,5 @@
 language: php
 
-git:
-  depth: 2
-
 services:
   - mysql
 
@@ -23,10 +20,6 @@ matrix:
   allow_failures:
     - php: nightly
     - php: hhvm
-
-cache:
-  directories:
-    - $HOME/.composer/cache
 
 before_script:
   - export DISPLAY=:99.0
