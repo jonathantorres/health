@@ -9,6 +9,9 @@ services:
 before_install:
   - mysql -e 'CREATE DATABASE IF NOT EXISTS health_test;'
 
+install:
+  - travis_retry composer install --no-interaction
+
 matrix:
   include:
     - php: hhvm
@@ -25,8 +28,6 @@ cache:
     - $HOME/.composer/cache
 
 before_script:
-  - composer self-update
-  - composer install -n
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - ./vendor/laravel/dusk/bin/chromedriver-linux &
