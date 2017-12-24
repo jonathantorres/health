@@ -2,7 +2,8 @@
 
 #### vx.x.x `xxxx-xx-xx`
 - Improvements
-  - Removed composer.lock and package-lock.json files, there are being ignored now
+  - Removed composer.lock and package-lock.json files, they are being ignored now
+  - Add TravisCI build
 
 #### v0.3.0 `2017-12-18`
 - New Feature
