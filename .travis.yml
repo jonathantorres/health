@@ -11,6 +11,8 @@ before_install:
 
 install:
   - travis_retry composer install --no-interaction
+  - travis_retry npm install
+  - npm run dev
 
 matrix:
   include:
