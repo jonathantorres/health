@@ -1,4 +1,6 @@
 # Health
+[![Build Status](https://travis-ci.org/jonathantorres/health.svg?branch=master)](https://travis-ci.org/jonathantorres/health)
+
 Web based app for health tracking and monitoring. Work in progress.
 
 #### Installation
