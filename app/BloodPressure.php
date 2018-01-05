@@ -31,7 +31,7 @@ class BloodPressure extends Model
      *
      * @var array
      */
-    protected $dates = ['deleted_at'];
+    protected $dates = ['deleted_at', 'reading_date'];
 
     /**
      * Calculate the severity of this reading.

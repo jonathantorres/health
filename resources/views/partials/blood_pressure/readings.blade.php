@@ -11,7 +11,7 @@
                             <th class="text-center">Pulse</th>
                             <th class="text-center">Date</th>
                             <th class="text-center">Severity</th>
-                            <th class="text-center">View Details</th>
+                            <th class="text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -27,6 +27,9 @@
                                 <td class="text-center">
                                     <a href="{{ route('blood-pressure-details', ['id' => $reading->id]) }}">
                                         <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                    </a>
+                                    <a href="{{ route('edit-blood-pressure', ['id' => $reading->id]) }}">
+                                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                                     </a>
                                 </td>
                             </tr>

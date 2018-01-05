@@ -89,4 +89,36 @@ class BloodPressureController extends Controller
 
         return view('blood_pressure.details', $this->data);
     }
+
+    public function edit(Request $request, $id)
+    {
+        $reading = BloodPressure::find($id);
+
+        // user doesn't own that reading
+        if (empty($reading) || $reading->user_id !== Auth::user()->id) {
+            return redirect()->route('index')
+                             ->with('error', 'Error! You do not have access to that reading.');
+        }
+
+        if ($request->isMethod('post')) {
+            $this->validate($request, [
+                'sys' => 'required|numeric',
+                'dia' => 'required|numeric',
+                'pulse' => 'required|numeric',
+                'reading-date' => 'required',
+            ]);
+
+            $reading->systolic = $request->input('sys');
+            $reading->diastolic = $request->input('dia');
+            $reading->pulse = $request->input('pulse');
+            $reading->reading_date = $request->input('reading-date');
+            $reading->save();
+
+            $request->session()->flash('success', 'Blood Pressure reading updated succesfully.');
+        }
+
+        $this->data['reading'] = $reading;
+
+        return view('blood_pressure.edit', $this->data);
+    }
 }
