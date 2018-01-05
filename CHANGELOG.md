@@ -1,6 +1,10 @@
 # Changelog
 
 #### vx.x.x `xxxx-xx-xx`
+- New Feature
+  - Update Blood Pressure readings
+  - Delete Blood Pressure readings
+
 - Improvements
   - Removed composer.lock and package-lock.json files, they are being ignored now
   - Add TravisCI build
