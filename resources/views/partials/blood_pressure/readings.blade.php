@@ -31,6 +31,9 @@
                                     <a href="{{ route('edit-blood-pressure', ['id' => $reading->id]) }}">
                                         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                                     </a>
+                                    <a href="{{ route('delete-blood-pressure', ['id' => $reading->id]) }}">
+                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach

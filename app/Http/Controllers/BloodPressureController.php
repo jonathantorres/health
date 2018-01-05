@@ -121,4 +121,20 @@ class BloodPressureController extends Controller
 
         return view('blood_pressure.edit', $this->data);
     }
+
+    public function delete($id)
+    {
+        $reading = BloodPressure::find($id);
+
+        // user doesn't own that reading
+        if (empty($reading) || $reading->user_id !== Auth::user()->id) {
+            return redirect()->route('index')
+                             ->with('error', 'Error! You do not have access to that reading.');
+        }
+
+        $reading->delete();
+
+        return redirect()->route('index')
+                         ->with('success', 'Blood Pressure reading deleted succesfully.');
+    }
 }
