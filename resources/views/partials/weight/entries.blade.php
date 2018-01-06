@@ -17,10 +17,10 @@
                                 <td class="text-center">{{ number_format($entry->weight, 1) }} lbs</td>
                                 <td class="text-center">{{ date('M, j Y', strtotime($entry->entered_date)) }}</td>
                                 <td class="text-center">
-                                    <a href="{{ route('edit-weight', ['id' => $entry->id]) }}">
+                                    <a href="{{ route('edit-weight', ['id' => $entry->id]) }}" data-toggle="tooltip" data-placement="top" title="Edit weight">
                                         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                                     </a>
-                                    <a href="{{ route('delete-weight', ['id' => $entry->id]) }}">
+                                    <a href="{{ route('delete-weight', ['id' => $entry->id]) }}" data-toggle="tooltip" data-placement="top" title="Delete weight">
                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                     </a>
                                 </td>

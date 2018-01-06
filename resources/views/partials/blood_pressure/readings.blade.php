@@ -25,13 +25,13 @@
                                     {{ $reading->severity()['text'] }}
                                 </td>
                                 <td class="text-center">
-                                    <a href="{{ route('blood-pressure-details', ['id' => $reading->id]) }}">
+                                    <a href="{{ route('blood-pressure-details', ['id' => $reading->id]) }}" data-toggle="tooltip" data-placement="top" title="View reading details">
                                         <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                                     </a>
-                                    <a href="{{ route('edit-blood-pressure', ['id' => $reading->id]) }}">
+                                    <a href="{{ route('edit-blood-pressure', ['id' => $reading->id]) }}" data-toggle="tooltip" data-placement="top" title="Edit reading">
                                         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                                     </a>
-                                    <a href="{{ route('delete-blood-pressure', ['id' => $reading->id]) }}">
+                                    <a href="{{ route('delete-blood-pressure', ['id' => $reading->id]) }}" data-toggle="tooltip" data-placement="top" title="Delete reading">
                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                     </a>
                                 </td>
