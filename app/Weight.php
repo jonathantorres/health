@@ -31,7 +31,7 @@ class Weight extends Model
      *
      * @var array
      */
-    protected $dates = ['deleted_at'];
+    protected $dates = ['deleted_at', 'entered_date'];
 
     /**
      * The user for whom this weight entry belongs to.

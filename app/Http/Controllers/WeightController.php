@@ -63,4 +63,37 @@ class WeightController extends Controller
 
         return view('weight.all', $this->data);
     }
+
+    public function edit(Request $request, $id)
+    {
+        $entry = Weight::find($id);
+
+        // user doesn't own that weight entry
+        if (empty($entry) || $entry->user_id !== Auth::user()->id) {
+            return redirect()->route('index')
+                             ->with('error', 'Error! You do not have access to that weight entry.');
+        }
+
+        if ($request->isMethod('post')) {
+            $this->validate($request, [
+                'weight' => 'required|numeric',
+                'entered-date' => 'required',
+            ]);
+
+            $entry->weight = $request->input('weight');
+            $entry->entered_date = $request->input('entered-date');
+            $entry->save();
+
+            // Weight::create([
+            //     'user_id' => Auth::user()->id,
+            //     'weight' => $request->input('weight'),
+            //     'entered_date' => $request->input('entered-date'),
+            // ]);
+            $request->session()->flash('success', 'Weight entry updated succesfully.');
+        }
+
+        $this->data['entry'] = $entry;
+
+        return view('weight.edit', $this->data);
+    }
 }
