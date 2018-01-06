@@ -20,6 +20,9 @@
                                     <a href="{{ route('edit-weight', ['id' => $entry->id]) }}">
                                         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                                     </a>
+                                    <a href="{{ route('delete-weight', ['id' => $entry->id]) }}">
+                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach

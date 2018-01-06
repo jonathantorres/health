@@ -91,4 +91,20 @@ class WeightController extends Controller
 
         return view('weight.edit', $this->data);
     }
+
+    public function delete($id)
+    {
+        $entry = Weight::find($id);
+
+        // user doesn't own that weight entry
+        if (empty($entry) || $entry->user_id !== Auth::user()->id) {
+            return redirect()->route('index')
+                             ->with('error', 'Error! You do not have access to that weight entry.');
+        }
+
+        $entry->delete();
+
+        return redirect()->route('index')
+                          ->with('success', 'Weight entry deleted succesfully.');
+    }
 }

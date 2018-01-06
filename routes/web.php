@@ -20,5 +20,6 @@ Route::get('blood-pressure/delete/{id}', 'BloodPressureController@delete')->name
 Route::any('weight/add', 'WeightController@add')->name('add-weight');
 Route::get('weight/all', 'WeightController@all')->name('all-weights');
 Route::any('weight/edit/{id}', 'WeightController@edit')->name('edit-weight');
+Route::get('weight/delete/{id}', 'WeightController@delete')->name('delete-weight');
 
 Auth::routes();
