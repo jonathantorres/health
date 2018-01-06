@@ -84,11 +84,6 @@ class WeightController extends Controller
             $entry->entered_date = $request->input('entered-date');
             $entry->save();
 
-            // Weight::create([
-            //     'user_id' => Auth::user()->id,
-            //     'weight' => $request->input('weight'),
-            //     'entered_date' => $request->input('entered-date'),
-            // ]);
             $request->session()->flash('success', 'Weight entry updated succesfully.');
         }
 
