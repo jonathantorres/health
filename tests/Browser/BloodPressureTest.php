@@ -91,4 +91,53 @@ class BloodPressureTest extends DuskTestCase
                     ->logout();
         });
     }
+
+    /** @test */
+    public function user_can_edit_an_existing_blood_pressure_reading()
+    {
+        $user = factory(User::class)->create();
+        $readings = factory(BloodPressure::class, 5)->create([
+            'user_id' => $user->id,
+        ]);
+        $this->browse(function (Browser $browser) use ($user) {
+            $browser->loginAs($user)
+                    ->visit('/')
+                    ->assertSee('Latest Blood Pressure Readings')
+                    ->clickLink('See all readings')
+                    ->click('.glyphicon.glyphicon-edit')
+                    ->assertSee('Update Blood Pressure Reading')
+                    ->type('sys', 120)
+                    ->type('dia', 80)
+                    ->type('pulse', 75)
+                    ->script([
+                        "document.querySelector('#reading-date').value = '2017-09-12'",
+                    ]);
+
+            $browser->press('Update Reading')
+                    ->assertPathIs('/blood-pressure/edit/1')
+                    ->assertSee('Blood Pressure reading updated succesfully.')
+                    ->logout();
+        });
+    }
+
+    /** @test */
+    public function user_can_delete_an_existing_blood_pressure_reading()
+    {
+        $user = factory(User::class)->create();
+        $readings = factory(BloodPressure::class, 5)->create([
+            'user_id' => $user->id,
+        ]);
+        $this->browse(function (Browser $browser) use ($user) {
+            $browser->loginAs($user)
+                    ->visit('/')
+                    ->assertSee('Latest Blood Pressure Readings')
+                    ->clickLink('See all readings')
+                    ->click('.glyphicon.glyphicon-remove')
+                    ->waitForText('Are you sure you wish to delete this reading?')
+                    ->press('Yes')
+                    ->assertPathIs('/')
+                    ->assertSee('Blood Pressure reading deleted succesfully.')
+                    ->logout();
+        });
+    }
 }
