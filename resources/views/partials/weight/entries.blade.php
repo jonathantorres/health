@@ -20,7 +20,7 @@
                                     <a href="{{ route('edit-weight', ['id' => $entry->id]) }}" data-toggle="tooltip" data-placement="top" title="Edit weight">
                                         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                                     </a>
-                                    <a href="{{ route('delete-weight', ['id' => $entry->id]) }}" data-toggle="tooltip" data-placement="top" title="Delete weight">
+                                    <a href="{{ route('delete-weight', ['id' => $entry->id]) }}" data-toggle="tooltip" data-placement="top" title="Delete weight" data-confirm="confirm" data-message="Are you sure you wish to delete this reading?">
                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                     </a>
                                 </td>

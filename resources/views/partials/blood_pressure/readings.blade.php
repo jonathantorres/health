@@ -31,7 +31,7 @@
                                     <a href="{{ route('edit-blood-pressure', ['id' => $reading->id]) }}" data-toggle="tooltip" data-placement="top" title="Edit reading">
                                         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                                     </a>
-                                    <a href="{{ route('delete-blood-pressure', ['id' => $reading->id]) }}" data-toggle="tooltip" data-placement="top" title="Delete reading">
+                                    <a href="{{ route('delete-blood-pressure', ['id' => $reading->id]) }}" data-toggle="tooltip" data-placement="top" title="Delete reading" data-confirm="confirm" data-message="Are you sure you wish to delete this reading?">
                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                     </a>
                                 </td>
