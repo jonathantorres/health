@@ -10,6 +10,7 @@
 - Improvements
   - Removed composer.lock and package-lock.json files, they are being ignored now
   - Add TravisCI build
+  - Add a confirm modal before deleting a blood pressure reading
 
 #### v0.3.0 `2017-12-18`
 - New Feature
