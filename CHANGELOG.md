@@ -1,6 +1,6 @@
 # Changelog
 
-#### vx.x.x `xxxx-xx-xx`
+#### v0.4.0 `2018-01-09`
 - New Feature
   - Update Blood Pressure readings
   - Delete Blood Pressure readings
