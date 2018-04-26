@@ -1,5 +1,9 @@
 # Changelog
 
+#### v0.4.2 `2018-04-25`
+- Bug fix
+  - Fixing styles on navbar
+
 #### v0.4.1 `2018-04-25`
 - Improvements
   - Add branding and color scheme
