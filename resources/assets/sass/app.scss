@@ -1,6 +1,5 @@
-
 // Fonts
-//@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+@import url('https://fonts.googleapis.com/css?family=PT+Sans');
 
 // Variables
 @import "variables";
@@ -8,3 +7,51 @@
 
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+.navbar-default .navbar-nav > li > a {
+    color: #fff;
+
+    &:hover, &:active, &:selected {
+        color: #fff;
+    }
+}
+
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+    color: darken(#fff, 10%);
+}
+
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus {
+    color: darken(#fff, 10%);
+}
+
+// Logo
+.navbar-default .navbar-brand {
+    color: #fff;
+    text-transform: uppercase;
+    font-family: $font-family-brand;
+
+    &:hover {
+        color: darken(#fff, 5%);
+    }
+
+    &:focus {
+        color: #fff;
+        text-decoration: none;
+        cursor: pointer;
+    }
+}
+
+.panel-default > .panel-heading {
+    color: #fff;
+}
+
+label {
+    font-weight: normal;
+}
+
+hr {
+    border-top: 1px solid lighten($brand-primary, 25%);
+}

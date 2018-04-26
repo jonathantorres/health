@@ -1,16 +1,15 @@
-
 // Body
-$body-bg: #f5f8fa;
+$body-bg: #fff;
 
 // Borders
-$laravel-border-color: darken($body-bg, 10%);
-$list-group-border: $laravel-border-color;
-$navbar-default-border: $laravel-border-color;
-$panel-default-border: $laravel-border-color;
-$panel-inner-border: $laravel-border-color;
+$health-border-color: #cc0000;
+$list-group-border: $health-border-color;
+$navbar-default-border: $health-border-color;
+$panel-default-border: $health-border-color;
+$panel-inner-border: $health-border-color;
 
 // Brands
-$brand-primary: #3097D1;
+$brand-primary: #ff5555;
 $brand-info: #8eb4cb;
 $brand-success: #2ab27b;
 $brand-warning: #cbb956;
@@ -18,13 +17,14 @@ $brand-danger: #bf5329;
 
 // Typography
 $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
-$font-family-sans-serif: "Raleway", sans-serif;
+$font-family-sans-serif: sans-serif;
+$font-family-brand: 'PT Sans', sans-serif;
 $font-size-base: 14px;
 $line-height-base: 1.6;
 $text-color: #636b6f;
 
 // Navbar
-$navbar-default-bg: #fff;
+$navbar-default-bg: $brand-primary;
 
 // Buttons
 $btn-default-color: $text-color;
@@ -35,4 +35,4 @@ $input-border-focus: lighten($brand-primary, 25%);
 $input-color-placeholder: lighten($text-color, 30%);
 
 // Panels
-$panel-default-heading-bg: #fff;
+$panel-default-heading-bg: $brand-primary;
