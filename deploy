@@ -23,6 +23,11 @@ sudo cp -vr vendor/ /var/www/health
 sudo cp artisan /var/www/health
 sudo cp server.php /var/www/health
 
+# change permissions and ownership
+sudo chown -R www-data:www-data /var/www/health
+sudo chmod -R 754 /var/www/health/storage
+sudo chmod -R 754 /var/www/health/bootstrap/cache
+
 # run migrations
 cd /var/www/health
 php artisan migrate --force
