@@ -28,13 +28,15 @@ sudo chown -R www-data:www-data /var/www/health
 find /var/www/health/ -type d -exec sudo chmod 755 '{}' \;
 find /var/www/health/ -type f -exec sudo chmod 644 '{}' \;
 find /var/www/health/storage -type d -exec sudo chmod 777 '{}' \;
+find /var/www/health/storage -type f -exec sudo chmod 766 '{}' \;
 find /var/www/health/bootstrap/cache -type d -exec sudo chmod 777 '{}' \;
+find /var/www/health/bootstrap/cache -type f -exec sudo chmod 766 '{}' \;
 
 # run migrations
 cd /var/www/health
-php artisan migrate --force
+# php artisan migrate --force
 php artisan optimize
 php artisan cache:clear
 php artisan view:clear
-php artisan backup:run --only-db
+# php artisan backup:run --only-db
 cd
