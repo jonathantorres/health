@@ -9,6 +9,14 @@ import (
 	"os"
 )
 
+type LayoutData struct {
+	PageTitle string
+}
+
+var layoutData = LayoutData{
+	PageTitle: "Health",
+}
+
 func main() {
 	http.HandleFunc("/", root)
 	http.HandleFunc("/login", login)
@@ -38,6 +46,7 @@ func root(res http.ResponseWriter, req *http.Request) {
 
 func index(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("Content-type", "text/html")
+	layoutData.PageTitle = "Health - Dashboard"
 	if err := renderView("views/index.html", res); err != nil {
 		res.WriteHeader(http.StatusInternalServerError)
 		res.Write([]byte(fmt.Sprintf("error rendering view: %s", err)))
@@ -58,7 +67,7 @@ func renderView(name string, out io.Writer) error {
 	if err != nil {
 		return fmt.Errorf("error parsing template: %s", err)
 	}
-	err = tmpl.ExecuteTemplate(out, "app", nil)
+	err = tmpl.ExecuteTemplate(out, "app", layoutData)
 	if err != nil {
 		return fmt.Errorf("error executing template: %s", err)
 	}

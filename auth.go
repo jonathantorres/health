@@ -7,6 +7,7 @@ import (
 
 func login(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("Content-type", "text/html")
+	layoutData.PageTitle = "Health - Login"
 	if err := renderView("views/login.html", res); err != nil {
 		res.WriteHeader(http.StatusInternalServerError)
 		res.Write([]byte(fmt.Sprintf("error rendering view: %s", err)))
