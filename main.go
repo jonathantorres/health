@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"html/template"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -30,23 +30,22 @@ func index(res http.ResponseWriter, req *http.Request) {
 
 func login(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("Content-type", "text/html")
-	loginHtml, err := ioutil.ReadFile("views/login.html")
-	if err != nil {
+	if err := renderView("views/login.html", res); err != nil {
 		res.WriteHeader(http.StatusInternalServerError)
-		res.Write([]byte(fmt.Sprintf("error reading file: %s", err)))
-		return
+		res.Write([]byte(fmt.Sprintf("error rendering view: %s", err)))
 	}
-	tmpl, err := template.New("login").Parse(string(loginHtml))
+}
+
+func renderView(name string, out io.Writer) error {
+	tmpl, err := template.ParseFiles("views/app.html", name)
 	if err != nil {
-		res.WriteHeader(http.StatusInternalServerError)
-		res.Write([]byte(fmt.Sprintf("error parsing template: %s", err)))
-		return
+		return fmt.Errorf("error parsing template: %s", err)
 	}
-	err = tmpl.Execute(res, nil)
+	err = tmpl.ExecuteTemplate(out, "layout", nil)
 	if err != nil {
-		res.WriteHeader(http.StatusInternalServerError)
-		res.Write([]byte(fmt.Sprintf("error executing template: %s", err)))
+		return fmt.Errorf("error executing template: %s", err)
 	}
+	return nil
 }
 
 func serveStaticFile(res http.ResponseWriter, req *http.Request) {
