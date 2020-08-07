@@ -3,9 +3,10 @@ package main
 import (
 	"fmt"
 	"html/template"
+	"io/ioutil"
 	"log"
 	"net/http"
-	"io/ioutil"
+	"os"
 )
 
 func main() {
@@ -15,11 +16,11 @@ func main() {
 }
 
 func root(res http.ResponseWriter, req *http.Request) {
-	if (req.URL.Path == "/") {
+	if req.URL.Path == "/" {
 		index(res, req)
 		return
 	}
-	http.FileServer(http.Dir("./public")).ServeHTTP(res, req)
+	serveStaticFile(res, req)
 }
 
 func index(res http.ResponseWriter, req *http.Request) {
@@ -46,4 +47,24 @@ func login(res http.ResponseWriter, req *http.Request) {
 		res.WriteHeader(http.StatusInternalServerError)
 		res.Write([]byte(fmt.Sprintf("error executing template: %s", err)))
 	}
+}
+
+func serveStaticFile(res http.ResponseWriter, req *http.Request) {
+	path := "./public" + req.URL.Path
+	fi, err := os.Stat(path)
+	if err != nil {
+		serve404(res, req)
+		return
+	}
+	if fi.IsDir() {
+		serve404(res, req)
+		return
+	}
+	http.ServeFile(res, req, path)
+}
+
+func serve404(res http.ResponseWriter, req *http.Request) {
+	res.Header().Set("Content-type", "text/html")
+	res.WriteHeader(http.StatusNotFound)
+	res.Write([]byte("<p>404 page was not found</p>"))
 }
