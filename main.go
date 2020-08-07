@@ -38,11 +38,23 @@ func root(res http.ResponseWriter, req *http.Request) {
 
 func index(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("Content-type", "text/html")
-	res.Write([]byte("do your own thing here"))
+	if err := renderView("views/index.html", res); err != nil {
+		res.WriteHeader(http.StatusInternalServerError)
+		res.Write([]byte(fmt.Sprintf("error rendering view: %s", err)))
+	}
 }
 
 func renderView(name string, out io.Writer) error {
-	tmpl, err := template.ParseFiles("views/app.html", name)
+	var templates = []string{
+		"views/app.html",
+		// "views/partials/blood_readings.html",
+		// "views/partials/flash_messages.html",
+		// "views/partials/weight_entries.html",
+		"views/partials/footer.html",
+		"views/partials/nav.html",
+	}
+	templates = append(templates, name)
+	tmpl, err := template.ParseFiles(templates...)
 	if err != nil {
 		return fmt.Errorf("error parsing template: %s", err)
 	}

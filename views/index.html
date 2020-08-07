@@ -1,5 +1,5 @@
 {{define "content"}}
-{{/*include nav*/}}
+{{template "nav"}}
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -8,15 +8,17 @@
     </div>
     <div class="row">
         <div class="col-md-12">
+            <p>Blood readings</p>
             {{/*include blood readings*/}}
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
+            <p>Weight entries</p>
             {{/*include weight entries*/}}
         </div>
     </div>
-    <div class="row hidden">
+    <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">Consumed Food</div>
@@ -28,6 +30,6 @@
             </div>
         </div>
     </div>
-    {{/*include footer*/}}
+    {{template "footer"}}
 </div>
 {{end}}
