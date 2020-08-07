@@ -12,6 +12,19 @@ import (
 func main() {
 	http.HandleFunc("/", root)
 	http.HandleFunc("/login", login)
+	http.HandleFunc("/logout", logout)
+	http.HandleFunc("/register", register)
+	http.HandleFunc("/reset", resetPassword)
+	http.HandleFunc("/resetLink", resetPasswordLink)
+	http.HandleFunc("/blood/add", bloodAdd)
+	http.HandleFunc("/blood/all", bloodAll)
+	http.HandleFunc("/blood/details/1", bloodDetails)
+	http.HandleFunc("/blood/edit/1", bloodEdit)
+	http.HandleFunc("/blood/delete/1", bloodDelete)
+	http.HandleFunc("/weight/add", weightAdd)
+	http.HandleFunc("/weight/all", weightAll)
+	http.HandleFunc("/weight/edit/1", weightEdit)
+	http.HandleFunc("/weight/delete/1", weightDelete)
 	log.Fatal(http.ListenAndServe(":7070", nil))
 }
 
@@ -26,14 +39,6 @@ func root(res http.ResponseWriter, req *http.Request) {
 func index(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("Content-type", "text/html")
 	res.Write([]byte("do your own thing here"))
-}
-
-func login(res http.ResponseWriter, req *http.Request) {
-	res.Header().Set("Content-type", "text/html")
-	if err := renderView("views/login.html", res); err != nil {
-		res.WriteHeader(http.StatusInternalServerError)
-		res.Write([]byte(fmt.Sprintf("error rendering view: %s", err)))
-	}
 }
 
 func renderView(name string, out io.Writer) error {
