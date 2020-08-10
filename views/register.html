@@ -1,4 +1,5 @@
 {{define "content"}}
+{{template "nav"}}
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2 padding-50-top">
@@ -15,7 +16,7 @@
                         <div class="form-group">
                             <label for="last_name" class="col-md-4 control-label">Last Name</label>
                             <div class="col-md-6">
-                                <input id="last_name" type="text" class="form-control" name="last_name" value="{{ old('last_name') }}" required autofocus>
+                                <input id="last_name" type="text" class="form-control" name="last_name" value="" required autofocus>
                             </div>
                         </div>
                         <div class="form-group">
@@ -51,6 +52,6 @@
             </div>
         </div>
     </div>
-    {{/*include footer*/}}
+    {{template "footer"}}
 </div>
 {{end}}

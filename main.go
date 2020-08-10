@@ -48,8 +48,7 @@ func index(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("Content-type", "text/html")
 	layoutData.PageTitle = "Health - Dashboard"
 	if err := renderView("views/index.html", res); err != nil {
-		res.WriteHeader(http.StatusInternalServerError)
-		res.Write([]byte(fmt.Sprintf("error rendering view: %s", err)))
+		serveViewError(res, err)
 	}
 }
 
@@ -92,4 +91,9 @@ func serve404(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("Content-type", "text/html")
 	res.WriteHeader(http.StatusNotFound)
 	res.Write([]byte("<p>404 page was not found</p>"))
+}
+
+func serveViewError(res http.ResponseWriter, err error) {
+	res.WriteHeader(http.StatusInternalServerError)
+	res.Write([]byte(fmt.Sprintf("error rendering view: %s", err)))
 }

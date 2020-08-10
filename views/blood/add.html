@@ -1,5 +1,5 @@
 {{define "content"}}
-{{/*include nav*/}}
+{{template "nav"}}
 <div class="container">
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
@@ -35,7 +35,7 @@
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-7">
                                 <button type="submit" class="btn btn-primary">Add Reading</button>
-                                <a href="{{ route('index') }}" class="btn btn-link">Cancel</a>
+                                <a href="#" class="btn btn-link">Cancel</a>
                             </div>
                         </div>
                     </form>
@@ -43,6 +43,6 @@
             </div>
         </div>
     </div>
-    {{/*include footer*/}}
+    {{template "footer"}}
 </div>
 {{end}}
