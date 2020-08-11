@@ -23,7 +23,12 @@ func bloodAll(res http.ResponseWriter, req *http.Request) {
 func bloodDetails(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("Content-type", "text/html")
 	layoutData.PageTitle = "Health - Blood Pressure Reading Details"
-	if err := renderView("views/blood/details.html", res); err != nil {
+	_, err := getId(req.URL.Path) // todo: use id here
+	if err != nil {
+		serve404(res, req)
+		return
+	}
+	if err = renderView("views/blood/details.html", res); err != nil {
 		serveViewError(res, err)
 	}
 }
@@ -31,6 +36,11 @@ func bloodDetails(res http.ResponseWriter, req *http.Request) {
 func bloodEdit(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("Content-type", "text/html")
 	layoutData.PageTitle = "Health - Edit Blood Pressure Reading"
+	_, err := getId(req.URL.Path) // todo: use id here
+	if err != nil {
+		serve404(res, req)
+		return
+	}
 	if err := renderView("views/blood/edit.html", res); err != nil {
 		serveViewError(res, err)
 	}
@@ -38,5 +48,10 @@ func bloodEdit(res http.ResponseWriter, req *http.Request) {
 
 func bloodDelete(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("Content-type", "text/html")
+	_, err := getId(req.URL.Path) // todo: use id here
+	if err != nil {
+		serve404(res, req) // todo: probably redirect instead of serving 404 page
+		return
+	}
 	res.Write([]byte("blood delete"))
 }

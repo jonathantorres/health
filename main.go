@@ -7,6 +7,8 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
+	"strings"
 )
 
 type LayoutData struct {
@@ -26,13 +28,13 @@ func main() {
 	http.HandleFunc("/resetLink", resetPasswordLink)
 	http.HandleFunc("/blood/add", bloodAdd)
 	http.HandleFunc("/blood/all", bloodAll)
-	http.HandleFunc("/blood/details/1", bloodDetails)
-	http.HandleFunc("/blood/edit/1", bloodEdit)
-	http.HandleFunc("/blood/delete/1", bloodDelete)
+	http.HandleFunc("/blood/details/", bloodDetails)
+	http.HandleFunc("/blood/edit/", bloodEdit)
+	http.HandleFunc("/blood/delete/", bloodDelete)
 	http.HandleFunc("/weight/add", weightAdd)
 	http.HandleFunc("/weight/all", weightAll)
-	http.HandleFunc("/weight/edit/1", weightEdit)
-	http.HandleFunc("/weight/delete/1", weightDelete)
+	http.HandleFunc("/weight/edit/", weightEdit)
+	http.HandleFunc("/weight/delete/", weightDelete)
 	log.Fatal(http.ListenAndServe(":7070", nil))
 }
 
@@ -71,6 +73,18 @@ func renderView(name string, out io.Writer) error {
 		return fmt.Errorf("error executing template: %s", err)
 	}
 	return nil
+}
+
+func getId(path string) (int, error) {
+	pieces := strings.Split(path, "/")
+	id, err := strconv.Atoi(pieces[len(pieces)-1])
+	if err != nil {
+		return 0, err
+	}
+	if id == 0 {
+		return 0, fmt.Errorf("error: zero value")
+	}
+	return id, nil
 }
 
 func serveStaticFile(res http.ResponseWriter, req *http.Request) {

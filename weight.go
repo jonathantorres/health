@@ -23,6 +23,11 @@ func weightAll(res http.ResponseWriter, req *http.Request) {
 func weightEdit(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("Content-type", "text/html")
 	layoutData.PageTitle = "Health - Edit Weight Entry"
+	_, err := getId(req.URL.Path) // todo: use id here
+	if err != nil {
+		serve404(res, req)
+		return
+	}
 	if err := renderView("views/weight/edit.html", res); err != nil {
 		serveViewError(res, err)
 	}
@@ -30,5 +35,10 @@ func weightEdit(res http.ResponseWriter, req *http.Request) {
 
 func weightDelete(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("Content-type", "text/html")
+	_, err := getId(req.URL.Path) // todo: use id here
+	if err != nil {
+		serve404(res, req) // todo: probably redirect instead of serving 404 page
+		return
+	}
 	res.Write([]byte("weight delete"))
 }
