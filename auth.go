@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"fmt"
 )
 
 func login(res http.ResponseWriter, req *http.Request) {
@@ -37,4 +38,8 @@ func resetPasswordLink(res http.ResponseWriter, req *http.Request) {
 	if err := renderView("views/reset_password_email.html", res); err != nil {
 		serveViewError(res, err)
 	}
+}
+
+func loggedIn() bool {
+	return true
 }

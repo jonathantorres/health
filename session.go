@@ -1,7 +1,10 @@
 package main
 
 import (
-	"net/http"
+	// "net/http"
+	"time"
+	"fmt"
+	"strconv"
 )
 
 type SessionData map[string]interface{}
@@ -17,5 +20,6 @@ func sessionStart() {
 }
 
 func generateSessionId() string {
-
+	curTime := int(time.Now().Unix())
+	return fmt.Sprintf("%s", strconv.Itoa(curTime)) // this is terrible, make it better
 }
