@@ -47,12 +47,13 @@ func root(res http.ResponseWriter, req *http.Request) {
 }
 
 func index(res http.ResponseWriter, req *http.Request) {
-	if !loggedIn() {
+	if !loggedIn(res, req) {
 		http.Redirect(res, req, "/login", http.StatusSeeOther)
 		return
 	}
-	res.Header().Set("Content-type", "text/html")
 	layoutData.PageTitle = "Health - Dashboard"
+	log.Println(sessionData)
+	res.Header().Set("Content-type", "text/html")
 	if err := renderView("views/index.html", res); err != nil {
 		serveViewError(res, err)
 	}

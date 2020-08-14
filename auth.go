@@ -1,8 +1,8 @@
 package main
 
 import (
+	// "fmt"
 	"net/http"
-	"fmt"
 )
 
 func login(res http.ResponseWriter, req *http.Request) {
@@ -40,6 +40,7 @@ func resetPasswordLink(res http.ResponseWriter, req *http.Request) {
 	}
 }
 
-func loggedIn() bool {
+func loggedIn(res http.ResponseWriter, req *http.Request) bool {
+	sessionStart(res, req)
 	return true
 }
