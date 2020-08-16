@@ -52,7 +52,6 @@ func index(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 	layoutData.PageTitle = "Health - Dashboard"
-	log.Println(sessionData)
 	res.Header().Set("Content-type", "text/html")
 	if err := renderView("views/index.html", res); err != nil {
 		serveViewError(res, err)

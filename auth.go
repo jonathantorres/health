@@ -1,7 +1,6 @@
 package main
 
 import (
-	// "fmt"
 	"net/http"
 )
 
@@ -14,6 +13,10 @@ func login(res http.ResponseWriter, req *http.Request) {
 }
 
 func logout(res http.ResponseWriter, req *http.Request) {
+	if !loggedIn(res, req) {
+		http.Redirect(res, req, "/login", http.StatusSeeOther)
+		return
+	}
 	res.Header().Set("Content-type", "text/html")
 	res.Write([]byte("logout page"))
 }
@@ -42,5 +45,9 @@ func resetPasswordLink(res http.ResponseWriter, req *http.Request) {
 
 func loggedIn(res http.ResponseWriter, req *http.Request) bool {
 	sessionStart(res, req)
+	if _, ok := sessionData["user"]; !ok {
+		return false
+	}
+	// todo: use the user node here
 	return true
 }

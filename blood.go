@@ -5,6 +5,10 @@ import (
 )
 
 func bloodAdd(res http.ResponseWriter, req *http.Request) {
+	if !loggedIn(res, req) {
+		http.Redirect(res, req, "/login", http.StatusSeeOther)
+		return
+	}
 	res.Header().Set("Content-type", "text/html")
 	layoutData.PageTitle = "Health - Blood Pressure Add Reading"
 	if err := renderView("views/blood/add.html", res); err != nil {
@@ -13,6 +17,10 @@ func bloodAdd(res http.ResponseWriter, req *http.Request) {
 }
 
 func bloodAll(res http.ResponseWriter, req *http.Request) {
+	if !loggedIn(res, req) {
+		http.Redirect(res, req, "/login", http.StatusSeeOther)
+		return
+	}
 	res.Header().Set("Content-type", "text/html")
 	layoutData.PageTitle = "Health - Blood Pressure Readings"
 	if err := renderView("views/blood/all.html", res); err != nil {
@@ -21,6 +29,10 @@ func bloodAll(res http.ResponseWriter, req *http.Request) {
 }
 
 func bloodDetails(res http.ResponseWriter, req *http.Request) {
+	if !loggedIn(res, req) {
+		http.Redirect(res, req, "/login", http.StatusSeeOther)
+		return
+	}
 	res.Header().Set("Content-type", "text/html")
 	layoutData.PageTitle = "Health - Blood Pressure Reading Details"
 	_, err := getId(req.URL.Path) // todo: use id here
@@ -34,6 +46,10 @@ func bloodDetails(res http.ResponseWriter, req *http.Request) {
 }
 
 func bloodEdit(res http.ResponseWriter, req *http.Request) {
+	if !loggedIn(res, req) {
+		http.Redirect(res, req, "/login", http.StatusSeeOther)
+		return
+	}
 	res.Header().Set("Content-type", "text/html")
 	layoutData.PageTitle = "Health - Edit Blood Pressure Reading"
 	_, err := getId(req.URL.Path) // todo: use id here
@@ -47,6 +63,10 @@ func bloodEdit(res http.ResponseWriter, req *http.Request) {
 }
 
 func bloodDelete(res http.ResponseWriter, req *http.Request) {
+	if !loggedIn(res, req) {
+		http.Redirect(res, req, "/login", http.StatusSeeOther)
+		return
+	}
 	res.Header().Set("Content-type", "text/html")
 	_, err := getId(req.URL.Path) // todo: use id here
 	if err != nil {

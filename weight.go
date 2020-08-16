@@ -5,6 +5,10 @@ import (
 )
 
 func weightAdd(res http.ResponseWriter, req *http.Request) {
+	if !loggedIn(res, req) {
+		http.Redirect(res, req, "/login", http.StatusSeeOther)
+		return
+	}
 	res.Header().Set("Content-type", "text/html")
 	layoutData.PageTitle = "Health - Add Weight Entry"
 	if err := renderView("views/weight/add.html", res); err != nil {
@@ -13,6 +17,10 @@ func weightAdd(res http.ResponseWriter, req *http.Request) {
 }
 
 func weightAll(res http.ResponseWriter, req *http.Request) {
+	if !loggedIn(res, req) {
+		http.Redirect(res, req, "/login", http.StatusSeeOther)
+		return
+	}
 	res.Header().Set("Content-type", "text/html")
 	layoutData.PageTitle = "Health - Weight Entries"
 	if err := renderView("views/weight/all.html", res); err != nil {
@@ -21,6 +29,10 @@ func weightAll(res http.ResponseWriter, req *http.Request) {
 }
 
 func weightEdit(res http.ResponseWriter, req *http.Request) {
+	if !loggedIn(res, req) {
+		http.Redirect(res, req, "/login", http.StatusSeeOther)
+		return
+	}
 	res.Header().Set("Content-type", "text/html")
 	layoutData.PageTitle = "Health - Edit Weight Entry"
 	_, err := getId(req.URL.Path) // todo: use id here
@@ -34,6 +46,10 @@ func weightEdit(res http.ResponseWriter, req *http.Request) {
 }
 
 func weightDelete(res http.ResponseWriter, req *http.Request) {
+	if !loggedIn(res, req) {
+		http.Redirect(res, req, "/login", http.StatusSeeOther)
+		return
+	}
 	res.Header().Set("Content-type", "text/html")
 	_, err := getId(req.URL.Path) // todo: use id here
 	if err != nil {
