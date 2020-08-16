@@ -21,8 +21,11 @@ func logout(res http.ResponseWriter, req *http.Request) {
 		http.Redirect(res, req, "/login", http.StatusSeeOther)
 		return
 	}
-	res.Header().Set("Content-type", "text/html")
-	res.Write([]byte("logout page"))
+	session := &Session{}
+	session.Start(res, req)
+	session.Destroy(res)
+	http.Redirect(res, req, "/login", http.StatusSeeOther)
+	return
 }
 
 func register(res http.ResponseWriter, req *http.Request) {
@@ -50,7 +53,8 @@ func resetPasswordLink(res http.ResponseWriter, req *http.Request) {
 func loggedIn(res http.ResponseWriter, req *http.Request) bool {
 	session := &Session{}
 	session.Start(res, req)
-	if _, ok := session.Get("user"); !ok {
+	_, ok := session.Get("user")
+	if !ok {
 		return false
 	}
 	// todo: use the user node here

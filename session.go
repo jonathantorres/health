@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 	"time"
 )
@@ -34,7 +35,7 @@ func (s *Session) Start(res http.ResponseWriter, req *http.Request) {
 		sessionId = generateSessionId()
 		s.data[s.cookieName] = sessionId
 		s.id = sessionId
-		s.createFile()
+		s.updateFile()
 		cookie = &http.Cookie{Name: s.cookieName, Value: s.id}
 	} else {
 		sessionId = cookie.Value
@@ -52,7 +53,28 @@ func (s *Session) Get(key string) (string, bool) {
 	return value, true
 }
 
-func (s *Session) createFile() {
+func (s *Session) Set(key string, value string) {
+	s.data[key] = value
+	s.updateFile()
+}
+
+func (s *Session) Destroy(res http.ResponseWriter) error {
+	if err := os.Remove("./storage/" + s.id); err != nil {
+		return err
+	}
+	cookie := &http.Cookie{
+		Name:    s.cookieName,
+		Value:   "",
+		Expires: time.Now(),
+	}
+	http.SetCookie(res, cookie)
+	s.data = nil
+	s.id = ""
+	s.cookieName = ""
+	return nil
+}
+
+func (s *Session) updateFile() {
 	jsonData, err := json.Marshal(s.data)
 	if err != nil {
 		log.Printf("%s", err)
