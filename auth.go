@@ -5,6 +5,10 @@ import (
 )
 
 func login(res http.ResponseWriter, req *http.Request) {
+	if loggedIn(res, req) {
+		http.Redirect(res, req, "/", http.StatusSeeOther)
+		return
+	}
 	res.Header().Set("Content-type", "text/html")
 	layoutData.PageTitle = "Health - Login"
 	if err := renderView("views/login.html", res); err != nil {
