@@ -44,8 +44,9 @@ func resetPasswordLink(res http.ResponseWriter, req *http.Request) {
 }
 
 func loggedIn(res http.ResponseWriter, req *http.Request) bool {
-	sessionStart(res, req)
-	if _, ok := sessionData["user"]; !ok {
+	session := &Session{}
+	session.Start(res, req)
+	if _, ok := session.Get("user"); !ok {
 		return false
 	}
 	// todo: use the user node here

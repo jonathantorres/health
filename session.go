@@ -10,52 +10,69 @@ import (
 	"time"
 )
 
-var sessionData map[string]string
+const defaultSessionCookieName = "session_id"
 
-const sessionName = "session_id"
+type Session struct {
+	data       map[string]string
+	id         string
+	cookieName string
+}
 
-func sessionStart(res http.ResponseWriter, req *http.Request) {
+func (s *Session) Start(res http.ResponseWriter, req *http.Request) {
+	if s.cookieName == "" {
+		s.cookieName = defaultSessionCookieName
+	}
 	var cookie *http.Cookie = nil
-	cookie, err := req.Cookie(sessionName)
+	cookie, err := req.Cookie(s.cookieName)
 	sessionId := ""
 
-	if sessionData == nil {
-		sessionData = make(map[string]string)
+	if s.data == nil {
+		s.data = make(map[string]string)
 	}
 	if err != nil {
 		// session not there, create it
 		sessionId = generateSessionId()
-		sessionData[sessionName] = sessionId
-		createSessionFile(sessionId)
-		cookie = &http.Cookie{Name: sessionName, Value: sessionId}
+		s.data[s.cookieName] = sessionId
+		s.id = sessionId
+		s.createFile()
+		cookie = &http.Cookie{Name: s.cookieName, Value: s.id}
 	} else {
 		sessionId = cookie.Value
-		loadExistingSessionData(sessionId)
+		s.id = sessionId
+		s.loadData()
 	}
 	http.SetCookie(res, cookie)
 }
 
-func createSessionFile(sessionId string) {
-	jsonData, err := json.Marshal(sessionData)
+func (s *Session) Get(key string) (string, bool) {
+	value, ok := s.data[key]
+	if !ok {
+		return "", false
+	}
+	return value, true
+}
+
+func (s *Session) createFile() {
+	jsonData, err := json.Marshal(s.data)
 	if err != nil {
 		log.Printf("%s", err)
 	}
-	err = ioutil.WriteFile("./storage/"+sessionId, jsonData, 0644)
+	err = ioutil.WriteFile("./storage/"+s.id, jsonData, 0644)
 	if err != nil {
 		log.Printf("%s", err)
 	}
 }
 
-func loadExistingSessionData(sessionId string) {
-	data, err := ioutil.ReadFile("./storage/" + sessionId)
+func (s *Session) loadData() {
+	data, err := ioutil.ReadFile("./storage/" + s.id)
 	if err != nil {
 		log.Printf("%s", err)
-		sessionData[sessionName] = sessionId
+		s.data[s.cookieName] = s.id
 		return
 	}
-	if err = json.Unmarshal(data, &sessionData); err != nil {
+	if err = json.Unmarshal(data, &s.data); err != nil {
 		log.Printf("%s", err)
-		sessionData[sessionName] = sessionId
+		s.data[s.cookieName] = s.id
 	}
 }
 
