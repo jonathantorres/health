@@ -14,7 +14,7 @@ import (
 const defaultSessionCookieName = "session_id"
 
 type Session struct {
-	data       map[string]string
+	data       map[string]interface{}
 	id         string
 	cookieName string
 }
@@ -28,7 +28,7 @@ func (s *Session) Start(res http.ResponseWriter, req *http.Request) {
 	sessionId := ""
 
 	if s.data == nil {
-		s.data = make(map[string]string)
+		s.data = make(map[string]interface{})
 	}
 	if err != nil {
 		// session not there, create it
@@ -45,15 +45,15 @@ func (s *Session) Start(res http.ResponseWriter, req *http.Request) {
 	http.SetCookie(res, cookie)
 }
 
-func (s *Session) Get(key string) (string, bool) {
+func (s *Session) Get(key string) (interface{}, bool) {
 	value, ok := s.data[key]
 	if !ok {
-		return "", false
+		return nil, false
 	}
 	return value, true
 }
 
-func (s *Session) Set(key string, value string) {
+func (s *Session) Set(key string, value interface{}) {
 	s.data[key] = value
 	s.updateFile()
 }
