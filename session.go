@@ -58,6 +58,13 @@ func (s *Session) Set(key string, value interface{}) {
 	s.updateFile()
 }
 
+func (s *Session) Remove(key string) {
+	if _, ok := s.Get(key); ok {
+		delete(s.data, key)
+		s.updateFile()
+	}
+}
+
 func (s *Session) Destroy(res http.ResponseWriter) error {
 	if err := os.Remove("./storage/" + s.id); err != nil {
 		return err
