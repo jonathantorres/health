@@ -105,6 +105,12 @@ func serveStaticFile(res http.ResponseWriter, req *http.Request) {
 	http.ServeFile(res, req, path)
 }
 
+func serve500(res http.ResponseWriter, req *http.Request, msg string) {
+	res.Header().Set("Content-type", "text/html")
+	res.WriteHeader(http.StatusInternalServerError)
+	res.Write([]byte(msg))
+}
+
 func serve404(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("Content-type", "text/html")
 	res.WriteHeader(http.StatusNotFound)

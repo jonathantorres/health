@@ -9,6 +9,10 @@ func login(res http.ResponseWriter, req *http.Request) {
 		http.Redirect(res, req, "/", http.StatusSeeOther)
 		return
 	}
+	if err := initDb(); err != nil {
+		serve500(res, req, err.Error())
+		return
+	}
 	res.Header().Set("Content-type", "text/html")
 	layoutData.PageTitle = "Health - Login"
 	if err := renderView("views/login.html", res); err != nil {
