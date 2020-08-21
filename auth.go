@@ -20,7 +20,7 @@ func login(res http.ResponseWriter, req *http.Request) {
 		req.ParseForm()
 		email := req.PostForm["email"][0]
 		pass := req.PostForm["password"][0]
-		if ok := authenticate(db, res, req, email, pass); !ok {
+		if ok := authenticate(db, res, req, email, pass); ok {
 			http.Redirect(res, req, "/", http.StatusSeeOther)
 			return
 		}
