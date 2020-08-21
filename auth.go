@@ -1,6 +1,8 @@
 package main
 
 import (
+	"database/sql"
+	"log"
 	"net/http"
 )
 
@@ -9,8 +11,20 @@ func login(res http.ResponseWriter, req *http.Request) {
 		http.Redirect(res, req, "/", http.StatusSeeOther)
 		return
 	}
-	if err := initDb(); err != nil {
+	db, err := initDb()
+	if err != nil {
 		serve500(res, req, err.Error())
+		return
+	}
+	if req.Method == "POST" {
+		req.ParseForm()
+		email := req.PostForm["email"][0]
+		pass := req.PostForm["password"][0]
+		if ok := authenticate(db, res, req, email, pass); !ok {
+			http.Redirect(res, req, "/", http.StatusSeeOther)
+			return
+		}
+		http.Redirect(res, req, "/login", http.StatusSeeOther)
 		return
 	}
 	res.Header().Set("Content-type", "text/html")
@@ -18,6 +32,35 @@ func login(res http.ResponseWriter, req *http.Request) {
 	if err := renderView("views/login.html", res); err != nil {
 		serveViewError(res, err)
 	}
+}
+
+func authenticate(db *sql.DB, res http.ResponseWriter, req *http.Request, email, pass string) bool {
+	sql := `
+		SELECT email
+		FROM users
+		WHERE email = ?
+		LIMIT 1
+	`
+	rows, err := db.Query(sql, email)
+	if err != nil {
+		log.Printf("err: %s", err)
+		return false
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var userEmail string
+		if err := rows.Scan(&userEmail); err != nil {
+			log.Printf("%s", err)
+			break
+		}
+		if userEmail == email {
+			session := &Session{}
+			session.Start(res, req)
+			session.Set("user", userEmail)
+			return true
+		}
+	}
+	return false
 }
 
 func logout(res http.ResponseWriter, req *http.Request) {
