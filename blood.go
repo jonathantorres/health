@@ -10,7 +10,7 @@ func bloodAdd(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 	res.Header().Set("Content-type", "text/html")
-	layoutData.PageTitle = "Health - Blood Pressure Add Reading"
+	appData.LayoutData["PageTitle"] = "Health - Blood Pressure Add Reading"
 	if err := renderView("views/blood/add.html", res); err != nil {
 		serveViewError(res, err)
 	}
@@ -22,7 +22,7 @@ func bloodAll(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 	res.Header().Set("Content-type", "text/html")
-	layoutData.PageTitle = "Health - Blood Pressure Readings"
+	appData.LayoutData["PageTitle"] = "Health - Blood Pressure Readings"
 	if err := renderView("views/blood/all.html", res); err != nil {
 		serveViewError(res, err)
 	}
@@ -34,7 +34,7 @@ func bloodDetails(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 	res.Header().Set("Content-type", "text/html")
-	layoutData.PageTitle = "Health - Blood Pressure Reading Details"
+	appData.LayoutData["PageTitle"] = "Health - Blood Pressure Reading Details"
 	_, err := getId(req.URL.Path) // todo: use id here
 	if err != nil {
 		serve404(res, req)
@@ -51,7 +51,7 @@ func bloodEdit(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 	res.Header().Set("Content-type", "text/html")
-	layoutData.PageTitle = "Health - Edit Blood Pressure Reading"
+	appData.LayoutData["PageTitle"] = "Health - Edit Blood Pressure Reading"
 	_, err := getId(req.URL.Path) // todo: use id here
 	if err != nil {
 		serve404(res, req)

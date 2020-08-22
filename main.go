@@ -11,15 +11,20 @@ import (
 	"strings"
 )
 
-type LayoutData struct {
-	PageTitle string
+type AppData struct {
+	LayoutData map[string]interface{}
+	ViewData map[string]interface{}
 }
 
-var layoutData = LayoutData{
-	PageTitle: "Health",
+var appData = AppData{
+	LayoutData:  make(map[string]interface{}),
+	ViewData:  make(map[string]interface{}),
 }
+
 
 func main() {
+	appData.LayoutData["PageTitle"] = "Health"
+
 	http.HandleFunc("/", root)
 	http.HandleFunc("/login", login)
 	http.HandleFunc("/logout", logout)
@@ -51,7 +56,7 @@ func index(res http.ResponseWriter, req *http.Request) {
 		http.Redirect(res, req, "/login", http.StatusSeeOther)
 		return
 	}
-	layoutData.PageTitle = "Health - Dashboard"
+	appData.LayoutData["PageTitle"] = "Health - Dashboard"
 	res.Header().Set("Content-type", "text/html")
 	if err := renderView("views/index.html", res); err != nil {
 		serveViewError(res, err)
@@ -72,7 +77,7 @@ func renderView(name string, out io.Writer) error {
 	if err != nil {
 		return fmt.Errorf("error parsing template: %s", err)
 	}
-	err = tmpl.ExecuteTemplate(out, "app", layoutData)
+	err = tmpl.ExecuteTemplate(out, "app", appData)
 	if err != nil {
 		return fmt.Errorf("error executing template: %s", err)
 	}
