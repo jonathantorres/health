@@ -7,7 +7,9 @@ import (
 )
 
 func login(res http.ResponseWriter, req *http.Request) {
-	if loggedIn(res, req) {
+	session := &Session{}
+	session.Start(res, req)
+	if loggedIn(session) {
 		http.Redirect(res, req, "/", http.StatusSeeOther)
 		return
 	}
@@ -20,21 +22,25 @@ func login(res http.ResponseWriter, req *http.Request) {
 		req.ParseForm()
 		email := req.PostForm["email"][0]
 		pass := req.PostForm["password"][0]
-		if ok := authenticate(db, res, req, email, pass); ok {
+		if ok := authenticate(db, res, req, session, email, pass); ok {
 			http.Redirect(res, req, "/", http.StatusSeeOther)
 			return
 		}
+		session.Set("errMsg", "Login failed!")
 		http.Redirect(res, req, "/login", http.StatusSeeOther)
 		return
 	}
+
+	setErrorAndSuccessMessages(session)
 	res.Header().Set("Content-type", "text/html")
 	appData.LayoutData["PageTitle"] = "Health - Login"
 	if err := renderView("views/login.html", res); err != nil {
 		serveViewError(res, err)
 	}
+	cleanupErrorAndSuccessMessages(session)
 }
 
-func authenticate(db *sql.DB, res http.ResponseWriter, req *http.Request, email, pass string) bool {
+func authenticate(db *sql.DB, res http.ResponseWriter, req *http.Request, session *Session, email, pass string) bool {
 	sql := `
 		SELECT email
 		FROM users
@@ -54,7 +60,6 @@ func authenticate(db *sql.DB, res http.ResponseWriter, req *http.Request, email,
 			break
 		}
 		if userEmail == email {
-			session := &Session{}
 			session.Start(res, req)
 			session.Set("user", userEmail)
 			return true
@@ -64,12 +69,12 @@ func authenticate(db *sql.DB, res http.ResponseWriter, req *http.Request, email,
 }
 
 func logout(res http.ResponseWriter, req *http.Request) {
-	if !loggedIn(res, req) {
+	session := &Session{}
+	session.Start(res, req)
+	if !loggedIn(session) {
 		http.Redirect(res, req, "/login", http.StatusSeeOther)
 		return
 	}
-	session := &Session{}
-	session.Start(res, req)
 	session.Destroy(res)
 	http.Redirect(res, req, "/login", http.StatusSeeOther)
 	return
@@ -97,9 +102,7 @@ func resetPasswordLink(res http.ResponseWriter, req *http.Request) {
 	}
 }
 
-func loggedIn(res http.ResponseWriter, req *http.Request) bool {
-	session := &Session{}
-	session.Start(res, req)
+func loggedIn(session *Session) bool {
 	_, ok := session.Get("user")
 	if !ok {
 		return false

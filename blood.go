@@ -5,7 +5,9 @@ import (
 )
 
 func bloodAdd(res http.ResponseWriter, req *http.Request) {
-	if !loggedIn(res, req) {
+	session := &Session{}
+	session.Start(res, req)
+	if !loggedIn(session) {
 		http.Redirect(res, req, "/login", http.StatusSeeOther)
 		return
 	}
@@ -17,7 +19,9 @@ func bloodAdd(res http.ResponseWriter, req *http.Request) {
 }
 
 func bloodAll(res http.ResponseWriter, req *http.Request) {
-	if !loggedIn(res, req) {
+	session := &Session{}
+	session.Start(res, req)
+	if !loggedIn(session) {
 		http.Redirect(res, req, "/login", http.StatusSeeOther)
 		return
 	}
@@ -29,7 +33,9 @@ func bloodAll(res http.ResponseWriter, req *http.Request) {
 }
 
 func bloodDetails(res http.ResponseWriter, req *http.Request) {
-	if !loggedIn(res, req) {
+	session := &Session{}
+	session.Start(res, req)
+	if !loggedIn(session) {
 		http.Redirect(res, req, "/login", http.StatusSeeOther)
 		return
 	}
@@ -46,7 +52,9 @@ func bloodDetails(res http.ResponseWriter, req *http.Request) {
 }
 
 func bloodEdit(res http.ResponseWriter, req *http.Request) {
-	if !loggedIn(res, req) {
+	session := &Session{}
+	session.Start(res, req)
+	if !loggedIn(session) {
 		http.Redirect(res, req, "/login", http.StatusSeeOther)
 		return
 	}
@@ -63,7 +71,9 @@ func bloodEdit(res http.ResponseWriter, req *http.Request) {
 }
 
 func bloodDelete(res http.ResponseWriter, req *http.Request) {
-	if !loggedIn(res, req) {
+	session := &Session{}
+	session.Start(res, req)
+	if !loggedIn(session) {
 		http.Redirect(res, req, "/login", http.StatusSeeOther)
 		return
 	}

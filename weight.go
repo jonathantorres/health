@@ -5,7 +5,9 @@ import (
 )
 
 func weightAdd(res http.ResponseWriter, req *http.Request) {
-	if !loggedIn(res, req) {
+	session := &Session{}
+	session.Start(res, req)
+	if !loggedIn(session) {
 		http.Redirect(res, req, "/login", http.StatusSeeOther)
 		return
 	}
@@ -17,7 +19,9 @@ func weightAdd(res http.ResponseWriter, req *http.Request) {
 }
 
 func weightAll(res http.ResponseWriter, req *http.Request) {
-	if !loggedIn(res, req) {
+	session := &Session{}
+	session.Start(res, req)
+	if !loggedIn(session) {
 		http.Redirect(res, req, "/login", http.StatusSeeOther)
 		return
 	}
@@ -29,7 +33,9 @@ func weightAll(res http.ResponseWriter, req *http.Request) {
 }
 
 func weightEdit(res http.ResponseWriter, req *http.Request) {
-	if !loggedIn(res, req) {
+	session := &Session{}
+	session.Start(res, req)
+	if !loggedIn(session) {
 		http.Redirect(res, req, "/login", http.StatusSeeOther)
 		return
 	}
@@ -46,7 +52,9 @@ func weightEdit(res http.ResponseWriter, req *http.Request) {
 }
 
 func weightDelete(res http.ResponseWriter, req *http.Request) {
-	if !loggedIn(res, req) {
+	session := &Session{}
+	session.Start(res, req)
+	if !loggedIn(session) {
 		http.Redirect(res, req, "/login", http.StatusSeeOther)
 		return
 	}

@@ -1,11 +1,12 @@
-{{/*@if (session('error'))*/}}
+{{define "flash_messages"}}
+{{if .errMsg}}
     <div class="alert alert-danger">
-        {{/*session('error')*/}}
+        {{.errMsg}}
     </div>
-{{/*@endif*/}}
-
-{{/*@if (session('success'))*/}}
+{{end}}
+{{if .okMsg}}
     <div class="alert alert-success">
-        {{/*session('success')*/}}
+        {{.okMsg}}
     </div>
-{{/*@endif*/}}
+{{end}}
+{{end}}

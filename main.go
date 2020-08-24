@@ -52,7 +52,9 @@ func root(res http.ResponseWriter, req *http.Request) {
 }
 
 func index(res http.ResponseWriter, req *http.Request) {
-	if !loggedIn(res, req) {
+	session := &Session{}
+	session.Start(res, req)
+	if !loggedIn(session) {
 		http.Redirect(res, req, "/login", http.StatusSeeOther)
 		return
 	}
@@ -63,14 +65,30 @@ func index(res http.ResponseWriter, req *http.Request) {
 	}
 }
 
+func setErrorAndSuccessMessages(session *Session) {
+	if errMsg, ok := session.Get("errMsg"); ok {
+		appData.LayoutData["errMsg"] = errMsg
+	}
+	if okMsg, ok := session.Get("okMsg"); ok {
+		appData.LayoutData["okMsg"] = okMsg
+	}
+}
+
+func cleanupErrorAndSuccessMessages(session *Session) {
+	delete(appData.LayoutData, "errMsg")
+	delete(appData.LayoutData, "okMsg")
+	session.Remove("errMsg")
+	session.Remove("okMsg")
+}
+
 func renderView(name string, out io.Writer) error {
 	var templates = []string{
 		"views/app.html",
-		// "views/partials/blood_readings.html",
-		// "views/partials/flash_messages.html",
-		// "views/partials/weight_entries.html",
+		"views/partials/flash_messages.html",
 		"views/partials/footer.html",
 		"views/partials/nav.html",
+		// "views/partials/blood_readings.html",
+		// "views/partials/weight_entries.html",
 	}
 	templates = append(templates, name)
 	tmpl, err := template.ParseFiles(templates...)
