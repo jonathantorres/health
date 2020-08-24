@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"errors"
 	"log"
 	"net/http"
 )
@@ -22,12 +23,12 @@ func login(res http.ResponseWriter, req *http.Request) {
 		req.ParseForm()
 		email := req.PostForm["email"][0]
 		pass := req.PostForm["password"][0]
-		if ok := authenticate(db, res, req, session, email, pass); ok {
-			http.Redirect(res, req, "/", http.StatusSeeOther)
+		if err = authenticate(db, res, req, session, email, pass); err != nil {
+			session.Set("errMsg", err.Error())
+			http.Redirect(res, req, "/login", http.StatusSeeOther)
 			return
 		}
-		session.Set("errMsg", "Login failed!")
-		http.Redirect(res, req, "/login", http.StatusSeeOther)
+		http.Redirect(res, req, "/", http.StatusSeeOther)
 		return
 	}
 
@@ -40,7 +41,7 @@ func login(res http.ResponseWriter, req *http.Request) {
 	cleanupErrorAndSuccessMessages(session)
 }
 
-func authenticate(db *sql.DB, res http.ResponseWriter, req *http.Request, session *Session, email, pass string) bool {
+func authenticate(db *sql.DB, res http.ResponseWriter, req *http.Request, session *Session, email, pass string) error {
 	sql := `
 		SELECT email
 		FROM users
@@ -50,7 +51,7 @@ func authenticate(db *sql.DB, res http.ResponseWriter, req *http.Request, sessio
 	rows, err := db.Query(sql, email)
 	if err != nil {
 		log.Printf("err: %s", err)
-		return false
+		return err
 	}
 	defer rows.Close()
 	for rows.Next() {
@@ -62,10 +63,10 @@ func authenticate(db *sql.DB, res http.ResponseWriter, req *http.Request, sessio
 		if userEmail == email {
 			session.Start(res, req)
 			session.Set("user", userEmail)
-			return true
+			return nil
 		}
 	}
-	return false
+	return errors.New("Invalid credentials")
 }
 
 func logout(res http.ResponseWriter, req *http.Request) {

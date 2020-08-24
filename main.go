@@ -13,14 +13,13 @@ import (
 
 type AppData struct {
 	LayoutData map[string]interface{}
-	ViewData map[string]interface{}
+	ViewData   map[string]interface{}
 }
 
 var appData = AppData{
-	LayoutData:  make(map[string]interface{}),
-	ViewData:  make(map[string]interface{}),
+	LayoutData: make(map[string]interface{}),
+	ViewData:   make(map[string]interface{}),
 }
-
 
 func main() {
 	appData.LayoutData["PageTitle"] = "Health"
