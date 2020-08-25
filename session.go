@@ -2,12 +2,11 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
-	"strconv"
 	"time"
 )
 
@@ -106,6 +105,12 @@ func (s *Session) loadData() {
 }
 
 func generateSessionId() string {
-	curTime := int(time.Now().Unix())
-	return fmt.Sprintf("%s", strconv.Itoa(curTime)) // this is terrible, make it better
+	rand.Seed(time.Now().UnixNano())
+	chars := "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	idLen := 16
+	id := make([]byte, idLen)
+	for i := 0; i < idLen; i++ {
+		id[i] = chars[rand.Intn(len(chars))]
+	}
+	return string(id)
 }
