@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"errors"
+	"golang.org/x/crypto/bcrypt"
 	"log"
 	"net/http"
 )
@@ -43,7 +44,7 @@ func login(res http.ResponseWriter, req *http.Request) {
 
 func authenticate(db *sql.DB, res http.ResponseWriter, req *http.Request, session *Session, email, pass string) error {
 	sql := `
-		SELECT email
+		SELECT id, name, last_name, email, password
 		FROM users
 		WHERE email = ?
 		LIMIT 1
@@ -55,14 +56,24 @@ func authenticate(db *sql.DB, res http.ResponseWriter, req *http.Request, sessio
 	}
 	defer rows.Close()
 	for rows.Next() {
+		var userId int64
+		var userName string
+		var userLastName string
 		var userEmail string
-		if err := rows.Scan(&userEmail); err != nil {
+		var userPass string
+		if err := rows.Scan(&userId, &userName, &userLastName, &userEmail, &userPass); err != nil {
 			log.Printf("%s", err)
 			break
 		}
-		if userEmail == email {
+		if userEmail == email && bcrypt.CompareHashAndPassword([]byte(userPass), []byte(pass)) == nil {
+			user := User{
+				Id:       userId,
+				Name:     userName,
+				LastName: userLastName,
+				Email:    userEmail,
+			}
 			session.Start(res, req)
-			session.Set("user", userEmail)
+			session.Set("user", user)
 			return nil
 		}
 	}
