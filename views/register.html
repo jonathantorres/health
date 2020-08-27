@@ -1,12 +1,11 @@
 {{define "content"}}
-{{template "nav"}}
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2 padding-50-top">
             <div class="panel panel-default">
                 <div class="panel-heading">Register</div>
                 <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="">
+                    <form class="form-horizontal" role="form" method="POST" action="/register">
                         <div class="form-group">
                             <label for="name" class="col-md-4 control-label">Name</label>
                             <div class="col-md-6">
@@ -42,7 +41,7 @@
                                 <button type="submit" class="btn btn-primary">
                                     Register
                                 </button>
-                                <a class="btn btn-link" href="#">
+                                <a class="btn btn-link" href="/login">
                                     Cancel
                                 </a>
                             </div>
