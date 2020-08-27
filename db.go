@@ -30,7 +30,7 @@ func initDb() (*sql.DB, error) {
 func registerUser(db *sql.DB, name, lastName, email, pass string) error {
 	sql := `
 		INSERT INTO users
-		(id, NAME, last_name, email, PASSWORD, remember_token, created_at, updated_at, deleted_at) 
+		(id, name, last_name, email, password, remember_token, created_at, updated_at, deleted_at) 
 		VALUES(NULL, ?, ?, ?, ?, NULL, NOW(), NOW(), NULL);
 	`
 	hashedPass, err := bcrypt.GenerateFromPassword([]byte(pass), bcrypt.DefaultCost)
