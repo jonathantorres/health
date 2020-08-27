@@ -89,7 +89,6 @@ func logout(res http.ResponseWriter, req *http.Request) {
 	}
 	session.Destroy(res)
 	http.Redirect(res, req, "/login", http.StatusSeeOther)
-	return
 }
 
 func register(res http.ResponseWriter, req *http.Request) {
