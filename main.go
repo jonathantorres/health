@@ -9,6 +9,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type AppData struct {
@@ -30,6 +31,8 @@ var appData = AppData{
 
 func main() {
 	appData.LayoutData["PageTitle"] = "Health"
+	appData.LayoutData["Version"] = version
+	appData.LayoutData["Year"] = time.Now().Year()
 
 	http.HandleFunc("/", root)
 	http.HandleFunc("/login", login)
