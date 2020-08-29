@@ -13,6 +13,7 @@ func bloodAdd(res http.ResponseWriter, req *http.Request) {
 	}
 	res.Header().Set("Content-type", "text/html")
 	appData.LayoutData["PageTitle"] = "Health - Blood Pressure Add Reading"
+	appData.LayoutData["User"] = getUserFromSession(session)
 	if err := renderView("views/blood/add.html", res); err != nil {
 		serveViewError(res, err)
 	}
@@ -27,6 +28,7 @@ func bloodAll(res http.ResponseWriter, req *http.Request) {
 	}
 	res.Header().Set("Content-type", "text/html")
 	appData.LayoutData["PageTitle"] = "Health - Blood Pressure Readings"
+	appData.LayoutData["User"] = getUserFromSession(session)
 	if err := renderView("views/blood/all.html", res); err != nil {
 		serveViewError(res, err)
 	}
@@ -41,6 +43,7 @@ func bloodDetails(res http.ResponseWriter, req *http.Request) {
 	}
 	res.Header().Set("Content-type", "text/html")
 	appData.LayoutData["PageTitle"] = "Health - Blood Pressure Reading Details"
+	appData.LayoutData["User"] = getUserFromSession(session)
 	_, err := getId(req.URL.Path) // todo: use id here
 	if err != nil {
 		serve404(res, req)
@@ -60,6 +63,7 @@ func bloodEdit(res http.ResponseWriter, req *http.Request) {
 	}
 	res.Header().Set("Content-type", "text/html")
 	appData.LayoutData["PageTitle"] = "Health - Edit Blood Pressure Reading"
+	appData.LayoutData["User"] = getUserFromSession(session)
 	_, err := getId(req.URL.Path) // todo: use id here
 	if err != nil {
 		serve404(res, req)

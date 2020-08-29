@@ -68,6 +68,7 @@ func index(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 	appData.LayoutData["PageTitle"] = "Health - Dashboard"
+	appData.LayoutData["User"] = getUserFromSession(session)
 	res.Header().Set("Content-type", "text/html")
 	if err := renderView("views/index.html", res); err != nil {
 		serveViewError(res, err)
@@ -109,6 +110,21 @@ func renderView(name string, out io.Writer) error {
 		return fmt.Errorf("error executing template: %s", err)
 	}
 	return nil
+}
+
+func getUserFromSession(session *Session) *User {
+	var user *User = nil
+	if usr, ok := session.Get("user"); ok {
+		if usrMap, ok := usr.(map[string]interface{}); ok {
+			user = &User{
+				Id:       int64(usrMap["Id"].(float64)),
+				Name:     usrMap["Name"].(string),
+				LastName: usrMap["LastName"].(string),
+				Email:    usrMap["Email"].(string),
+			}
+		}
+	}
+	return user
 }
 
 func getId(path string) (int, error) {
