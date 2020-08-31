@@ -32,7 +32,8 @@ func getBloodReadings(db *sql.DB, userId int64) ([]*BloodReading, error) {
 	sql := `
 		SELECT id, user_id, systolic, diastolic, pulse, reading_date
 		FROM blood_pressures
-		WHERE user_id = ? AND deleted_at IS NULL;
+		WHERE user_id = ? AND deleted_at IS NULL
+		ORDER BY reading_date DESC;
 	`
 	rows, err := db.Query(sql, userId)
 	if err != nil {
@@ -74,7 +75,8 @@ func getWeightEntries(db *sql.DB, userId int64) ([]*WeightEntry, error) {
 	sql := `
 		SELECT id, user_id, weight, entered_date
 		FROM weights
-		WHERE user_id = ? AND deleted_at IS NULL;
+		WHERE user_id = ? AND deleted_at IS NULL
+		ORDER BY entered_date DESC;
 	`
 	rows, err := db.Query(sql, userId)
 	if err != nil {

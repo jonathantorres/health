@@ -99,11 +99,19 @@ func index(res http.ResponseWriter, req *http.Request) {
 		serve500(res, req, entriesErr.Error())
 		return
 	}
+	maxReadings := 10
+	maxEntries := 10
+	if len(readings) <= 10 {
+		maxReadings = len(readings)
+	}
+	if len(entries) <= 10 {
+		maxEntries = len(entries)
+	}
 
 	appData.LayoutData["PageTitle"] = "Health - Dashboard"
 	appData.LayoutData["User"] = user
-	appData.ViewData["Readings"] = readings
-	appData.ViewData["Entries"] = entries
+	appData.ViewData["Readings"] = readings[:maxReadings]
+	appData.ViewData["Entries"] = entries[:maxEntries]
 	appData.ViewData["BloodHeading"] = "Blood Pressure Readings"
 	appData.ViewData["WeightHeading"] = "Weight Entries"
 	res.Header().Set("Content-type", "text/html")
