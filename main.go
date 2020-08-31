@@ -91,10 +91,15 @@ func index(res http.ResponseWriter, req *http.Request) {
 	user := getUserFromSession(session)
 	readings, readingsErr := getBloodReadings(db, user.Id)
 	entries, entriesErr := getWeightEntries(db, user.Id)
-	if readingsErr != nil || entriesErr != nil {
-		serve500(res, req, err.Error())
+	if readingsErr != nil {
+		serve500(res, req, readingsErr.Error())
 		return
 	}
+	if entriesErr != nil {
+		serve500(res, req, entriesErr.Error())
+		return
+	}
+
 	appData.LayoutData["PageTitle"] = "Health - Dashboard"
 	appData.LayoutData["User"] = user
 	appData.ViewData["Readings"] = readings
