@@ -26,9 +26,23 @@ func bloodAll(res http.ResponseWriter, req *http.Request) {
 		http.Redirect(res, req, "/login", http.StatusSeeOther)
 		return
 	}
+	db, err := initDb()
+	if err != nil {
+		serve500(res, req, err.Error())
+		return
+	}
 	res.Header().Set("Content-type", "text/html")
+
+	user := getUserFromSession(session)
+	readings, err := getBloodReadings(db, user.Id)
+	if err != nil {
+		serve500(res, req, err.Error())
+		return
+	}
 	appData.LayoutData["PageTitle"] = "Health - Blood Pressure Readings"
-	appData.LayoutData["User"] = getUserFromSession(session)
+	appData.LayoutData["User"] = user
+	appData.ViewData["Heading"] = "Blood Pressure Readings"
+	appData.ViewData["Readings"] = readings
 	if err := renderView("views/blood/all.html", res); err != nil {
 		serveViewError(res, err)
 	}

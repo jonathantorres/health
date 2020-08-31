@@ -3,13 +3,12 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            {{/*include flash messages*/}}
+            {{template "flash_messages" .LayoutData}}
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
-            <p>Blood readings</p>
-            {{/*include blood readings*/}}
+            {{template "blood_readings" .ViewData}}
         </div>
     </div>
     <div class="row">
