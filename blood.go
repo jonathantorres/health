@@ -41,7 +41,7 @@ func bloodAll(res http.ResponseWriter, req *http.Request) {
 	}
 	appData.LayoutData["PageTitle"] = "Health - Blood Pressure Readings"
 	appData.LayoutData["User"] = user
-	appData.ViewData["Heading"] = "Blood Pressure Readings"
+	appData.ViewData["BloodHeading"] = "Blood Pressure Readings"
 	appData.ViewData["Readings"] = readings
 	if err := renderView("views/blood/all.html", res); err != nil {
 		serveViewError(res, err)

@@ -33,6 +33,13 @@ type BloodReading struct {
 	Date      string
 }
 
+type WeightEntry struct {
+	Id     int64
+	UserId int64
+	Weight float32
+	Date   string
+}
+
 var appData = AppData{
 	LayoutData: make(map[string]interface{}),
 	ViewData:   make(map[string]interface{}),
@@ -82,15 +89,18 @@ func index(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 	user := getUserFromSession(session)
-	readings, err := getBloodReadings(db, user.Id)
-	if err != nil {
+	readings, readingsErr := getBloodReadings(db, user.Id)
+	entries, entriesErr := getWeightEntries(db, user.Id)
+	if readingsErr != nil || entriesErr != nil {
 		serve500(res, req, err.Error())
 		return
 	}
 	appData.LayoutData["PageTitle"] = "Health - Dashboard"
 	appData.LayoutData["User"] = user
 	appData.ViewData["Readings"] = readings
-	appData.ViewData["Heading"] = "Blood Pressure Readings"
+	appData.ViewData["Entries"] = entries
+	appData.ViewData["BloodHeading"] = "Blood Pressure Readings"
+	appData.ViewData["WeightHeading"] = "Weight Entries"
 	res.Header().Set("Content-type", "text/html")
 	if err := renderView("views/index.html", res); err != nil {
 		serveViewError(res, err)
@@ -120,7 +130,7 @@ func renderView(name string, out io.Writer) error {
 		"views/partials/footer.html",
 		"views/partials/nav.html",
 		"views/partials/blood_readings.html",
-		// "views/partials/weight_entries.html",
+		"views/partials/weight_entries.html",
 	}
 	templates = append(templates, name)
 	tmpl, err := template.ParseFiles(templates...)

@@ -70,6 +70,44 @@ func getBloodReading(db *sql.DB, userId int64, readingId int64) (*BloodReading, 
 	return nil, nil
 }
 
+func getWeightEntries(db *sql.DB, userId int64) ([]*WeightEntry, error) {
+	sql := `
+		SELECT id, user_id, weight, entered_date
+		FROM weights
+		WHERE user_id = ? AND deleted_at IS NULL;
+	`
+	rows, err := db.Query(sql, userId)
+	if err != nil {
+		log.Printf("err: %s", err)
+		return nil, err
+	}
+	defer rows.Close()
+	entries := make([]*WeightEntry, 0)
+	for rows.Next() {
+		var id int64
+		var userId int64
+		var weight float32
+		var enteredDate string
+		if err := rows.Scan(&id, &userId, &weight, &enteredDate); err != nil {
+			log.Printf("%s", err)
+			return nil, err
+		}
+		entry := WeightEntry{
+			Id:     id,
+			UserId: userId,
+			Weight: weight,
+			Date:   enteredDate,
+		}
+		entries = append(entries, &entry)
+	}
+	return entries, nil
+}
+
+func getWeightEntry(db *sql.DB, userId int64, entryId int64) (*WeightEntry, error) {
+	// todo
+	return nil, nil
+}
+
 func registerUser(db *sql.DB, name, lastName, email, pass string) error {
 	sql := `
 		INSERT INTO users

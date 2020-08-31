@@ -26,9 +26,23 @@ func weightAll(res http.ResponseWriter, req *http.Request) {
 		http.Redirect(res, req, "/login", http.StatusSeeOther)
 		return
 	}
+	db, err := initDb()
+	if err != nil {
+		serve500(res, req, err.Error())
+		return
+	}
 	res.Header().Set("Content-type", "text/html")
+
+	user := getUserFromSession(session)
+	entries, err := getWeightEntries(db, user.Id)
+	if err != nil {
+		serve500(res, req, err.Error())
+		return
+	}
 	appData.LayoutData["PageTitle"] = "Health - Weight Entries"
-	appData.LayoutData["User"] = getUserFromSession(session)
+	appData.LayoutData["User"] = user
+	appData.ViewData["WeightHeading"] = "Weight Entries"
+	appData.ViewData["Entries"] = entries
 	if err := renderView("views/weight/all.html", res); err != nil {
 		serveViewError(res, err)
 	}
