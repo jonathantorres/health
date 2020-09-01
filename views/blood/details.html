@@ -5,17 +5,17 @@
         <div class="col-md-10 col-md-offset-1">
             <h2>Reading Details</h2>
             <hr>
-            <p>Systolic: <strong></strong></p>
-            <p>Diastolic: <strong></strong></p>
-            <p>Pulse: <strong></strong></p>
-            <p>Date: <strong></strong></p>
+            <p>Systolic: <strong>{{.ViewData.Reading.Systolic}}</strong></p>
+            <p>Diastolic: <strong>{{.ViewData.Reading.Diastolic}}</strong></p>
+            <p>Pulse: <strong>{{.ViewData.Reading.Pulse}}</strong></p>
+            <p>Date: <strong>{{.ViewData.Reading.Date}}</strong></p>
             <p>
-                Severity: <strong class="text-">Severity text</strong>
+                Severity: <strong class="text-{{.ViewData.Reading.Severity.Class}}">{{.ViewData.Reading.Severity.Text}}</strong>
             </p>
             <hr>
             <a href="/" class="btn btn-default">Go Back</a>
         </div>
     </div>
-    {{template "footer"}}
+    {{template "footer" .LayoutData}}
 </div>
 {{end}}

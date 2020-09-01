@@ -67,8 +67,30 @@ func getBloodReadings(db *sql.DB, userId int64) ([]*BloodReading, error) {
 }
 
 func getBloodReading(db *sql.DB, userId int64, readingId int64) (*BloodReading, error) {
-	// todo
-	return nil, nil
+	sql := `
+		SELECT id, user_id, systolic, diastolic, pulse, reading_date
+		FROM blood_pressures
+		WHERE id = ? AND user_id = ?
+	`
+	row := db.QueryRow(sql, readingId, userId)
+	var id int64
+	var systolic int32
+	var diastolic int32
+	var pulse int32
+	var readingDate string
+	if err := row.Scan(&id, &userId, &systolic, &diastolic, &pulse, &readingDate); err != nil {
+		log.Printf("err: %s", err)
+		return nil, err
+	}
+	reading := BloodReading{
+		Id:        id,
+		UserId:    userId,
+		Systolic:  systolic,
+		Diastolic: diastolic,
+		Pulse:     pulse,
+		Date:      readingDate,
+	}
+	return &reading, nil
 }
 
 func getWeightEntries(db *sql.DB, userId int64) ([]*WeightEntry, error) {

@@ -26,13 +26,13 @@
                                     {{.Severity.Text}}
                                 </td>
                                 <td class="text-center">
-                                    <a href="#" data-toggle="tooltip" data-placement="top" title="View reading details">
+                                    <a href="/blood/details/{{.Id}}" data-toggle="tooltip" data-placement="top" title="View reading details">
                                         <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                                     </a>
-                                    <a href="#" data-toggle="tooltip" data-placement="top" title="Edit reading">
+                                    <a href="/blood/edit/{{.Id}}" data-toggle="tooltip" data-placement="top" title="Edit reading">
                                         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                                     </a>
-                                    <a href="#" data-toggle="tooltip" data-placement="top" title="Delete reading" data-confirm="confirm" data-message="Are you sure you wish to delete this reading?">
+                                    <a href="/blood/delete/{{.Id}}" data-toggle="tooltip" data-placement="top" title="Delete reading" data-confirm="confirm" data-message="Are you sure you wish to delete this reading?">
                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                     </a>
                                 </td>

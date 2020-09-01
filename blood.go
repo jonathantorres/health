@@ -93,14 +93,27 @@ func bloodDetails(res http.ResponseWriter, req *http.Request) {
 		http.Redirect(res, req, "/login", http.StatusSeeOther)
 		return
 	}
+	db, err := initDb()
+	if err != nil {
+		serve500(res, req, err.Error())
+		return
+	}
 	res.Header().Set("Content-type", "text/html")
-	appData.LayoutData["PageTitle"] = "Health - Blood Pressure Reading Details"
-	appData.LayoutData["User"] = getUserFromSession(session)
-	_, err := getId(req.URL.Path) // todo: use id here
+	readingId, err := getId(req.URL.Path)
 	if err != nil {
 		serve404(res, req)
 		return
 	}
+
+	user := getUserFromSession(session)
+	reading, err := getBloodReading(db, user.Id, int64(readingId))
+	if err != nil {
+		serve500(res, req, err.Error())
+		return
+	}
+	appData.LayoutData["PageTitle"] = "Health - Blood Pressure Reading Details"
+	appData.LayoutData["User"] = user
+	appData.ViewData["Reading"] = reading
 	if err = renderView("views/blood/details.html", res); err != nil {
 		serveViewError(res, err)
 	}
