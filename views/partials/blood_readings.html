@@ -22,8 +22,8 @@
                                 <td class="text-center">{{.Diastolic}}</td>
                                 <td class="text-center">{{.Pulse}}</td>
                                 <td class="text-center">{{.Date}}</td>
-                                <td class="text-center text-{{/*$reading->severity()['class']*/}}">
-                                    {{/*$reading->severity()['text']*/}}
+                                <td class="text-center text-{{.Severity.Class}}">
+                                    {{.Severity.Text}}
                                 </td>
                                 <td class="text-center">
                                     <a href="#" data-toggle="tooltip" data-placement="top" title="View reading details">

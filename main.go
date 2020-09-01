@@ -24,15 +24,6 @@ type User struct {
 	Email    string
 }
 
-type BloodReading struct {
-	Id        int64
-	UserId    int64
-	Systolic  int32
-	Diastolic int32
-	Pulse     int32
-	Date      string
-}
-
 type WeightEntry struct {
 	Id     int64
 	UserId int64

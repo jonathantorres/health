@@ -4,6 +4,44 @@ import (
 	"net/http"
 )
 
+type BloodReading struct {
+	Id        int64
+	UserId    int64
+	Systolic  int32
+	Diastolic int32
+	Pulse     int32
+	Date      string
+}
+
+type BloodSeverity struct {
+	Text string
+	Class string
+}
+
+func (blood *BloodReading) Severity() *BloodSeverity {
+	text := "N/A"
+	class := "normal"
+
+	if blood.Systolic <= 120 && blood.Diastolic <= 80 {
+		text = "Normal"
+		class = "primary"
+	} else if (blood.Systolic > 120 && blood.Systolic <= 139) || (blood.Diastolic > 80 && blood.Diastolic <= 89) {
+		text = "Pre Hypertension"
+		class = "warning"
+	} else if (blood.Systolic >= 140 && blood.Systolic <= 159) || (blood.Diastolic >= 90 && blood.Diastolic <= 99) {
+		text = "Stage 1 Hypertension"
+		class = "danger"
+	} else if blood.Systolic >= 160 && blood.Diastolic >= 100 {
+		text = "Stage 2 Hypertension"
+		class = "danger"
+	}
+
+	return &BloodSeverity{
+		Text: text,
+		Class: class,
+	}
+}
+
 func bloodAdd(res http.ResponseWriter, req *http.Request) {
 	session := &Session{}
 	session.Start(res, req)
