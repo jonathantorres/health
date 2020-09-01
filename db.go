@@ -93,6 +93,53 @@ func getBloodReading(db *sql.DB, userId int64, readingId int64) (*BloodReading, 
 	return &reading, nil
 }
 
+func createBloodReading(db *sql.DB, userId int64, systolic, diastolic, pulse int32, date string) error {
+	sql := `
+		INSERT INTO blood_pressures
+		(id, user_id, systolic, diastolic, pulse, reading_date, created_at, updated_at, deleted_at) 
+		VALUES(NULL, ?, ?, ?, ?, ?, NOW(), NOW(), NULL);
+	`
+	result, err := db.Exec(sql, userId, systolic, diastolic, pulse, date)
+	if err != nil {
+		return err
+	}
+	if _, err = result.RowsAffected(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func updateBloodReading(db *sql.DB, userId int64, readingId int64, systolic, diastolic, pulse int32, date string) error {
+	sql := `
+		UPDATE blood_pressures
+		SET systolic = ?, diastolic = ?, pulse = ?, reading_date = ?, updated_at = NOW()
+		WHERE user_id = ? AND id = ?
+	`
+	result, err := db.Exec(sql, systolic, diastolic, pulse, date, userId, readingId)
+	if err != nil {
+		return err
+	}
+	if _, err = result.RowsAffected(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func deleteBloodReading(db *sql.DB, userId int64, readingId int64) error {
+	sql := `
+		DELETE from blood_pressures
+		WHERE user_id = ? AND id = ?
+	`
+	result, err := db.Exec(sql, userId, readingId)
+	if err != nil {
+		return err
+	}
+	if _, err = result.RowsAffected(); err != nil {
+		return err
+	}
+	return nil
+}
+
 func getWeightEntries(db *sql.DB, userId int64) ([]*WeightEntry, error) {
 	sql := `
 		SELECT id, user_id, weight, entered_date
