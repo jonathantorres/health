@@ -3,14 +3,14 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            {{/*include weight entries*/}}
+            {{template "weight_entries" .ViewData}}
         </div>
     </div>
     <div class="row">
         <div class="col-md-12 text-center">
-            {{/*include call links()*/}}
+            {{/*include pagination links*/}}
         </div>
     </div>
-    {{template "footer"}}
+    {{template "footer" .LayoutData}}
 </div>
 {{end}}
