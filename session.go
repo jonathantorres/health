@@ -35,7 +35,12 @@ func (s *Session) Start(res http.ResponseWriter, req *http.Request) {
 		s.data[s.cookieName] = sessionId
 		s.id = sessionId
 		s.updateFile()
-		cookie = &http.Cookie{Name: s.cookieName, Value: s.id}
+		cookie = &http.Cookie{
+			Name:     s.cookieName,
+			Value:    s.id,
+			Secure:   true,
+			SameSite: http.SameSiteLaxMode,
+		}
 	} else {
 		sessionId = cookie.Value
 		s.id = sessionId
