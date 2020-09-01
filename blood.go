@@ -14,7 +14,7 @@ type BloodReading struct {
 }
 
 type BloodSeverity struct {
-	Text string
+	Text  string
 	Class string
 }
 
@@ -37,7 +37,7 @@ func (blood *BloodReading) Severity() *BloodSeverity {
 	}
 
 	return &BloodSeverity{
-		Text: text,
+		Text:  text,
 		Class: class,
 	}
 }
