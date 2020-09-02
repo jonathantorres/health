@@ -175,8 +175,73 @@ func getWeightEntries(db *sql.DB, userId int64) ([]*WeightEntry, error) {
 }
 
 func getWeightEntry(db *sql.DB, userId int64, entryId int64) (*WeightEntry, error) {
-	// todo
-	return nil, nil
+	sql := `
+		SELECT id, user_id, weight, entered_date
+		FROM weights
+		WHERE id = ? AND user_id = ?
+	`
+	row := db.QueryRow(sql, entryId, userId)
+	var id int64
+	var weight float32
+	var enteredDate string
+	if err := row.Scan(&id, &userId, &weight, &enteredDate); err != nil {
+		log.Printf("err: %s", err)
+		return nil, err
+	}
+	entry := WeightEntry{
+		Id:     id,
+		UserId: userId,
+		Weight: weight,
+		Date:   enteredDate,
+	}
+	return &entry, nil
+}
+
+func createWeightEntry(db *sql.DB, userId int64, weight float32, date string) error {
+	sql := `
+		INSERT INTO weights
+		(id, user_id, weight, entered_date, deleted_at, created_at, updated_at) 
+		VALUES(NULL, ?, ?, ?, NULL, NOW(), NOW());
+	`
+	result, err := db.Exec(sql, userId, weight, date)
+	if err != nil {
+		return err
+	}
+	if _, err = result.RowsAffected(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func updateWeightEntry(db *sql.DB, userId, entryId int64, weight float32, date string) error {
+	sql := `
+		UPDATE weights
+		SET weight = ?, entered_date = ?, updated_at = NOW()
+		WHERE user_id = ? AND id = ?
+	`
+	result, err := db.Exec(sql, weight, date, userId, entryId)
+	if err != nil {
+		return err
+	}
+	if _, err = result.RowsAffected(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func deleteWeightEntry(db *sql.DB, userId, entryId int64) error {
+	sql := `
+		DELETE from weights
+		WHERE user_id = ? AND id = ?
+	`
+	result, err := db.Exec(sql, userId, entryId)
+	if err != nil {
+		return err
+	}
+	if _, err = result.RowsAffected(); err != nil {
+		return err
+	}
+	return nil
 }
 
 func registerUser(db *sql.DB, name, lastName, email, pass string) error {

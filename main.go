@@ -24,13 +24,6 @@ type User struct {
 	Email    string
 }
 
-type WeightEntry struct {
-	Id     int64
-	UserId int64
-	Weight float32
-	Date   string
-}
-
 var appData = AppData{
 	LayoutData: make(map[string]interface{}),
 	ViewData:   make(map[string]interface{}),

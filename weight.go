@@ -4,6 +4,13 @@ import (
 	"net/http"
 )
 
+type WeightEntry struct {
+	Id     int64
+	UserId int64
+	Weight float32
+	Date   string
+}
+
 func weightAdd(res http.ResponseWriter, req *http.Request) {
 	session := &Session{}
 	session.Start(res, req)
