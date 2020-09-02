@@ -92,6 +92,7 @@ func index(res http.ResponseWriter, req *http.Request) {
 		maxEntries = len(entries)
 	}
 
+	setErrorAndSuccessMessages(session)
 	appData.LayoutData["PageTitle"] = "Health - Dashboard"
 	appData.LayoutData["User"] = user
 	appData.ViewData["Readings"] = readings[:maxReadings]
@@ -102,6 +103,7 @@ func index(res http.ResponseWriter, req *http.Request) {
 	if err := renderView("views/index.html", res); err != nil {
 		serveViewError(res, err)
 	}
+	cleanupErrorAndSuccessMessages(session)
 }
 
 func setErrorAndSuccessMessages(session *Session) {
