@@ -127,7 +127,8 @@ func updateBloodReading(db *sql.DB, userId int64, readingId int64, systolic, dia
 
 func deleteBloodReading(db *sql.DB, userId int64, readingId int64) error {
 	sql := `
-		DELETE from blood_pressures
+		UPDATE blood_pressures
+		SET deleted_at = NOW()
 		WHERE user_id = ? AND id = ?
 	`
 	result, err := db.Exec(sql, userId, readingId)
