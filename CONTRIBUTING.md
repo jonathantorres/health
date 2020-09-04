@@ -1,8 +1,6 @@
 # How to contribute
 
 Thanks for contributing! Just follow these single guidelines:
-- You must follow the PSR-2 coding standard. Please see [PSR-2](http://www.php-fig.org/psr/psr-2/) for more details. With these tweaks:
-    - Always use spaces!
 
 - All features or bugfixes must have an associated issue for discussion. If you want to work on an issue that is already created, please leave a comment on it indicating that you are working on it.
 
