@@ -1,27 +1,14 @@
 #!/usr/bin/env bash
 
-composer install
 # npm install
-# npm run prod
 
 if [ -d "/var/www/health/public" ]; then
     sudo rm -rf /var/www/health/public
 fi
 
 # copy folders
-sudo cp -vr app/ /var/www/health
-sudo cp -vr bootstrap/ /var/www/health
-sudo cp -vr config/ /var/www/health
-sudo cp -vr database/ /var/www/health
 sudo cp -vr public/ /var/www/health
-sudo cp -vr resources/ /var/www/health
-sudo cp -vr routes/ /var/www/health
 sudo cp -vr storage/ /var/www/health
-sudo cp -vr vendor/ /var/www/health
-
-# copy files
-sudo cp artisan /var/www/health
-sudo cp server.php /var/www/health
 
 # change permissions and ownership
 sudo chown -R www-data:www-data /var/www/health
@@ -29,14 +16,7 @@ find /var/www/health/ -type d -exec sudo chmod 755 '{}' \;
 find /var/www/health/ -type f -exec sudo chmod 644 '{}' \;
 find /var/www/health/storage -type d -exec sudo chmod 777 '{}' \;
 find /var/www/health/storage -type f -exec sudo chmod 766 '{}' \;
-find /var/www/health/bootstrap/cache -type d -exec sudo chmod 777 '{}' \;
-find /var/www/health/bootstrap/cache -type f -exec sudo chmod 766 '{}' \;
 
 # run migrations
 cd /var/www/health
-# php artisan migrate --force
-php artisan optimize
-php artisan cache:clear
-php artisan view:clear
-# php artisan backup:run --only-db
 cd
