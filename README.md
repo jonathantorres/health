@@ -4,15 +4,25 @@
 Web based app for health tracking and monitoring. Work in progress.
 
 #### Installation
-Just clone the repository.
+Clone the repository:
 ```bash
 git clone git@bitbucket.org:jonathantorres/health.git
 ```
 
-#### Install dependencies
-Install `php` dependencies with `composer` and `javascript` dependencies with `npm`.
+Go is required to build form source, to build the binary, `cd` into the project root and run:
 ```bash
-composer install && npm install
+go build
+```
+
+#### Install front-end dependencies
+Install these by running the `npm` command
+```bash
+npm install
+```
+
+You can compile the css yourself of use the compiled css that is included in the repository, if you wish to compile the css yourself, run:
+```bash
+npm run sass
 ```
 
 #### Environment and database setup
@@ -28,37 +38,8 @@ create database health;
 create database heath_test;
 ```
 
-Generate your application key
-```bash
-php artisan key:generate
-```
-
-And run your migrations and seeds, which will create your tables and a test user.
-```bash
-php artisan migrate && php artisan db:seed
-```
-
-#### Compile javascript and sass assets
-```bash
-npm run dev
-```
-
-#### Running the development server
+#### Running the server
 Once everything is installed in order, you can run your server.
-```
-php artisan serve
-```
-
-Alternatively, if you have Laravel [Valet](https://laravel.com/docs/5.4/valet) installed (like I do) and configured you should be able to see your app running locally on `http://health.dev`.
-
-#### Running unit tests
-Unit tests are done with PHPUnit. Run the unit test with the following command.
 ```bash
-vendor/bin/phpunit
-```
-
-#### Running integration tests
-Integration tests are done with PHPUnit and Laravel Dusk. Run the following command to run the integration tests.
-```bash
-php artisan dusk
+./health
 ```
