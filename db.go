@@ -232,7 +232,8 @@ func updateWeightEntry(db *sql.DB, userId, entryId int64, weight float32, date s
 
 func deleteWeightEntry(db *sql.DB, userId, entryId int64) error {
 	sql := `
-		DELETE from weights
+		UPDATE weights
+		SET deleted_at = NOW()
 		WHERE user_id = ? AND id = ?
 	`
 	result, err := db.Exec(sql, userId, entryId)

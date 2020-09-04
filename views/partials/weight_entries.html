@@ -18,10 +18,10 @@
                                 <td class="text-center">{{.Weight}} lbs</td>
                                 <td class="text-center">{{.Date}}</td>
                                 <td class="text-center">
-                                    <a href="#" data-toggle="tooltip" data-placement="top" title="Edit weight">
+                                    <a href="/weight/edit/{{.Id}}" data-toggle="tooltip" data-placement="top" title="Edit weight">
                                         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                                     </a>
-                                    <a href="#" data-toggle="tooltip" data-placement="top" title="Delete weight" data-confirm="confirm" data-message="Are you sure you wish to delete this weight entry?">
+                                    <a href="/weight/delete/{{.Id}}" data-toggle="tooltip" data-placement="top" title="Delete weight" data-confirm="confirm" data-message="Are you sure you wish to delete this weight entry?">
                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                     </a>
                                 </td>
