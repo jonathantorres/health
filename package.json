@@ -1,7 +1,7 @@
 {
   "private": true,
   "dependencies": {
-    "bootstrap-sass": "^3.3.7",
+    "bootstrap-sass": "^3.4.1",
     "node-sass": "^3.8.0"
   },
   "scripts": {
