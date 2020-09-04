@@ -5,6 +5,6 @@
     "node-sass": "^3.8.0"
   },
   "scripts": {
-    "sass": "node_modules/node-sass/bin/node-sass sass/app.scss public/css/app.css"
+    "sass": "node_modules/node-sass/bin/node-sass --output-style=compressed sass/app.scss public/css/app.css"
   }
 }
