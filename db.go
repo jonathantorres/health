@@ -5,16 +5,26 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"golang.org/x/crypto/bcrypt"
 	"log"
+	"os"
 	"time"
 )
 
-const (
+var (
 	dbName = "health"
 	dbUser = "root"
 	dbPass = ""
 )
 
 func initDb() (*sql.DB, error) {
+	if envDbName := os.Getenv("DB_NAME"); envDbName != "" {
+		dbName = envDbName
+	}
+	if envDbUser := os.Getenv("DB_USER"); envDbUser != "" {
+		dbUser = envDbUser
+	}
+	if envDbPass := os.Getenv("DB_PASS"); envDbPass != "" {
+		dbPass = envDbPass
+	}
 	db, err := sql.Open("mysql", dbUser+":"+dbPass+"@/"+dbName)
 	if err != nil {
 		return nil, err
