@@ -39,6 +39,7 @@ func (s *Session) Start(res http.ResponseWriter, req *http.Request) {
 			Name:     s.cookieName,
 			Value:    s.id,
 			Secure:   true,
+			HttpOnly: true,
 			SameSite: http.SameSiteLaxMode,
 		}
 	} else {
