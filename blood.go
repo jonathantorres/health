@@ -52,7 +52,7 @@ func bloodAdd(res http.ResponseWriter, req *http.Request) {
 	session := &Session{}
 	session.Start(res, req)
 	if !loggedIn(session) {
-		http.Redirect(res, req, "/login", http.StatusSeeOther)
+		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
 	db, err := initDb()
@@ -94,7 +94,7 @@ func bloodAll(res http.ResponseWriter, req *http.Request) {
 	session := &Session{}
 	session.Start(res, req)
 	if !loggedIn(session) {
-		http.Redirect(res, req, "/login", http.StatusSeeOther)
+		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
 	db, err := initDb()
@@ -123,7 +123,7 @@ func bloodDetails(res http.ResponseWriter, req *http.Request) {
 	session := &Session{}
 	session.Start(res, req)
 	if !loggedIn(session) {
-		http.Redirect(res, req, "/login", http.StatusSeeOther)
+		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
 	db, err := initDb()
@@ -156,7 +156,7 @@ func bloodEdit(res http.ResponseWriter, req *http.Request) {
 	session := &Session{}
 	session.Start(res, req)
 	if !loggedIn(session) {
-		http.Redirect(res, req, "/login", http.StatusSeeOther)
+		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
 	db, err := initDb()
@@ -209,7 +209,7 @@ func bloodDelete(res http.ResponseWriter, req *http.Request) {
 	session := &Session{}
 	session.Start(res, req)
 	if !loggedIn(session) {
-		http.Redirect(res, req, "/login", http.StatusSeeOther)
+		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
 	db, err := initDb()

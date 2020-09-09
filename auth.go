@@ -12,7 +12,7 @@ func login(res http.ResponseWriter, req *http.Request) {
 	session := &Session{}
 	session.Start(res, req)
 	if loggedIn(session) {
-		http.Redirect(res, req, "/", http.StatusSeeOther)
+		http.Redirect(res, req, "/", http.StatusFound)
 		return
 	}
 	db, err := initDb()
@@ -84,7 +84,7 @@ func logout(res http.ResponseWriter, req *http.Request) {
 	session := &Session{}
 	session.Start(res, req)
 	if !loggedIn(session) {
-		http.Redirect(res, req, "/login", http.StatusSeeOther)
+		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
 	session.Destroy(res)
@@ -95,7 +95,7 @@ func register(res http.ResponseWriter, req *http.Request) {
 	session := &Session{}
 	session.Start(res, req)
 	if loggedIn(session) {
-		http.Redirect(res, req, "/", http.StatusSeeOther)
+		http.Redirect(res, req, "/", http.StatusFound)
 		return
 	}
 	db, err := initDb()
