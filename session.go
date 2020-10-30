@@ -40,7 +40,7 @@ func (s *Session) Start(res http.ResponseWriter, req *http.Request) {
 			Value:    s.id,
 			Secure:   true,
 			HttpOnly: true,
-			SameSite: http.SameSiteLaxMode,
+			SameSite: http.SameSiteStrictMode,
 		}
 	} else {
 		sessionId = cookie.Value
@@ -75,9 +75,12 @@ func (s *Session) Destroy(res http.ResponseWriter) error {
 		return err
 	}
 	cookie := &http.Cookie{
-		Name:    s.cookieName,
-		Value:   "",
-		Expires: time.Now(),
+		Name:     s.cookieName,
+		Value:    "",
+		Expires:  time.Now(),
+		Secure:   true,
+		HttpOnly: true,
+		SameSite: http.SameSiteStrictMode,
 	}
 	http.SetCookie(res, cookie)
 	s.data = nil
