@@ -22,4 +22,7 @@ find /var/www/health2/storage -type f -exec sudo chmod 766 '{}' \;
 # download latest binary
 cd /var/www/health2
 sudo wget https://github.com/jonathantorres/health/releases/download/v0.5.0/health_linux
+sudo chown www-data:www-data /var/www/health2/health_linux
+sudo chmod 775 ./health_linux
+
 cd
