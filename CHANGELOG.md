@@ -1,5 +1,8 @@
 # Changelog
 
+#### v0.5.0 `2020-11-01`
+- System rewrite, no new features
+
 #### v0.4.2 `2018-04-25`
 - Bug fix
   - Fixing styles on navbar
