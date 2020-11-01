@@ -1,5 +1,5 @@
 release:
-	rm -fr ./bin && mkdir ./bin
+	rm -fr ./bin && mkdir ./bin && touch ./bin/.gitkeep
 	GOOS=darwin GOARCH=amd64 go build && mv ./health ./bin/health_darwin
 	GOOS=freebsd GOARCH=amd64 go build && mv ./health ./bin/health_freebsd
 	GOOS=linux GOARCH=amd64 go build && mv ./health ./bin/health_linux
