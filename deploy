@@ -2,21 +2,21 @@
 
 # npm install
 
-if [ -d "/var/www/health/public" ]; then
-    sudo rm -rf /var/www/health/public
+if [ -d "/var/www/health2/public" ]; then
+    sudo rm -rf /var/www/health2/public
 fi
 
-# copy folders
-sudo cp -vr public/ /var/www/health
-sudo cp -vr storage/ /var/www/health
+# copy folders and files
+sudo cp -vr public/ /var/www/health2
+sudo cp -vr storage/ /var/www/health2
+sudo cp -vr views/ /var/www/health2
+sudo cp .env.example /var/www/health2/.env
 
 # change permissions and ownership
-sudo chown -R www-data:www-data /var/www/health
-find /var/www/health/ -type d -exec sudo chmod 755 '{}' \;
-find /var/www/health/ -type f -exec sudo chmod 644 '{}' \;
-find /var/www/health/storage -type d -exec sudo chmod 777 '{}' \;
-find /var/www/health/storage -type f -exec sudo chmod 766 '{}' \;
+sudo chown -R www-data:www-data /var/www/health2
+find /var/www/health2/ -type d -exec sudo chmod 755 '{}' \;
+find /var/www/health2/ -type f -exec sudo chmod 644 '{}' \;
+find /var/www/health2/storage -type d -exec sudo chmod 777 '{}' \;
+find /var/www/health2/storage -type f -exec sudo chmod 766 '{}' \;
 
-# run migrations
-cd /var/www/health
-cd
+# download latest binary
