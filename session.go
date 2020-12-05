@@ -43,6 +43,9 @@ func (s *Session) Start(res http.ResponseWriter, req *http.Request) {
 			SameSite: http.SameSiteStrictMode,
 		}
 	} else {
+		cookie.Secure = true
+		cookie.HttpOnly = true
+		cookie.SameSite = http.SameSiteStrictMode
 		sessionId = cookie.Value
 		s.id = sessionId
 		s.loadData()
