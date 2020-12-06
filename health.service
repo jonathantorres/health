@@ -1,0 +1,51 @@
+# systemd daemon service file
+# This file should be located at: /lib/systemd/system/health.service
+#
+# And have the following permissions:
+# sudo chmod 640 /lib/systemd/system/health.service
+#
+# Check the syntax of the service file:
+# sudo systemctl status health.service
+#
+# When adding the file for the first time or making changes, tell systemd to reload the files:
+# sudo systemctl daemon-reload
+#
+# Enable the service so that it's launched at startup
+# sudo systemctl enable health
+#
+# Start the service once it's enabled
+# sudo systemctl start health
+
+[Unit]
+Description=Health: Web based app for health tracking and monitoring.
+ConditionPathExists=/var/www/health2/health_linux
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+LimitNOFILE=1024
+Restart=on-failure
+RestartSec=10
+StartLimitIntervalSec=60
+
+WorkingDirectory=/var/www/health2
+ExecStart=/var/www/health2/health_linux
+StandardOutput=journal
+StandardError=journal
+EnvironmentFile=/var/www/health2/env
+#StandardOutput=file:/var/www/health2/storage/log/health.log
+#StandardError=inherit
+
+# make sure log directory exists and owned by syslog
+#PermissionsStartOnly=true
+#ExecStartPre=/bin/mkdir -p /var/log/health2
+#ExecStartPre=/bin/chown syslog:adm /var/log/health2
+#ExecStartPre=/bin/chmod 755 /var/log/health2
+#StandardOutput=syslog
+#StandardError=syslog
+#SyslogIdentifier=health2
+
+[Install]
+WantedBy=multi-user.target
