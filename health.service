@@ -28,15 +28,11 @@ Group=www-data
 LimitNOFILE=1024
 Restart=on-failure
 RestartSec=10
-StartLimitIntervalSec=60
-
 WorkingDirectory=/var/www/health2
 ExecStart=/var/www/health2/health_linux
 StandardOutput=journal
 StandardError=journal
 EnvironmentFile=/var/www/health2/env
-#StandardOutput=file:/var/www/health2/storage/log/health.log
-#StandardError=inherit
 
 # make sure log directory exists and owned by syslog
 #PermissionsStartOnly=true
