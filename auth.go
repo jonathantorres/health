@@ -3,15 +3,18 @@ package main
 import (
 	"database/sql"
 	"errors"
-	"golang.org/x/crypto/bcrypt"
 	"log"
 	"net/http"
+
+	"golang.org/x/crypto/bcrypt"
+
+	"github.com/jonathantorres/health/internal/session"
 )
 
 func login(res http.ResponseWriter, req *http.Request) {
-	session := &Session{}
-	session.Start(res, req)
-	if loggedIn(session) {
+	sess := &session.Session{}
+	sess.Start(res, req)
+	if loggedIn(sess) {
 		http.Redirect(res, req, "/", http.StatusFound)
 		return
 	}
@@ -24,8 +27,8 @@ func login(res http.ResponseWriter, req *http.Request) {
 		req.ParseForm()
 		email := req.PostForm["email"][0]
 		pass := req.PostForm["password"][0]
-		if err = authenticate(db, res, req, session, email, pass); err != nil {
-			session.Set("errMsg", err.Error())
+		if err = authenticate(db, res, req, sess, email, pass); err != nil {
+			sess.Set("errMsg", err.Error())
 			http.Redirect(res, req, "/login", http.StatusSeeOther)
 			return
 		}
@@ -33,16 +36,16 @@ func login(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	setErrorAndSuccessMessages(session)
+	setErrorAndSuccessMessages(sess)
 	res.Header().Set("Content-type", "text/html")
 	appData.LayoutData["PageTitle"] = "Health - Login"
 	if err := renderView("views/login.html", res); err != nil {
 		serveViewError(res, err)
 	}
-	cleanupErrorAndSuccessMessages(session)
+	cleanupErrorAndSuccessMessages(sess)
 }
 
-func authenticate(db *sql.DB, res http.ResponseWriter, req *http.Request, session *Session, email, pass string) error {
+func authenticate(db *sql.DB, res http.ResponseWriter, req *http.Request, sess *session.Session, email, pass string) error {
 	sql := `
 		SELECT id, name, last_name, email, password
 		FROM users
@@ -72,8 +75,8 @@ func authenticate(db *sql.DB, res http.ResponseWriter, req *http.Request, sessio
 				LastName: userLastName,
 				Email:    userEmail,
 			}
-			session.Start(res, req)
-			session.Set("user", user)
+			sess.Start(res, req)
+			sess.Set("user", user)
 			return nil
 		}
 	}
@@ -81,20 +84,20 @@ func authenticate(db *sql.DB, res http.ResponseWriter, req *http.Request, sessio
 }
 
 func logout(res http.ResponseWriter, req *http.Request) {
-	session := &Session{}
-	session.Start(res, req)
-	if !loggedIn(session) {
+	sess := &session.Session{}
+	sess.Start(res, req)
+	if !loggedIn(sess) {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
-	session.Destroy(res)
+	sess.Destroy(res)
 	http.Redirect(res, req, "/login", http.StatusSeeOther)
 }
 
 func register(res http.ResponseWriter, req *http.Request) {
-	session := &Session{}
-	session.Start(res, req)
-	if loggedIn(session) {
+	sess := &session.Session{}
+	sess.Start(res, req)
+	if loggedIn(sess) {
 		http.Redirect(res, req, "/", http.StatusFound)
 		return
 	}
@@ -112,17 +115,17 @@ func register(res http.ResponseWriter, req *http.Request) {
 		passConfirm := req.PostForm["password_confirmation"][0]
 
 		if pass != passConfirm {
-			session.Set("errMsg", "Password and password confirmation must be the same")
+			sess.Set("errMsg", "Password and password confirmation must be the same")
 			http.Redirect(res, req, "/register", http.StatusSeeOther)
 			return
 		}
 		if err := registerUser(db, name, lastName, email, pass); err != nil {
-			session.Set("errMsg", err.Error())
+			sess.Set("errMsg", err.Error())
 			http.Redirect(res, req, "/register", http.StatusSeeOther)
 			return
 		}
-		if err = authenticate(db, res, req, session, email, pass); err != nil {
-			session.Set("errMsg", err.Error())
+		if err = authenticate(db, res, req, sess, email, pass); err != nil {
+			sess.Set("errMsg", err.Error())
 			http.Redirect(res, req, "/login", http.StatusSeeOther)
 			return
 		}
@@ -130,13 +133,13 @@ func register(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	setErrorAndSuccessMessages(session)
+	setErrorAndSuccessMessages(sess)
 	res.Header().Set("Content-type", "text/html")
 	appData.LayoutData["PageTitle"] = "Health - Register"
 	if err := renderView("views/register.html", res); err != nil {
 		serveViewError(res, err)
 	}
-	cleanupErrorAndSuccessMessages(session)
+	cleanupErrorAndSuccessMessages(sess)
 }
 
 func resetPassword(res http.ResponseWriter, req *http.Request) {
@@ -153,8 +156,8 @@ func resetPasswordLink(res http.ResponseWriter, req *http.Request) {
 	}
 }
 
-func loggedIn(session *Session) bool {
-	_, ok := session.Get("user")
+func loggedIn(sess *session.Session) bool {
+	_, ok := sess.Get("user")
 	if !ok {
 		return false
 	}

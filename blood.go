@@ -4,6 +4,8 @@ import (
 	"net/http"
 	"strconv"
 	"time"
+
+	"github.com/jonathantorres/health/internal/session"
 )
 
 type BloodReading struct {
@@ -49,9 +51,9 @@ func (blood *BloodReading) SqlDate() string {
 }
 
 func bloodAdd(res http.ResponseWriter, req *http.Request) {
-	session := &Session{}
-	session.Start(res, req)
-	if !loggedIn(session) {
+	sess := &session.Session{}
+	sess.Start(res, req)
+	if !loggedIn(sess) {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
@@ -60,7 +62,7 @@ func bloodAdd(res http.ResponseWriter, req *http.Request) {
 		serve500(res, req, err.Error())
 		return
 	}
-	user := getUserFromSession(session)
+	user := getUserFromSession(sess)
 
 	if req.Method == "POST" {
 		req.ParseForm()
@@ -71,29 +73,29 @@ func bloodAdd(res http.ResponseWriter, req *http.Request) {
 		date := req.PostForm["reading-date"][0]
 		date += " " + nowDate.Format("15:04:05")
 		if err := createBloodReading(db, user.Id, int32(sys), int32(dia), int32(pulse), date); err != nil {
-			session.Set("errMsg", err.Error())
+			sess.Set("errMsg", err.Error())
 			http.Redirect(res, req, "/blood/add", http.StatusSeeOther)
 			return
 		}
-		session.Set("okMsg", "Blood reading has been created successfully!")
+		sess.Set("okMsg", "Blood reading has been created successfully!")
 		http.Redirect(res, req, "/", http.StatusSeeOther)
 		return
 	}
 
-	setErrorAndSuccessMessages(session)
+	setErrorAndSuccessMessages(sess)
 	res.Header().Set("Content-type", "text/html")
 	appData.LayoutData["PageTitle"] = "Health - Blood Pressure Add Reading"
-	appData.LayoutData["User"] = getUserFromSession(session)
+	appData.LayoutData["User"] = getUserFromSession(sess)
 	if err := renderView("views/blood/add.html", res); err != nil {
 		serveViewError(res, err)
 	}
-	cleanupErrorAndSuccessMessages(session)
+	cleanupErrorAndSuccessMessages(sess)
 }
 
 func bloodAll(res http.ResponseWriter, req *http.Request) {
-	session := &Session{}
-	session.Start(res, req)
-	if !loggedIn(session) {
+	sess := &session.Session{}
+	sess.Start(res, req)
+	if !loggedIn(sess) {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
@@ -104,7 +106,7 @@ func bloodAll(res http.ResponseWriter, req *http.Request) {
 	}
 	res.Header().Set("Content-type", "text/html")
 
-	user := getUserFromSession(session)
+	user := getUserFromSession(sess)
 	readings, err := getBloodReadings(db, user.Id)
 	if err != nil {
 		serve500(res, req, err.Error())
@@ -120,9 +122,9 @@ func bloodAll(res http.ResponseWriter, req *http.Request) {
 }
 
 func bloodDetails(res http.ResponseWriter, req *http.Request) {
-	session := &Session{}
-	session.Start(res, req)
-	if !loggedIn(session) {
+	sess := &session.Session{}
+	sess.Start(res, req)
+	if !loggedIn(sess) {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
@@ -138,7 +140,7 @@ func bloodDetails(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	user := getUserFromSession(session)
+	user := getUserFromSession(sess)
 	reading, err := getBloodReading(db, user.Id, int64(readingId))
 	if err != nil {
 		serve500(res, req, err.Error())
@@ -153,9 +155,9 @@ func bloodDetails(res http.ResponseWriter, req *http.Request) {
 }
 
 func bloodEdit(res http.ResponseWriter, req *http.Request) {
-	session := &Session{}
-	session.Start(res, req)
-	if !loggedIn(session) {
+	sess := &session.Session{}
+	sess.Start(res, req)
+	if !loggedIn(sess) {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
@@ -169,7 +171,7 @@ func bloodEdit(res http.ResponseWriter, req *http.Request) {
 		serve404(res, req)
 		return
 	}
-	user := getUserFromSession(session)
+	user := getUserFromSession(sess)
 	reading, err := getBloodReading(db, user.Id, int64(readingId))
 	if err != nil {
 		serve500(res, req, err.Error())
@@ -185,16 +187,16 @@ func bloodEdit(res http.ResponseWriter, req *http.Request) {
 		date := req.PostForm["reading-date"][0]
 		date += " " + nowDate.Format("15:04:05")
 		if err := updateBloodReading(db, user.Id, reading.Id, int32(sys), int32(dia), int32(pulse), date); err != nil {
-			session.Set("errMsg", err.Error())
+			sess.Set("errMsg", err.Error())
 			http.Redirect(res, req, "/blood/edit/"+strconv.Itoa(readingId), http.StatusSeeOther)
 			return
 		}
-		session.Set("okMsg", "Blood reading has been updated successfully!")
+		sess.Set("okMsg", "Blood reading has been updated successfully!")
 		http.Redirect(res, req, "/blood/edit/"+strconv.Itoa(readingId), http.StatusSeeOther)
 		return
 	}
 
-	setErrorAndSuccessMessages(session)
+	setErrorAndSuccessMessages(sess)
 	res.Header().Set("Content-type", "text/html")
 	appData.LayoutData["PageTitle"] = "Health - Edit Blood Pressure Reading"
 	appData.LayoutData["User"] = user
@@ -202,13 +204,13 @@ func bloodEdit(res http.ResponseWriter, req *http.Request) {
 	if err := renderView("views/blood/edit.html", res); err != nil {
 		serveViewError(res, err)
 	}
-	cleanupErrorAndSuccessMessages(session)
+	cleanupErrorAndSuccessMessages(sess)
 }
 
 func bloodDelete(res http.ResponseWriter, req *http.Request) {
-	session := &Session{}
-	session.Start(res, req)
-	if !loggedIn(session) {
+	sess := &session.Session{}
+	sess.Start(res, req)
+	if !loggedIn(sess) {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
@@ -222,17 +224,17 @@ func bloodDelete(res http.ResponseWriter, req *http.Request) {
 		serve404(res, req)
 		return
 	}
-	user := getUserFromSession(session)
+	user := getUserFromSession(sess)
 	reading, err := getBloodReading(db, user.Id, int64(readingId))
 	if err != nil {
 		serve500(res, req, err.Error())
 		return
 	}
 	if err = deleteBloodReading(db, user.Id, reading.Id); err != nil {
-		session.Set("errMsg", err.Error())
+		sess.Set("errMsg", err.Error())
 		http.Redirect(res, req, "/", http.StatusSeeOther)
 		return
 	}
-	session.Set("okMsg", "Blood pressure reading has been deleted!")
+	sess.Set("okMsg", "Blood pressure reading has been deleted!")
 	http.Redirect(res, req, "/", http.StatusSeeOther)
 }

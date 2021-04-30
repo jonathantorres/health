@@ -10,6 +10,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/jonathantorres/health/internal/session"
 )
 
 type AppData struct {
@@ -61,9 +63,9 @@ func root(res http.ResponseWriter, req *http.Request) {
 }
 
 func index(res http.ResponseWriter, req *http.Request) {
-	session := &Session{}
-	session.Start(res, req)
-	if !loggedIn(session) {
+	sess := &session.Session{}
+	sess.Start(res, req)
+	if !loggedIn(sess) {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
@@ -72,7 +74,7 @@ func index(res http.ResponseWriter, req *http.Request) {
 		serve500(res, req, err.Error())
 		return
 	}
-	user := getUserFromSession(session)
+	user := getUserFromSession(sess)
 	readings, readingsErr := getBloodReadings(db, user.Id)
 	entries, entriesErr := getWeightEntries(db, user.Id)
 	if readingsErr != nil {
@@ -92,7 +94,7 @@ func index(res http.ResponseWriter, req *http.Request) {
 		maxEntries = len(entries)
 	}
 
-	setErrorAndSuccessMessages(session)
+	setErrorAndSuccessMessages(sess)
 	appData.LayoutData["PageTitle"] = "Health - Dashboard"
 	appData.LayoutData["User"] = user
 	appData.ViewData["Readings"] = readings[:maxReadings]
@@ -103,23 +105,23 @@ func index(res http.ResponseWriter, req *http.Request) {
 	if err := renderView("views/index.html", res); err != nil {
 		serveViewError(res, err)
 	}
-	cleanupErrorAndSuccessMessages(session)
+	cleanupErrorAndSuccessMessages(sess)
 }
 
-func setErrorAndSuccessMessages(session *Session) {
-	if errMsg, ok := session.Get("errMsg"); ok {
+func setErrorAndSuccessMessages(sess *session.Session) {
+	if errMsg, ok := sess.Get("errMsg"); ok {
 		appData.LayoutData["errMsg"] = errMsg
 	}
-	if okMsg, ok := session.Get("okMsg"); ok {
+	if okMsg, ok := sess.Get("okMsg"); ok {
 		appData.LayoutData["okMsg"] = okMsg
 	}
 }
 
-func cleanupErrorAndSuccessMessages(session *Session) {
+func cleanupErrorAndSuccessMessages(sess *session.Session) {
 	delete(appData.LayoutData, "errMsg")
 	delete(appData.LayoutData, "okMsg")
-	session.Remove("errMsg")
-	session.Remove("okMsg")
+	sess.Remove("errMsg")
+	sess.Remove("okMsg")
 }
 
 func renderView(name string, out io.Writer) error {
@@ -143,9 +145,9 @@ func renderView(name string, out io.Writer) error {
 	return nil
 }
 
-func getUserFromSession(session *Session) *User {
+func getUserFromSession(sess *session.Session) *User {
 	var user *User = nil
-	if usr, ok := session.Get("user"); ok {
+	if usr, ok := sess.Get("user"); ok {
 		if usrMap, ok := usr.(map[string]interface{}); ok {
 			user = &User{
 				Id:       int64(usrMap["Id"].(float64)),
