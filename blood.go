@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/jonathantorres/health/internal/auth"
 	"github.com/jonathantorres/health/internal/db"
 	"github.com/jonathantorres/health/internal/session"
 )
@@ -54,7 +55,7 @@ func (blood *BloodReading) SqlDate() string {
 func bloodAdd(res http.ResponseWriter, req *http.Request) {
 	sess := &session.Session{}
 	sess.Start(res, req)
-	if !loggedIn(sess) {
+	if !auth.LoggedIn(sess) {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
@@ -96,7 +97,7 @@ func bloodAdd(res http.ResponseWriter, req *http.Request) {
 func bloodAll(res http.ResponseWriter, req *http.Request) {
 	sess := &session.Session{}
 	sess.Start(res, req)
-	if !loggedIn(sess) {
+	if !auth.LoggedIn(sess) {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
@@ -125,7 +126,7 @@ func bloodAll(res http.ResponseWriter, req *http.Request) {
 func bloodDetails(res http.ResponseWriter, req *http.Request) {
 	sess := &session.Session{}
 	sess.Start(res, req)
-	if !loggedIn(sess) {
+	if !auth.LoggedIn(sess) {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
@@ -158,7 +159,7 @@ func bloodDetails(res http.ResponseWriter, req *http.Request) {
 func bloodEdit(res http.ResponseWriter, req *http.Request) {
 	sess := &session.Session{}
 	sess.Start(res, req)
-	if !loggedIn(sess) {
+	if !auth.LoggedIn(sess) {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
@@ -211,7 +212,7 @@ func bloodEdit(res http.ResponseWriter, req *http.Request) {
 func bloodDelete(res http.ResponseWriter, req *http.Request) {
 	sess := &session.Session{}
 	sess.Start(res, req)
-	if !loggedIn(sess) {
+	if !auth.LoggedIn(sess) {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}

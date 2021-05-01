@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/jonathantorres/health/internal/auth"
 	"github.com/jonathantorres/health/internal/db"
 	"github.com/jonathantorres/health/internal/session"
 )
@@ -23,7 +24,7 @@ func (weight *WeightEntry) SqlDate() string {
 func weightAdd(res http.ResponseWriter, req *http.Request) {
 	sess := &session.Session{}
 	sess.Start(res, req)
-	if !loggedIn(sess) {
+	if !auth.LoggedIn(sess) {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
@@ -63,7 +64,7 @@ func weightAdd(res http.ResponseWriter, req *http.Request) {
 func weightAll(res http.ResponseWriter, req *http.Request) {
 	sess := &session.Session{}
 	sess.Start(res, req)
-	if !loggedIn(sess) {
+	if !auth.LoggedIn(sess) {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
@@ -92,7 +93,7 @@ func weightAll(res http.ResponseWriter, req *http.Request) {
 func weightEdit(res http.ResponseWriter, req *http.Request) {
 	sess := &session.Session{}
 	sess.Start(res, req)
-	if !loggedIn(sess) {
+	if !auth.LoggedIn(sess) {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
@@ -143,7 +144,7 @@ func weightEdit(res http.ResponseWriter, req *http.Request) {
 func weightDelete(res http.ResponseWriter, req *http.Request) {
 	sess := &session.Session{}
 	sess.Start(res, req)
-	if !loggedIn(sess) {
+	if !auth.LoggedIn(sess) {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}

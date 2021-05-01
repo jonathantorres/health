@@ -11,6 +11,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/jonathantorres/health/internal/auth"
 	"github.com/jonathantorres/health/internal/db"
 	"github.com/jonathantorres/health/internal/session"
 )
@@ -38,11 +39,11 @@ func main() {
 	appData.LayoutData["Year"] = time.Now().Year()
 
 	http.HandleFunc("/", root)
-	http.HandleFunc("/login", login)
-	http.HandleFunc("/logout", logout)
-	http.HandleFunc("/register", register)
-	http.HandleFunc("/reset", resetPassword)
-	http.HandleFunc("/resetLink", resetPasswordLink)
+	http.HandleFunc("/login", auth.Login)
+	http.HandleFunc("/logout", auth.Logout)
+	http.HandleFunc("/register", auth.Register)
+	http.HandleFunc("/reset", auth.ResetPassword)
+	http.HandleFunc("/resetLink", auth.ResetPasswordLink)
 	http.HandleFunc("/blood/add", bloodAdd)
 	http.HandleFunc("/blood/all", bloodAll)
 	http.HandleFunc("/blood/details/", bloodDetails)
@@ -66,7 +67,7 @@ func root(res http.ResponseWriter, req *http.Request) {
 func index(res http.ResponseWriter, req *http.Request) {
 	sess := &session.Session{}
 	sess.Start(res, req)
-	if !loggedIn(sess) {
+	if !auth.LoggedIn(sess) {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}

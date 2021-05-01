@@ -1,4 +1,4 @@
-package main
+package auth
 
 import (
 	"database/sql"
@@ -12,10 +12,10 @@ import (
 	"github.com/jonathantorres/health/internal/session"
 )
 
-func login(res http.ResponseWriter, req *http.Request) {
+func Login(res http.ResponseWriter, req *http.Request) {
 	sess := &session.Session{}
 	sess.Start(res, req)
-	if loggedIn(sess) {
+	if LoggedIn(sess) {
 		http.Redirect(res, req, "/", http.StatusFound)
 		return
 	}
@@ -28,7 +28,7 @@ func login(res http.ResponseWriter, req *http.Request) {
 		req.ParseForm()
 		email := req.PostForm["email"][0]
 		pass := req.PostForm["password"][0]
-		if err = authenticate(dbs, res, req, sess, email, pass); err != nil {
+		if err = Authenticate(dbs, res, req, sess, email, pass); err != nil {
 			sess.Set("errMsg", err.Error())
 			http.Redirect(res, req, "/login", http.StatusSeeOther)
 			return
@@ -46,7 +46,7 @@ func login(res http.ResponseWriter, req *http.Request) {
 	cleanupErrorAndSuccessMessages(sess)
 }
 
-func authenticate(dbs *sql.DB, res http.ResponseWriter, req *http.Request, sess *session.Session, email, pass string) error {
+func Authenticate(dbs *sql.DB, res http.ResponseWriter, req *http.Request, sess *session.Session, email, pass string) error {
 	sql := `
 		SELECT id, name, last_name, email, password
 		FROM users
@@ -84,10 +84,10 @@ func authenticate(dbs *sql.DB, res http.ResponseWriter, req *http.Request, sess 
 	return errors.New("Invalid credentials")
 }
 
-func logout(res http.ResponseWriter, req *http.Request) {
+func Logout(res http.ResponseWriter, req *http.Request) {
 	sess := &session.Session{}
 	sess.Start(res, req)
-	if !loggedIn(sess) {
+	if !LoggedIn(sess) {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
@@ -95,10 +95,10 @@ func logout(res http.ResponseWriter, req *http.Request) {
 	http.Redirect(res, req, "/login", http.StatusSeeOther)
 }
 
-func register(res http.ResponseWriter, req *http.Request) {
+func Register(res http.ResponseWriter, req *http.Request) {
 	sess := &session.Session{}
 	sess.Start(res, req)
-	if loggedIn(sess) {
+	if LoggedIn(sess) {
 		http.Redirect(res, req, "/", http.StatusFound)
 		return
 	}
@@ -143,21 +143,21 @@ func register(res http.ResponseWriter, req *http.Request) {
 	cleanupErrorAndSuccessMessages(sess)
 }
 
-func resetPassword(res http.ResponseWriter, req *http.Request) {
+func ResetPassword(res http.ResponseWriter, req *http.Request) {
 	appData.LayoutData["PageTitle"] = "Health - Reset Password"
 	if err := renderView("views/reset_password.html", res); err != nil {
 		serveViewError(res, err)
 	}
 }
 
-func resetPasswordLink(res http.ResponseWriter, req *http.Request) {
+func ResetPasswordLink(res http.ResponseWriter, req *http.Request) {
 	appData.LayoutData["PageTitle"] = "Health - Reset Password"
 	if err := renderView("views/reset_password_email.html", res); err != nil {
 		serveViewError(res, err)
 	}
 }
 
-func loggedIn(sess *session.Session) bool {
+func LoggedIn(sess *session.Session) bool {
 	_, ok := sess.Get("user")
 	if !ok {
 		return false
