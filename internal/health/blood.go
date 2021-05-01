@@ -44,7 +44,7 @@ func BloodAdd(res http.ResponseWriter, req *http.Request) {
 	sess.SetErrorAndSuccessMessages(appData)
 	res.Header().Set("Content-type", "text/html")
 	appData.LayoutData["PageTitle"] = "Health - Blood Pressure Add Reading"
-	appData.LayoutData["User"] = getUserFromSession(sess)
+	appData.LayoutData["User"] = sess.GetUserFromSession()
 	if err := renderView("views/blood/add.html", res); err != nil {
 		serveViewError(res, err)
 	}

@@ -10,6 +10,13 @@ import (
 	"time"
 )
 
+type User struct {
+	Id       int64
+	Name     string
+	LastName string
+	Email    string
+}
+
 const defaultSessionCookieName = "session_id"
 
 type Session struct {

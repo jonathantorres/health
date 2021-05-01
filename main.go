@@ -22,13 +22,6 @@ type AppData struct {
 	ViewData   map[string]interface{}
 }
 
-type User struct {
-	Id       int64
-	Name     string
-	LastName string
-	Email    string
-}
-
 var appData = AppData{
 	LayoutData: make(map[string]interface{}),
 	ViewData:   make(map[string]interface{}),

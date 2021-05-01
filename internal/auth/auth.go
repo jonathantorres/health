@@ -70,7 +70,7 @@ func Authenticate(dbs *sql.DB, res http.ResponseWriter, req *http.Request, sess 
 			break
 		}
 		if userEmail == email && bcrypt.CompareHashAndPassword([]byte(userPass), []byte(pass)) == nil {
-			user := User{
+			user := session.User{
 				Id:       userId,
 				Name:     userName,
 				LastName: userLastName,
