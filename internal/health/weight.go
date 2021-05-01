@@ -5,7 +5,6 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/jonathantorres/health/internal/auth"
 	"github.com/jonathantorres/health/internal/db"
 	"github.com/jonathantorres/health/internal/session"
 )
@@ -13,7 +12,7 @@ import (
 func WeightAdd(res http.ResponseWriter, req *http.Request) {
 	sess := &session.Session{}
 	sess.Start(res, req)
-	if !auth.LoggedIn(sess) {
+	if !sess.LoggedIn() {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
@@ -22,7 +21,7 @@ func WeightAdd(res http.ResponseWriter, req *http.Request) {
 		serve500(res, req, err.Error())
 		return
 	}
-	user := getUserFromSession(sess)
+	user := sess.GetUserFromSession()
 
 	if req.Method == "POST" {
 		req.ParseForm()
@@ -40,20 +39,20 @@ func WeightAdd(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	setErrorAndSuccessMessages(sess)
+	sess.SetErrorAndSuccessMessages(appData)
 	res.Header().Set("Content-type", "text/html")
 	appData.LayoutData["PageTitle"] = "Health - Add Weight Entry"
 	appData.LayoutData["User"] = user
 	if err := renderView("views/weight/add.html", res); err != nil {
 		serveViewError(res, err)
 	}
-	cleanupErrorAndSuccessMessages(sess)
+	sess.CleanupErrorAndSuccessMessages(appData)
 }
 
 func WeightAll(res http.ResponseWriter, req *http.Request) {
 	sess := &session.Session{}
 	sess.Start(res, req)
-	if !auth.LoggedIn(sess) {
+	if !sess.LoggedIn() {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
@@ -64,7 +63,7 @@ func WeightAll(res http.ResponseWriter, req *http.Request) {
 	}
 	res.Header().Set("Content-type", "text/html")
 
-	user := getUserFromSession(sess)
+	user := sess.GetUserFromSession()
 	entries, err := db.GetWeightEntries(dbs, user.Id)
 	if err != nil {
 		serve500(res, req, err.Error())
@@ -82,7 +81,7 @@ func WeightAll(res http.ResponseWriter, req *http.Request) {
 func WeightEdit(res http.ResponseWriter, req *http.Request) {
 	sess := &session.Session{}
 	sess.Start(res, req)
-	if !auth.LoggedIn(sess) {
+	if !sess.LoggedIn() {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
@@ -96,7 +95,7 @@ func WeightEdit(res http.ResponseWriter, req *http.Request) {
 		serve404(res, req)
 		return
 	}
-	user := getUserFromSession(sess)
+	user := sess.GetUserFromSession()
 	entry, err := db.GetWeightEntry(dbs, user.Id, int64(entryId))
 	if err != nil {
 		serve500(res, req, err.Error())
@@ -119,7 +118,7 @@ func WeightEdit(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	setErrorAndSuccessMessages(sess)
+	sess.SetErrorAndSuccessMessages(appData)
 	res.Header().Set("Content-type", "text/html")
 	appData.LayoutData["PageTitle"] = "Health - Edit Weight Entry"
 	appData.LayoutData["User"] = user
@@ -127,13 +126,13 @@ func WeightEdit(res http.ResponseWriter, req *http.Request) {
 	if err := renderView("views/weight/edit.html", res); err != nil {
 		serveViewError(res, err)
 	}
-	cleanupErrorAndSuccessMessages(sess)
+	sess.CleanupErrorAndSuccessMessages(appData)
 }
 
 func WeightDelete(res http.ResponseWriter, req *http.Request) {
 	sess := &session.Session{}
 	sess.Start(res, req)
-	if !auth.LoggedIn(sess) {
+	if !sess.LoggedIn() {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
@@ -147,7 +146,7 @@ func WeightDelete(res http.ResponseWriter, req *http.Request) {
 		serve404(res, req)
 		return
 	}
-	user := getUserFromSession(sess)
+	user := sess.GetUserFromSession()
 	entry, err := db.GetWeightEntry(dbs, user.Id, int64(entryId))
 	if err != nil {
 		serve500(res, req, err.Error())

@@ -5,7 +5,6 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/jonathantorres/health/internal/auth"
 	"github.com/jonathantorres/health/internal/db"
 	"github.com/jonathantorres/health/internal/session"
 )
@@ -13,7 +12,7 @@ import (
 func BloodAdd(res http.ResponseWriter, req *http.Request) {
 	sess := &session.Session{}
 	sess.Start(res, req)
-	if !auth.LoggedIn(sess) {
+	if !sess.LoggedIn() {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
@@ -22,7 +21,7 @@ func BloodAdd(res http.ResponseWriter, req *http.Request) {
 		serve500(res, req, err.Error())
 		return
 	}
-	user := getUserFromSession(sess)
+	user := sess.GetUserFromSession()
 
 	if req.Method == "POST" {
 		req.ParseForm()
@@ -42,20 +41,20 @@ func BloodAdd(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	setErrorAndSuccessMessages(sess)
+	sess.SetErrorAndSuccessMessages(appData)
 	res.Header().Set("Content-type", "text/html")
 	appData.LayoutData["PageTitle"] = "Health - Blood Pressure Add Reading"
 	appData.LayoutData["User"] = getUserFromSession(sess)
 	if err := renderView("views/blood/add.html", res); err != nil {
 		serveViewError(res, err)
 	}
-	cleanupErrorAndSuccessMessages(sess)
+	sess.CleanupErrorAndSuccessMessages(appData)
 }
 
 func BloodAll(res http.ResponseWriter, req *http.Request) {
 	sess := &session.Session{}
 	sess.Start(res, req)
-	if !auth.LoggedIn(sess) {
+	if !sess.LoggedIn() {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
@@ -66,7 +65,7 @@ func BloodAll(res http.ResponseWriter, req *http.Request) {
 	}
 	res.Header().Set("Content-type", "text/html")
 
-	user := getUserFromSession(sess)
+	user := sess.GetUserFromSession()
 	readings, err := db.GetBloodReadings(dbs, user.Id)
 	if err != nil {
 		serve500(res, req, err.Error())
@@ -84,7 +83,7 @@ func BloodAll(res http.ResponseWriter, req *http.Request) {
 func BloodDetails(res http.ResponseWriter, req *http.Request) {
 	sess := &session.Session{}
 	sess.Start(res, req)
-	if !auth.LoggedIn(sess) {
+	if !sess.LoggedIn() {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
@@ -100,7 +99,7 @@ func BloodDetails(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	user := getUserFromSession(sess)
+	user := sess.GetUserFromSession()
 	reading, err := db.GetBloodReading(dbs, user.Id, int64(readingId))
 	if err != nil {
 		serve500(res, req, err.Error())
@@ -117,7 +116,7 @@ func BloodDetails(res http.ResponseWriter, req *http.Request) {
 func BloodEdit(res http.ResponseWriter, req *http.Request) {
 	sess := &session.Session{}
 	sess.Start(res, req)
-	if !auth.LoggedIn(sess) {
+	if !sess.LoggedIn() {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
@@ -131,7 +130,7 @@ func BloodEdit(res http.ResponseWriter, req *http.Request) {
 		serve404(res, req)
 		return
 	}
-	user := getUserFromSession(sess)
+	user := sess.GetUserFromSession()
 	reading, err := db.GetBloodReading(dbs, user.Id, int64(readingId))
 	if err != nil {
 		serve500(res, req, err.Error())
@@ -156,7 +155,7 @@ func BloodEdit(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	setErrorAndSuccessMessages(sess)
+	sess.SetErrorAndSuccessMessages(appData)
 	res.Header().Set("Content-type", "text/html")
 	appData.LayoutData["PageTitle"] = "Health - Edit Blood Pressure Reading"
 	appData.LayoutData["User"] = user
@@ -164,13 +163,13 @@ func BloodEdit(res http.ResponseWriter, req *http.Request) {
 	if err := renderView("views/blood/edit.html", res); err != nil {
 		serveViewError(res, err)
 	}
-	cleanupErrorAndSuccessMessages(sess)
+	sess.CleanupErrorAndSuccessMessages(appData)
 }
 
 func BloodDelete(res http.ResponseWriter, req *http.Request) {
 	sess := &session.Session{}
 	sess.Start(res, req)
-	if !auth.LoggedIn(sess) {
+	if !sess.LoggedIn() {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
@@ -184,7 +183,7 @@ func BloodDelete(res http.ResponseWriter, req *http.Request) {
 		serve404(res, req)
 		return
 	}
-	user := getUserFromSession(sess)
+	user := sess.GetUserFromSession()
 	reading, err := db.GetBloodReading(dbs, user.Id, int64(readingId))
 	if err != nil {
 		serve500(res, req, err.Error())

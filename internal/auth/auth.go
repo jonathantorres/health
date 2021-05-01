@@ -15,7 +15,7 @@ import (
 func Login(res http.ResponseWriter, req *http.Request) {
 	sess := &session.Session{}
 	sess.Start(res, req)
-	if LoggedIn(sess) {
+	if sess.LoggedIn() {
 		http.Redirect(res, req, "/", http.StatusFound)
 		return
 	}
@@ -37,13 +37,13 @@ func Login(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	setErrorAndSuccessMessages(sess)
+	sess.SetErrorAndSuccessMessages(appData)
 	res.Header().Set("Content-type", "text/html")
 	appData.LayoutData["PageTitle"] = "Health - Login"
 	if err := renderView("views/login.html", res); err != nil {
 		serveViewError(res, err)
 	}
-	cleanupErrorAndSuccessMessages(sess)
+	sess.CleanupErrorAndSuccessMessages(appData)
 }
 
 func Authenticate(dbs *sql.DB, res http.ResponseWriter, req *http.Request, sess *session.Session, email, pass string) error {
@@ -87,7 +87,7 @@ func Authenticate(dbs *sql.DB, res http.ResponseWriter, req *http.Request, sess 
 func Logout(res http.ResponseWriter, req *http.Request) {
 	sess := &session.Session{}
 	sess.Start(res, req)
-	if !LoggedIn(sess) {
+	if !sess.LoggedIn() {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
@@ -98,7 +98,7 @@ func Logout(res http.ResponseWriter, req *http.Request) {
 func Register(res http.ResponseWriter, req *http.Request) {
 	sess := &session.Session{}
 	sess.Start(res, req)
-	if LoggedIn(sess) {
+	if sess.LoggedIn() {
 		http.Redirect(res, req, "/", http.StatusFound)
 		return
 	}
@@ -134,13 +134,13 @@ func Register(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	setErrorAndSuccessMessages(sess)
+	sess.SetErrorAndSuccessMessages(appData)
 	res.Header().Set("Content-type", "text/html")
 	appData.LayoutData["PageTitle"] = "Health - Register"
 	if err := renderView("views/register.html", res); err != nil {
 		serveViewError(res, err)
 	}
-	cleanupErrorAndSuccessMessages(sess)
+	sess.CleanupErrorAndSuccessMessages(appData)
 }
 
 func ResetPassword(res http.ResponseWriter, req *http.Request) {
@@ -155,13 +155,4 @@ func ResetPasswordLink(res http.ResponseWriter, req *http.Request) {
 	if err := renderView("views/reset_password_email.html", res); err != nil {
 		serveViewError(res, err)
 	}
-}
-
-func LoggedIn(sess *session.Session) bool {
-	_, ok := sess.Get("user")
-	if !ok {
-		return false
-	}
-	// todo: use the user node here
-	return true
 }

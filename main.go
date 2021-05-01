@@ -68,7 +68,7 @@ func root(res http.ResponseWriter, req *http.Request) {
 func index(res http.ResponseWriter, req *http.Request) {
 	sess := &session.Session{}
 	sess.Start(res, req)
-	if !auth.LoggedIn(sess) {
+	if !sess.LoggedIn() {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
@@ -77,7 +77,7 @@ func index(res http.ResponseWriter, req *http.Request) {
 		serve500(res, req, err.Error())
 		return
 	}
-	user := getUserFromSession(sess)
+	user := sess.GetUserFromSession()
 	readings, readingsErr := db.GetBloodReadings(dbs, user.Id)
 	entries, entriesErr := db.GetWeightEntries(dbs, user.Id)
 	if readingsErr != nil {
@@ -97,7 +97,7 @@ func index(res http.ResponseWriter, req *http.Request) {
 		maxEntries = len(entries)
 	}
 
-	setErrorAndSuccessMessages(sess)
+	sess.SetErrorAndSuccessMessages(appData)
 	appData.LayoutData["PageTitle"] = "Health - Dashboard"
 	appData.LayoutData["User"] = user
 	appData.ViewData["Readings"] = readings[:maxReadings]
@@ -108,25 +108,7 @@ func index(res http.ResponseWriter, req *http.Request) {
 	if err := renderView("views/index.html", res); err != nil {
 		serveViewError(res, err)
 	}
-	cleanupErrorAndSuccessMessages(sess)
-}
-
-// TODO: move to session obj
-func setErrorAndSuccessMessages(sess *session.Session) {
-	if errMsg, ok := sess.Get("errMsg"); ok {
-		appData.LayoutData["errMsg"] = errMsg
-	}
-	if okMsg, ok := sess.Get("okMsg"); ok {
-		appData.LayoutData["okMsg"] = okMsg
-	}
-}
-
-// TODO: move to session obj
-func cleanupErrorAndSuccessMessages(sess *session.Session) {
-	delete(appData.LayoutData, "errMsg")
-	delete(appData.LayoutData, "okMsg")
-	sess.Remove("errMsg")
-	sess.Remove("okMsg")
+	sess.CleanupErrorAndSuccessMessages(app)
 }
 
 func renderView(name string, out io.Writer) error {
@@ -148,22 +130,6 @@ func renderView(name string, out io.Writer) error {
 		return fmt.Errorf("error executing template: %s", err)
 	}
 	return nil
-}
-
-// TODO: move to session obj
-func getUserFromSession(sess *session.Session) *User {
-	var user *User = nil
-	if usr, ok := sess.Get("user"); ok {
-		if usrMap, ok := usr.(map[string]interface{}); ok {
-			user = &User{
-				Id:       int64(usrMap["Id"].(float64)),
-				Name:     usrMap["Name"].(string),
-				LastName: usrMap["LastName"].(string),
-				Email:    usrMap["Email"].(string),
-			}
-		}
-	}
-	return user
 }
 
 func getId(path string) (int, error) {

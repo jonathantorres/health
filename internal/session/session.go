@@ -92,6 +92,46 @@ func (s *Session) Destroy(res http.ResponseWriter) error {
 	return nil
 }
 
+func (s *Session) SetErrorAndSuccessMessages(app *AppData) {
+	if errMsg, ok := s.Get("errMsg"); ok {
+		app.LayoutData["errMsg"] = errMsg
+	}
+	if okMsg, ok := s.Get("okMsg"); ok {
+		app.LayoutData["okMsg"] = okMsg
+	}
+}
+
+func (s *Session) CleanupErrorAndSuccessMessages(app *AppData) {
+	delete(app.LayoutData, "errMsg")
+	delete(app.LayoutData, "okMsg")
+	s.Remove("errMsg")
+	s.Remove("okMsg")
+}
+
+func (s *Session) GetUserFromSession() *User {
+	var user *User = nil
+	if usr, ok := s.Get("user"); ok {
+		if usrMap, ok := usr.(map[string]interface{}); ok {
+			user = &User{
+				Id:       int64(usrMap["Id"].(float64)),
+				Name:     usrMap["Name"].(string),
+				LastName: usrMap["LastName"].(string),
+				Email:    usrMap["Email"].(string),
+			}
+		}
+	}
+	return user
+}
+
+func (s *Session) LoggedIn() bool {
+	_, ok := s.Get("user")
+	if !ok {
+		return false
+	}
+	// todo: use the user node here
+	return true
+}
+
 func (s *Session) updateFile() {
 	jsonData, err := json.Marshal(s.data)
 	if err != nil {
