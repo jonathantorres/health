@@ -9,6 +9,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 
 	"github.com/jonathantorres/health/internal/db"
+	"github.com/jonathantorres/health/internal/health"
 	"github.com/jonathantorres/health/internal/session"
 )
 
@@ -21,7 +22,7 @@ func Login(res http.ResponseWriter, req *http.Request) {
 	}
 	dbs, err := db.InitDb()
 	if err != nil {
-		serve500(res, req, err.Error())
+		health.Serve500(res, req, err.Error())
 		return
 	}
 	if req.Method == "POST" {
@@ -41,7 +42,7 @@ func Login(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("Content-type", "text/html")
 	appData.LayoutData["PageTitle"] = "Health - Login"
 	if err := renderView("views/login.html", res); err != nil {
-		serveViewError(res, err)
+		health.ServeViewError(res, err)
 	}
 	sess.CleanupErrorAndSuccessMessages(appData)
 }
@@ -104,7 +105,7 @@ func Register(res http.ResponseWriter, req *http.Request) {
 	}
 	dbs, err := db.InitDb()
 	if err != nil {
-		serve500(res, req, err.Error())
+		health.Serve500(res, req, err.Error())
 		return
 	}
 	if req.Method == "POST" {
@@ -138,7 +139,7 @@ func Register(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("Content-type", "text/html")
 	appData.LayoutData["PageTitle"] = "Health - Register"
 	if err := renderView("views/register.html", res); err != nil {
-		serveViewError(res, err)
+		health.ServeViewError(res, err)
 	}
 	sess.CleanupErrorAndSuccessMessages(appData)
 }
@@ -146,13 +147,13 @@ func Register(res http.ResponseWriter, req *http.Request) {
 func ResetPassword(res http.ResponseWriter, req *http.Request) {
 	appData.LayoutData["PageTitle"] = "Health - Reset Password"
 	if err := renderView("views/reset_password.html", res); err != nil {
-		serveViewError(res, err)
+		health.ServeViewError(res, err)
 	}
 }
 
 func ResetPasswordLink(res http.ResponseWriter, req *http.Request) {
 	appData.LayoutData["PageTitle"] = "Health - Reset Password"
 	if err := renderView("views/reset_password_email.html", res); err != nil {
-		serveViewError(res, err)
+		health.ServeViewError(res, err)
 	}
 }

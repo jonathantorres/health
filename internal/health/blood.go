@@ -18,7 +18,7 @@ func BloodAdd(res http.ResponseWriter, req *http.Request) {
 	}
 	dbs, err := db.InitDb()
 	if err != nil {
-		serve500(res, req, err.Error())
+		Serve500(res, req, err.Error())
 		return
 	}
 	user := sess.GetUserFromSession()
@@ -46,7 +46,7 @@ func BloodAdd(res http.ResponseWriter, req *http.Request) {
 	appData.LayoutData["PageTitle"] = "Health - Blood Pressure Add Reading"
 	appData.LayoutData["User"] = sess.GetUserFromSession()
 	if err := renderView("views/blood/add.html", res); err != nil {
-		serveViewError(res, err)
+		ServeViewError(res, err)
 	}
 	sess.CleanupErrorAndSuccessMessages(appData)
 }
@@ -60,7 +60,7 @@ func BloodAll(res http.ResponseWriter, req *http.Request) {
 	}
 	dbs, err := db.InitDb()
 	if err != nil {
-		serve500(res, req, err.Error())
+		Serve500(res, req, err.Error())
 		return
 	}
 	res.Header().Set("Content-type", "text/html")
@@ -68,7 +68,7 @@ func BloodAll(res http.ResponseWriter, req *http.Request) {
 	user := sess.GetUserFromSession()
 	readings, err := db.GetBloodReadings(dbs, user.Id)
 	if err != nil {
-		serve500(res, req, err.Error())
+		Serve500(res, req, err.Error())
 		return
 	}
 	appData.LayoutData["PageTitle"] = "Health - Blood Pressure Readings"
@@ -76,7 +76,7 @@ func BloodAll(res http.ResponseWriter, req *http.Request) {
 	appData.ViewData["BloodHeading"] = "Blood Pressure Readings"
 	appData.ViewData["Readings"] = readings
 	if err := renderView("views/blood/all.html", res); err != nil {
-		serveViewError(res, err)
+		ServeViewError(res, err)
 	}
 }
 
@@ -89,7 +89,7 @@ func BloodDetails(res http.ResponseWriter, req *http.Request) {
 	}
 	dbs, err := db.InitDb()
 	if err != nil {
-		serve500(res, req, err.Error())
+		Serve500(res, req, err.Error())
 		return
 	}
 	res.Header().Set("Content-type", "text/html")
@@ -102,14 +102,14 @@ func BloodDetails(res http.ResponseWriter, req *http.Request) {
 	user := sess.GetUserFromSession()
 	reading, err := db.GetBloodReading(dbs, user.Id, int64(readingId))
 	if err != nil {
-		serve500(res, req, err.Error())
+		Serve500(res, req, err.Error())
 		return
 	}
 	appData.LayoutData["PageTitle"] = "Health - Blood Pressure Reading Details"
 	appData.LayoutData["User"] = user
 	appData.ViewData["Reading"] = reading
 	if err = renderView("views/blood/details.html", res); err != nil {
-		serveViewError(res, err)
+		ServeViewError(res, err)
 	}
 }
 
@@ -122,7 +122,7 @@ func BloodEdit(res http.ResponseWriter, req *http.Request) {
 	}
 	dbs, err := db.InitDb()
 	if err != nil {
-		serve500(res, req, err.Error())
+		Serve500(res, req, err.Error())
 		return
 	}
 	readingId, err := getId(req.URL.Path)
@@ -133,7 +133,7 @@ func BloodEdit(res http.ResponseWriter, req *http.Request) {
 	user := sess.GetUserFromSession()
 	reading, err := db.GetBloodReading(dbs, user.Id, int64(readingId))
 	if err != nil {
-		serve500(res, req, err.Error())
+		Serve500(res, req, err.Error())
 		return
 	}
 
@@ -161,7 +161,7 @@ func BloodEdit(res http.ResponseWriter, req *http.Request) {
 	appData.LayoutData["User"] = user
 	appData.ViewData["Reading"] = reading
 	if err := renderView("views/blood/edit.html", res); err != nil {
-		serveViewError(res, err)
+		ServeViewError(res, err)
 	}
 	sess.CleanupErrorAndSuccessMessages(appData)
 }
@@ -175,7 +175,7 @@ func BloodDelete(res http.ResponseWriter, req *http.Request) {
 	}
 	dbs, err := db.InitDb()
 	if err != nil {
-		serve500(res, req, err.Error())
+		Serve500(res, req, err.Error())
 		return
 	}
 	readingId, err := getId(req.URL.Path)
@@ -186,7 +186,7 @@ func BloodDelete(res http.ResponseWriter, req *http.Request) {
 	user := sess.GetUserFromSession()
 	reading, err := db.GetBloodReading(dbs, user.Id, int64(readingId))
 	if err != nil {
-		serve500(res, req, err.Error())
+		Serve500(res, req, err.Error())
 		return
 	}
 	if err = db.DeleteBloodReading(dbs, user.Id, reading.Id); err != nil {
