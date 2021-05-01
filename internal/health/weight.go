@@ -43,7 +43,7 @@ func WeightAdd(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("Content-type", "text/html")
 	App.LayoutData["PageTitle"] = "Health - Add Weight Entry"
 	App.LayoutData["User"] = user
-	if err := renderView("views/weight/add.html", res); err != nil {
+	if err := RenderView("views/weight/add.html", res); err != nil {
 		ServeViewError(res, err)
 	}
 	App.CleanupErrorAndSuccessMessages(sess)
@@ -73,7 +73,7 @@ func WeightAll(res http.ResponseWriter, req *http.Request) {
 	App.LayoutData["User"] = user
 	App.ViewData["WeightHeading"] = "Weight Entries"
 	App.ViewData["Entries"] = entries
-	if err := renderView("views/weight/all.html", res); err != nil {
+	if err := RenderView("views/weight/all.html", res); err != nil {
 		ServeViewError(res, err)
 	}
 }
@@ -123,7 +123,7 @@ func WeightEdit(res http.ResponseWriter, req *http.Request) {
 	App.LayoutData["PageTitle"] = "Health - Edit Weight Entry"
 	App.LayoutData["User"] = user
 	App.ViewData["Entry"] = entry
-	if err := renderView("views/weight/edit.html", res); err != nil {
+	if err := RenderView("views/weight/edit.html", res); err != nil {
 		ServeViewError(res, err)
 	}
 	App.CleanupErrorAndSuccessMessages(sess)

@@ -45,7 +45,7 @@ func BloodAdd(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("Content-type", "text/html")
 	App.LayoutData["PageTitle"] = "Health - Blood Pressure Add Reading"
 	App.LayoutData["User"] = sess.GetUserFromSession()
-	if err := renderView("views/blood/add.html", res); err != nil {
+	if err := RenderView("views/blood/add.html", res); err != nil {
 		ServeViewError(res, err)
 	}
 	App.CleanupErrorAndSuccessMessages(sess)
@@ -75,7 +75,7 @@ func BloodAll(res http.ResponseWriter, req *http.Request) {
 	App.LayoutData["User"] = user
 	App.ViewData["BloodHeading"] = "Blood Pressure Readings"
 	App.ViewData["Readings"] = readings
-	if err := renderView("views/blood/all.html", res); err != nil {
+	if err := RenderView("views/blood/all.html", res); err != nil {
 		ServeViewError(res, err)
 	}
 }
@@ -108,7 +108,7 @@ func BloodDetails(res http.ResponseWriter, req *http.Request) {
 	App.LayoutData["PageTitle"] = "Health - Blood Pressure Reading Details"
 	App.LayoutData["User"] = user
 	App.ViewData["Reading"] = reading
-	if err = renderView("views/blood/details.html", res); err != nil {
+	if err = RenderView("views/blood/details.html", res); err != nil {
 		ServeViewError(res, err)
 	}
 }
@@ -160,7 +160,7 @@ func BloodEdit(res http.ResponseWriter, req *http.Request) {
 	App.LayoutData["PageTitle"] = "Health - Edit Blood Pressure Reading"
 	App.LayoutData["User"] = user
 	App.ViewData["Reading"] = reading
-	if err := renderView("views/blood/edit.html", res); err != nil {
+	if err := RenderView("views/blood/edit.html", res); err != nil {
 		ServeViewError(res, err)
 	}
 	App.CleanupErrorAndSuccessMessages(sess)

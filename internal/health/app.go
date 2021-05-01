@@ -78,7 +78,7 @@ func Index(res http.ResponseWriter, req *http.Request) {
 	App.ViewData["BloodHeading"] = "Blood Pressure Readings"
 	App.ViewData["WeightHeading"] = "Weight Entries"
 	res.Header().Set("Content-type", "text/html")
-	if err := renderView("views/index.html", res); err != nil {
+	if err := RenderView("views/index.html", res); err != nil {
 		ServeViewError(res, err)
 	}
 	App.CleanupErrorAndSuccessMessages(sess)

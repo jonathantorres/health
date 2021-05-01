@@ -41,7 +41,7 @@ func Login(res http.ResponseWriter, req *http.Request) {
 	health.App.SetErrorAndSuccessMessages(sess)
 	res.Header().Set("Content-type", "text/html")
 	health.App.LayoutData["PageTitle"] = "Health - Login"
-	if err := renderView("views/login.html", res); err != nil {
+	if err := health.RenderView("views/login.html", res); err != nil {
 		health.ServeViewError(res, err)
 	}
 	health.App.CleanupErrorAndSuccessMessages(sess)
@@ -126,7 +126,7 @@ func Register(res http.ResponseWriter, req *http.Request) {
 			http.Redirect(res, req, "/register", http.StatusSeeOther)
 			return
 		}
-		if err = authenticate(dbs, res, req, sess, email, pass); err != nil {
+		if err = Authenticate(dbs, res, req, sess, email, pass); err != nil {
 			sess.Set("errMsg", err.Error())
 			http.Redirect(res, req, "/login", http.StatusSeeOther)
 			return
@@ -138,7 +138,7 @@ func Register(res http.ResponseWriter, req *http.Request) {
 	health.App.SetErrorAndSuccessMessages(sess)
 	res.Header().Set("Content-type", "text/html")
 	health.App.LayoutData["PageTitle"] = "Health - Register"
-	if err := renderView("views/register.html", res); err != nil {
+	if err := health.RenderView("views/register.html", res); err != nil {
 		health.ServeViewError(res, err)
 	}
 	health.App.CleanupErrorAndSuccessMessages(sess)
@@ -146,14 +146,14 @@ func Register(res http.ResponseWriter, req *http.Request) {
 
 func ResetPassword(res http.ResponseWriter, req *http.Request) {
 	health.App.LayoutData["PageTitle"] = "Health - Reset Password"
-	if err := renderView("views/reset_password.html", res); err != nil {
+	if err := health.RenderView("views/reset_password.html", res); err != nil {
 		health.ServeViewError(res, err)
 	}
 }
 
 func ResetPasswordLink(res http.ResponseWriter, req *http.Request) {
 	health.App.LayoutData["PageTitle"] = "Health - Reset Password"
-	if err := renderView("views/reset_password_email.html", res); err != nil {
+	if err := health.RenderView("views/reset_password_email.html", res); err != nil {
 		health.ServeViewError(res, err)
 	}
 }
