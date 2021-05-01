@@ -82,7 +82,7 @@ func RenderView(name string, out io.Writer) error {
 	if err != nil {
 		return fmt.Errorf("error parsing template: %s", err)
 	}
-	err = tmpl.ExecuteTemplate(out, "app", appData)
+	err = tmpl.ExecuteTemplate(out, "app", App)
 	if err != nil {
 		return fmt.Errorf("error executing template: %s", err)
 	}

@@ -38,13 +38,13 @@ func Login(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	sess.SetErrorAndSuccessMessages(appData)
+	sess.SetErrorAndSuccessMessages(&health.App)
 	res.Header().Set("Content-type", "text/html")
-	appData.LayoutData["PageTitle"] = "Health - Login"
+	health.App.LayoutData["PageTitle"] = "Health - Login"
 	if err := renderView("views/login.html", res); err != nil {
 		health.ServeViewError(res, err)
 	}
-	sess.CleanupErrorAndSuccessMessages(appData)
+	sess.CleanupErrorAndSuccessMessages(health.App)
 }
 
 func Authenticate(dbs *sql.DB, res http.ResponseWriter, req *http.Request, sess *session.Session, email, pass string) error {
@@ -135,24 +135,24 @@ func Register(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	sess.SetErrorAndSuccessMessages(appData)
+	sess.SetErrorAndSuccessMessages(&health.App)
 	res.Header().Set("Content-type", "text/html")
-	appData.LayoutData["PageTitle"] = "Health - Register"
+	health.App.LayoutData["PageTitle"] = "Health - Register"
 	if err := renderView("views/register.html", res); err != nil {
 		health.ServeViewError(res, err)
 	}
-	sess.CleanupErrorAndSuccessMessages(appData)
+	sess.CleanupErrorAndSuccessMessages(health.App)
 }
 
 func ResetPassword(res http.ResponseWriter, req *http.Request) {
-	appData.LayoutData["PageTitle"] = "Health - Reset Password"
+	health.App.LayoutData["PageTitle"] = "Health - Reset Password"
 	if err := renderView("views/reset_password.html", res); err != nil {
 		health.ServeViewError(res, err)
 	}
 }
 
 func ResetPasswordLink(res http.ResponseWriter, req *http.Request) {
-	appData.LayoutData["PageTitle"] = "Health - Reset Password"
+	health.App.LayoutData["PageTitle"] = "Health - Reset Password"
 	if err := renderView("views/reset_password_email.html", res); err != nil {
 		health.ServeViewError(res, err)
 	}

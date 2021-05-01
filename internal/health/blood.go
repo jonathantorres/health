@@ -41,14 +41,14 @@ func BloodAdd(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	sess.SetErrorAndSuccessMessages(appData)
+	sess.SetErrorAndSuccessMessages(&App)
 	res.Header().Set("Content-type", "text/html")
-	appData.LayoutData["PageTitle"] = "Health - Blood Pressure Add Reading"
-	appData.LayoutData["User"] = sess.GetUserFromSession()
+	App.LayoutData["PageTitle"] = "Health - Blood Pressure Add Reading"
+	App.LayoutData["User"] = sess.GetUserFromSession()
 	if err := renderView("views/blood/add.html", res); err != nil {
 		ServeViewError(res, err)
 	}
-	sess.CleanupErrorAndSuccessMessages(appData)
+	sess.CleanupErrorAndSuccessMessages(&App)
 }
 
 func BloodAll(res http.ResponseWriter, req *http.Request) {
@@ -71,10 +71,10 @@ func BloodAll(res http.ResponseWriter, req *http.Request) {
 		Serve500(res, req, err.Error())
 		return
 	}
-	appData.LayoutData["PageTitle"] = "Health - Blood Pressure Readings"
-	appData.LayoutData["User"] = user
-	appData.ViewData["BloodHeading"] = "Blood Pressure Readings"
-	appData.ViewData["Readings"] = readings
+	App.LayoutData["PageTitle"] = "Health - Blood Pressure Readings"
+	App.LayoutData["User"] = user
+	App.ViewData["BloodHeading"] = "Blood Pressure Readings"
+	App.ViewData["Readings"] = readings
 	if err := renderView("views/blood/all.html", res); err != nil {
 		ServeViewError(res, err)
 	}
@@ -105,9 +105,9 @@ func BloodDetails(res http.ResponseWriter, req *http.Request) {
 		Serve500(res, req, err.Error())
 		return
 	}
-	appData.LayoutData["PageTitle"] = "Health - Blood Pressure Reading Details"
-	appData.LayoutData["User"] = user
-	appData.ViewData["Reading"] = reading
+	App.LayoutData["PageTitle"] = "Health - Blood Pressure Reading Details"
+	App.LayoutData["User"] = user
+	App.ViewData["Reading"] = reading
 	if err = renderView("views/blood/details.html", res); err != nil {
 		ServeViewError(res, err)
 	}
@@ -155,15 +155,15 @@ func BloodEdit(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	sess.SetErrorAndSuccessMessages(appData)
+	sess.SetErrorAndSuccessMessages(&App)
 	res.Header().Set("Content-type", "text/html")
-	appData.LayoutData["PageTitle"] = "Health - Edit Blood Pressure Reading"
-	appData.LayoutData["User"] = user
-	appData.ViewData["Reading"] = reading
+	App.LayoutData["PageTitle"] = "Health - Edit Blood Pressure Reading"
+	App.LayoutData["User"] = user
+	App.ViewData["Reading"] = reading
 	if err := renderView("views/blood/edit.html", res); err != nil {
 		ServeViewError(res, err)
 	}
-	sess.CleanupErrorAndSuccessMessages(appData)
+	sess.CleanupErrorAndSuccessMessages(&App)
 }
 
 func BloodDelete(res http.ResponseWriter, req *http.Request) {
