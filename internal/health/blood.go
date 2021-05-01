@@ -41,14 +41,14 @@ func BloodAdd(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	sess.SetErrorAndSuccessMessages(&App)
+	App.SetErrorAndSuccessMessages(sess)
 	res.Header().Set("Content-type", "text/html")
 	App.LayoutData["PageTitle"] = "Health - Blood Pressure Add Reading"
 	App.LayoutData["User"] = sess.GetUserFromSession()
 	if err := renderView("views/blood/add.html", res); err != nil {
 		ServeViewError(res, err)
 	}
-	sess.CleanupErrorAndSuccessMessages(&App)
+	App.CleanupErrorAndSuccessMessages(sess)
 }
 
 func BloodAll(res http.ResponseWriter, req *http.Request) {
@@ -155,7 +155,7 @@ func BloodEdit(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	sess.SetErrorAndSuccessMessages(&App)
+	App.SetErrorAndSuccessMessages(sess)
 	res.Header().Set("Content-type", "text/html")
 	App.LayoutData["PageTitle"] = "Health - Edit Blood Pressure Reading"
 	App.LayoutData["User"] = user
@@ -163,7 +163,7 @@ func BloodEdit(res http.ResponseWriter, req *http.Request) {
 	if err := renderView("views/blood/edit.html", res); err != nil {
 		ServeViewError(res, err)
 	}
-	sess.CleanupErrorAndSuccessMessages(&App)
+	App.CleanupErrorAndSuccessMessages(sess)
 }
 
 func BloodDelete(res http.ResponseWriter, req *http.Request) {

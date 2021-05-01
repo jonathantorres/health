@@ -99,22 +99,6 @@ func (s *Session) Destroy(res http.ResponseWriter) error {
 	return nil
 }
 
-func (s *Session) SetErrorAndSuccessMessages(app *AppData) {
-	if errMsg, ok := s.Get("errMsg"); ok {
-		app.LayoutData["errMsg"] = errMsg
-	}
-	if okMsg, ok := s.Get("okMsg"); ok {
-		app.LayoutData["okMsg"] = okMsg
-	}
-}
-
-func (s *Session) CleanupErrorAndSuccessMessages(app *AppData) {
-	delete(app.LayoutData, "errMsg")
-	delete(app.LayoutData, "okMsg")
-	s.Remove("errMsg")
-	s.Remove("okMsg")
-}
-
 func (s *Session) GetUserFromSession() *User {
 	var user *User = nil
 	if usr, ok := s.Get("user"); ok {

@@ -12,14 +12,30 @@ import (
 	"github.com/jonathantorres/health/internal/session"
 )
 
+var App = AppData{
+	LayoutData: make(map[string]interface{}),
+	ViewData:   make(map[string]interface{}),
+}
+
 type AppData struct {
 	LayoutData map[string]interface{}
 	ViewData   map[string]interface{}
 }
 
-var App = AppData{
-	LayoutData: make(map[string]interface{}),
-	ViewData:   make(map[string]interface{}),
+func (a *AppData) CleanupErrorAndSuccessMessages(s *session.Session) {
+	delete(a.LayoutData, "errMsg")
+	delete(a.LayoutData, "okMsg")
+	s.Remove("errMsg")
+	s.Remove("okMsg")
+}
+
+func (a *AppData) SetErrorAndSuccessMessages(s *session.Session) {
+	if errMsg, ok := s.Get("errMsg"); ok {
+		a.LayoutData["errMsg"] = errMsg
+	}
+	if okMsg, ok := s.Get("okMsg"); ok {
+		a.LayoutData["okMsg"] = okMsg
+	}
 }
 
 func Index(res http.ResponseWriter, req *http.Request) {
@@ -54,7 +70,7 @@ func Index(res http.ResponseWriter, req *http.Request) {
 		maxEntries = len(entries)
 	}
 
-	sess.SetErrorAndSuccessMessages(&App)
+	App.SetErrorAndSuccessMessages(sess)
 	App.LayoutData["PageTitle"] = "Health - Dashboard"
 	App.LayoutData["User"] = user
 	App.ViewData["Readings"] = readings[:maxReadings]
@@ -65,7 +81,7 @@ func Index(res http.ResponseWriter, req *http.Request) {
 	if err := renderView("views/index.html", res); err != nil {
 		ServeViewError(res, err)
 	}
-	sess.CleanupErrorAndSuccessMessages(&App)
+	App.CleanupErrorAndSuccessMessages(sess)
 }
 
 func RenderView(name string, out io.Writer) error {

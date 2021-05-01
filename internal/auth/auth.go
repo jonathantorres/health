@@ -38,13 +38,13 @@ func Login(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	sess.SetErrorAndSuccessMessages(&health.App)
+	health.App.SetErrorAndSuccessMessages(sess)
 	res.Header().Set("Content-type", "text/html")
 	health.App.LayoutData["PageTitle"] = "Health - Login"
 	if err := renderView("views/login.html", res); err != nil {
 		health.ServeViewError(res, err)
 	}
-	sess.CleanupErrorAndSuccessMessages(health.App)
+	health.App.CleanupErrorAndSuccessMessages(sess)
 }
 
 func Authenticate(dbs *sql.DB, res http.ResponseWriter, req *http.Request, sess *session.Session, email, pass string) error {
@@ -135,13 +135,13 @@ func Register(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	sess.SetErrorAndSuccessMessages(&health.App)
+	health.App.SetErrorAndSuccessMessages(sess)
 	res.Header().Set("Content-type", "text/html")
 	health.App.LayoutData["PageTitle"] = "Health - Register"
 	if err := renderView("views/register.html", res); err != nil {
 		health.ServeViewError(res, err)
 	}
-	sess.CleanupErrorAndSuccessMessages(health.App)
+	health.App.CleanupErrorAndSuccessMessages(sess)
 }
 
 func ResetPassword(res http.ResponseWriter, req *http.Request) {
