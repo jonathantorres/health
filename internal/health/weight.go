@@ -1,4 +1,4 @@
-package main
+package health
 
 import (
 	"net/http"
@@ -10,18 +10,7 @@ import (
 	"github.com/jonathantorres/health/internal/session"
 )
 
-type WeightEntry struct {
-	Id     int64
-	UserId int64
-	Weight float32
-	Date   string
-}
-
-func (weight *WeightEntry) SqlDate() string {
-	return weight.Date[:10]
-}
-
-func weightAdd(res http.ResponseWriter, req *http.Request) {
+func WeightAdd(res http.ResponseWriter, req *http.Request) {
 	sess := &session.Session{}
 	sess.Start(res, req)
 	if !auth.LoggedIn(sess) {
@@ -61,7 +50,7 @@ func weightAdd(res http.ResponseWriter, req *http.Request) {
 	cleanupErrorAndSuccessMessages(sess)
 }
 
-func weightAll(res http.ResponseWriter, req *http.Request) {
+func WeightAll(res http.ResponseWriter, req *http.Request) {
 	sess := &session.Session{}
 	sess.Start(res, req)
 	if !auth.LoggedIn(sess) {
@@ -90,7 +79,7 @@ func weightAll(res http.ResponseWriter, req *http.Request) {
 	}
 }
 
-func weightEdit(res http.ResponseWriter, req *http.Request) {
+func WeightEdit(res http.ResponseWriter, req *http.Request) {
 	sess := &session.Session{}
 	sess.Start(res, req)
 	if !auth.LoggedIn(sess) {
@@ -141,7 +130,7 @@ func weightEdit(res http.ResponseWriter, req *http.Request) {
 	cleanupErrorAndSuccessMessages(sess)
 }
 
-func weightDelete(res http.ResponseWriter, req *http.Request) {
+func WeightDelete(res http.ResponseWriter, req *http.Request) {
 	sess := &session.Session{}
 	sess.Start(res, req)
 	if !auth.LoggedIn(sess) {

@@ -13,6 +13,7 @@ import (
 
 	"github.com/jonathantorres/health/internal/auth"
 	"github.com/jonathantorres/health/internal/db"
+	"github.com/jonathantorres/health/internal/health"
 	"github.com/jonathantorres/health/internal/session"
 )
 
@@ -44,15 +45,15 @@ func main() {
 	http.HandleFunc("/register", auth.Register)
 	http.HandleFunc("/reset", auth.ResetPassword)
 	http.HandleFunc("/resetLink", auth.ResetPasswordLink)
-	http.HandleFunc("/blood/add", bloodAdd)
-	http.HandleFunc("/blood/all", bloodAll)
-	http.HandleFunc("/blood/details/", bloodDetails)
-	http.HandleFunc("/blood/edit/", bloodEdit)
-	http.HandleFunc("/blood/delete/", bloodDelete)
-	http.HandleFunc("/weight/add", weightAdd)
-	http.HandleFunc("/weight/all", weightAll)
-	http.HandleFunc("/weight/edit/", weightEdit)
-	http.HandleFunc("/weight/delete/", weightDelete)
+	http.HandleFunc("/blood/add", health.BloodAdd)
+	http.HandleFunc("/blood/all", health.BloodAll)
+	http.HandleFunc("/blood/details/", health.BloodDetails)
+	http.HandleFunc("/blood/edit/", health.BloodEdit)
+	http.HandleFunc("/blood/delete/", health.BloodDelete)
+	http.HandleFunc("/weight/add", health.WeightAdd)
+	http.HandleFunc("/weight/all", health.WeightAll)
+	http.HandleFunc("/weight/edit/", health.WeightEdit)
+	http.HandleFunc("/weight/delete/", health.WeightDelete)
 	log.Fatal(http.ListenAndServe(":7070", nil))
 }
 
@@ -110,6 +111,7 @@ func index(res http.ResponseWriter, req *http.Request) {
 	cleanupErrorAndSuccessMessages(sess)
 }
 
+// TODO: move to session obj
 func setErrorAndSuccessMessages(sess *session.Session) {
 	if errMsg, ok := sess.Get("errMsg"); ok {
 		appData.LayoutData["errMsg"] = errMsg
@@ -119,6 +121,7 @@ func setErrorAndSuccessMessages(sess *session.Session) {
 	}
 }
 
+// TODO: move to session obj
 func cleanupErrorAndSuccessMessages(sess *session.Session) {
 	delete(appData.LayoutData, "errMsg")
 	delete(appData.LayoutData, "okMsg")
@@ -147,6 +150,7 @@ func renderView(name string, out io.Writer) error {
 	return nil
 }
 
+// TODO: move to session obj
 func getUserFromSession(sess *session.Session) *User {
 	var user *User = nil
 	if usr, ok := sess.Get("user"); ok {
