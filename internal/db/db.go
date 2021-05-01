@@ -1,12 +1,13 @@
-package main
+package db
 
 import (
 	"database/sql"
-	_ "github.com/go-sql-driver/mysql"
-	"golang.org/x/crypto/bcrypt"
 	"log"
 	"os"
 	"time"
+
+	_ "github.com/go-sql-driver/mysql"
+	"golang.org/x/crypto/bcrypt"
 )
 
 var (
@@ -15,7 +16,7 @@ var (
 	dbPass = ""
 )
 
-func initDb() (*sql.DB, error) {
+func InitDb() (*sql.DB, error) {
 	if envDbName := os.Getenv("DB_NAME"); envDbName != "" {
 		dbName = envDbName
 	}
@@ -38,7 +39,7 @@ func initDb() (*sql.DB, error) {
 	return db, nil
 }
 
-func getBloodReadings(db *sql.DB, userId int64) ([]*BloodReading, error) {
+func GetBloodReadings(db *sql.DB, userId int64) ([]*BloodReading, error) {
 	sql := `
 		SELECT id, user_id, systolic, diastolic, pulse, reading_date
 		FROM blood_pressures
@@ -76,7 +77,7 @@ func getBloodReadings(db *sql.DB, userId int64) ([]*BloodReading, error) {
 	return readings, nil
 }
 
-func getBloodReading(db *sql.DB, userId int64, readingId int64) (*BloodReading, error) {
+func GetBloodReading(db *sql.DB, userId int64, readingId int64) (*BloodReading, error) {
 	sql := `
 		SELECT id, user_id, systolic, diastolic, pulse, reading_date
 		FROM blood_pressures
@@ -103,7 +104,7 @@ func getBloodReading(db *sql.DB, userId int64, readingId int64) (*BloodReading, 
 	return &reading, nil
 }
 
-func createBloodReading(db *sql.DB, userId int64, systolic, diastolic, pulse int32, date string) error {
+func CreateBloodReading(db *sql.DB, userId int64, systolic, diastolic, pulse int32, date string) error {
 	sql := `
 		INSERT INTO blood_pressures
 		(id, user_id, systolic, diastolic, pulse, reading_date, created_at, updated_at, deleted_at) 
@@ -119,7 +120,7 @@ func createBloodReading(db *sql.DB, userId int64, systolic, diastolic, pulse int
 	return nil
 }
 
-func updateBloodReading(db *sql.DB, userId int64, readingId int64, systolic, diastolic, pulse int32, date string) error {
+func UpdateBloodReading(db *sql.DB, userId int64, readingId int64, systolic, diastolic, pulse int32, date string) error {
 	sql := `
 		UPDATE blood_pressures
 		SET systolic = ?, diastolic = ?, pulse = ?, reading_date = ?, updated_at = NOW()
@@ -135,7 +136,7 @@ func updateBloodReading(db *sql.DB, userId int64, readingId int64, systolic, dia
 	return nil
 }
 
-func deleteBloodReading(db *sql.DB, userId int64, readingId int64) error {
+func DeleteBloodReading(db *sql.DB, userId int64, readingId int64) error {
 	sql := `
 		UPDATE blood_pressures
 		SET deleted_at = NOW()
@@ -151,7 +152,7 @@ func deleteBloodReading(db *sql.DB, userId int64, readingId int64) error {
 	return nil
 }
 
-func getWeightEntries(db *sql.DB, userId int64) ([]*WeightEntry, error) {
+func GetWeightEntries(db *sql.DB, userId int64) ([]*WeightEntry, error) {
 	sql := `
 		SELECT id, user_id, weight, entered_date
 		FROM weights
@@ -185,7 +186,7 @@ func getWeightEntries(db *sql.DB, userId int64) ([]*WeightEntry, error) {
 	return entries, nil
 }
 
-func getWeightEntry(db *sql.DB, userId int64, entryId int64) (*WeightEntry, error) {
+func GetWeightEntry(db *sql.DB, userId int64, entryId int64) (*WeightEntry, error) {
 	sql := `
 		SELECT id, user_id, weight, entered_date
 		FROM weights
@@ -208,7 +209,7 @@ func getWeightEntry(db *sql.DB, userId int64, entryId int64) (*WeightEntry, erro
 	return &entry, nil
 }
 
-func createWeightEntry(db *sql.DB, userId int64, weight float32, date string) error {
+func CreateWeightEntry(db *sql.DB, userId int64, weight float32, date string) error {
 	sql := `
 		INSERT INTO weights
 		(id, user_id, weight, entered_date, deleted_at, created_at, updated_at) 
@@ -224,7 +225,7 @@ func createWeightEntry(db *sql.DB, userId int64, weight float32, date string) er
 	return nil
 }
 
-func updateWeightEntry(db *sql.DB, userId, entryId int64, weight float32, date string) error {
+func UpdateWeightEntry(db *sql.DB, userId, entryId int64, weight float32, date string) error {
 	sql := `
 		UPDATE weights
 		SET weight = ?, entered_date = ?, updated_at = NOW()
@@ -240,7 +241,7 @@ func updateWeightEntry(db *sql.DB, userId, entryId int64, weight float32, date s
 	return nil
 }
 
-func deleteWeightEntry(db *sql.DB, userId, entryId int64) error {
+func DeleteWeightEntry(db *sql.DB, userId, entryId int64) error {
 	sql := `
 		UPDATE weights
 		SET deleted_at = NOW()
@@ -256,7 +257,7 @@ func deleteWeightEntry(db *sql.DB, userId, entryId int64) error {
 	return nil
 }
 
-func registerUser(db *sql.DB, name, lastName, email, pass string) error {
+func RegisterUser(db *sql.DB, name, lastName, email, pass string) error {
 	sql := `
 		INSERT INTO users
 		(id, name, last_name, email, password, remember_token, created_at, updated_at, deleted_at) 

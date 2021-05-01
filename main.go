@@ -11,6 +11,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/jonathantorres/health/internal/db"
 	"github.com/jonathantorres/health/internal/session"
 )
 
@@ -69,14 +70,14 @@ func index(res http.ResponseWriter, req *http.Request) {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
-	db, err := initDb()
+	dbs, err := db.InitDb()
 	if err != nil {
 		serve500(res, req, err.Error())
 		return
 	}
 	user := getUserFromSession(sess)
-	readings, readingsErr := getBloodReadings(db, user.Id)
-	entries, entriesErr := getWeightEntries(db, user.Id)
+	readings, readingsErr := db.GetBloodReadings(dbs, user.Id)
+	entries, entriesErr := db.GetWeightEntries(dbs, user.Id)
 	if readingsErr != nil {
 		serve500(res, req, readingsErr.Error())
 		return

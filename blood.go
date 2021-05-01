@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/jonathantorres/health/internal/db"
 	"github.com/jonathantorres/health/internal/session"
 )
 
@@ -57,7 +58,7 @@ func bloodAdd(res http.ResponseWriter, req *http.Request) {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
-	db, err := initDb()
+	dbs, err := db.InitDb()
 	if err != nil {
 		serve500(res, req, err.Error())
 		return
@@ -72,7 +73,7 @@ func bloodAdd(res http.ResponseWriter, req *http.Request) {
 		pulse, _ := strconv.Atoi(req.PostForm["pulse"][0])
 		date := req.PostForm["reading-date"][0]
 		date += " " + nowDate.Format("15:04:05")
-		if err := createBloodReading(db, user.Id, int32(sys), int32(dia), int32(pulse), date); err != nil {
+		if err := db.CreateBloodReading(dbs, user.Id, int32(sys), int32(dia), int32(pulse), date); err != nil {
 			sess.Set("errMsg", err.Error())
 			http.Redirect(res, req, "/blood/add", http.StatusSeeOther)
 			return
@@ -99,7 +100,7 @@ func bloodAll(res http.ResponseWriter, req *http.Request) {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
-	db, err := initDb()
+	dbs, err := db.InitDb()
 	if err != nil {
 		serve500(res, req, err.Error())
 		return
@@ -107,7 +108,7 @@ func bloodAll(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("Content-type", "text/html")
 
 	user := getUserFromSession(sess)
-	readings, err := getBloodReadings(db, user.Id)
+	readings, err := db.GetBloodReadings(dbs, user.Id)
 	if err != nil {
 		serve500(res, req, err.Error())
 		return
@@ -128,7 +129,7 @@ func bloodDetails(res http.ResponseWriter, req *http.Request) {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
-	db, err := initDb()
+	dbs, err := db.InitDb()
 	if err != nil {
 		serve500(res, req, err.Error())
 		return
@@ -141,7 +142,7 @@ func bloodDetails(res http.ResponseWriter, req *http.Request) {
 	}
 
 	user := getUserFromSession(sess)
-	reading, err := getBloodReading(db, user.Id, int64(readingId))
+	reading, err := db.GetBloodReading(dbs, user.Id, int64(readingId))
 	if err != nil {
 		serve500(res, req, err.Error())
 		return
@@ -161,7 +162,7 @@ func bloodEdit(res http.ResponseWriter, req *http.Request) {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
-	db, err := initDb()
+	dbs, err := db.InitDb()
 	if err != nil {
 		serve500(res, req, err.Error())
 		return
@@ -172,7 +173,7 @@ func bloodEdit(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 	user := getUserFromSession(sess)
-	reading, err := getBloodReading(db, user.Id, int64(readingId))
+	reading, err := db.GetBloodReading(dbs, user.Id, int64(readingId))
 	if err != nil {
 		serve500(res, req, err.Error())
 		return
@@ -186,7 +187,7 @@ func bloodEdit(res http.ResponseWriter, req *http.Request) {
 		pulse, _ := strconv.Atoi(req.PostForm["pulse"][0])
 		date := req.PostForm["reading-date"][0]
 		date += " " + nowDate.Format("15:04:05")
-		if err := updateBloodReading(db, user.Id, reading.Id, int32(sys), int32(dia), int32(pulse), date); err != nil {
+		if err := db.UpdateBloodReading(dbs, user.Id, reading.Id, int32(sys), int32(dia), int32(pulse), date); err != nil {
 			sess.Set("errMsg", err.Error())
 			http.Redirect(res, req, "/blood/edit/"+strconv.Itoa(readingId), http.StatusSeeOther)
 			return
@@ -214,7 +215,7 @@ func bloodDelete(res http.ResponseWriter, req *http.Request) {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
-	db, err := initDb()
+	dbs, err := db.InitDb()
 	if err != nil {
 		serve500(res, req, err.Error())
 		return
@@ -225,12 +226,12 @@ func bloodDelete(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 	user := getUserFromSession(sess)
-	reading, err := getBloodReading(db, user.Id, int64(readingId))
+	reading, err := db.GetBloodReading(dbs, user.Id, int64(readingId))
 	if err != nil {
 		serve500(res, req, err.Error())
 		return
 	}
-	if err = deleteBloodReading(db, user.Id, reading.Id); err != nil {
+	if err = db.DeleteBloodReading(dbs, user.Id, reading.Id); err != nil {
 		sess.Set("errMsg", err.Error())
 		http.Redirect(res, req, "/", http.StatusSeeOther)
 		return

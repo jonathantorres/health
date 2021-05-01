@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/jonathantorres/health/internal/db"
 	"github.com/jonathantorres/health/internal/session"
 )
 
@@ -26,7 +27,7 @@ func weightAdd(res http.ResponseWriter, req *http.Request) {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
-	db, err := initDb()
+	dbs, err := db.InitDb()
 	if err != nil {
 		serve500(res, req, err.Error())
 		return
@@ -39,7 +40,7 @@ func weightAdd(res http.ResponseWriter, req *http.Request) {
 		weight, _ := strconv.ParseFloat(req.PostForm["weight"][0], 32)
 		date := req.PostForm["entered-date"][0]
 		date += " " + nowDate.Format("15:04:05")
-		if err := createWeightEntry(db, user.Id, float32(weight), date); err != nil {
+		if err := db.CreateWeightEntry(dbs, user.Id, float32(weight), date); err != nil {
 			sess.Set("errMsg", err.Error())
 			http.Redirect(res, req, "/weight/add", http.StatusSeeOther)
 			return
@@ -66,7 +67,7 @@ func weightAll(res http.ResponseWriter, req *http.Request) {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
-	db, err := initDb()
+	dbs, err := db.InitDb()
 	if err != nil {
 		serve500(res, req, err.Error())
 		return
@@ -74,7 +75,7 @@ func weightAll(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("Content-type", "text/html")
 
 	user := getUserFromSession(sess)
-	entries, err := getWeightEntries(db, user.Id)
+	entries, err := db.GetWeightEntries(dbs, user.Id)
 	if err != nil {
 		serve500(res, req, err.Error())
 		return
@@ -95,7 +96,7 @@ func weightEdit(res http.ResponseWriter, req *http.Request) {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
-	db, err := initDb()
+	dbs, err := db.InitDb()
 	if err != nil {
 		serve500(res, req, err.Error())
 		return
@@ -106,7 +107,7 @@ func weightEdit(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 	user := getUserFromSession(sess)
-	entry, err := getWeightEntry(db, user.Id, int64(entryId))
+	entry, err := db.GetWeightEntry(dbs, user.Id, int64(entryId))
 	if err != nil {
 		serve500(res, req, err.Error())
 		return
@@ -118,7 +119,7 @@ func weightEdit(res http.ResponseWriter, req *http.Request) {
 		weight, _ := strconv.ParseFloat(req.PostForm["weight"][0], 32)
 		date := req.PostForm["entered-date"][0]
 		date += " " + nowDate.Format("15:04:05")
-		if err := updateWeightEntry(db, user.Id, entry.Id, float32(weight), date); err != nil {
+		if err := db.UpdateWeightEntry(dbs, user.Id, entry.Id, float32(weight), date); err != nil {
 			sess.Set("errMsg", err.Error())
 			http.Redirect(res, req, "/weight/edit/"+strconv.Itoa(entryId), http.StatusSeeOther)
 			return
@@ -146,7 +147,7 @@ func weightDelete(res http.ResponseWriter, req *http.Request) {
 		http.Redirect(res, req, "/login", http.StatusFound)
 		return
 	}
-	db, err := initDb()
+	dbs, err := db.InitDb()
 	if err != nil {
 		serve500(res, req, err.Error())
 		return
@@ -157,12 +158,12 @@ func weightDelete(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 	user := getUserFromSession(sess)
-	entry, err := getWeightEntry(db, user.Id, int64(entryId))
+	entry, err := db.GetWeightEntry(dbs, user.Id, int64(entryId))
 	if err != nil {
 		serve500(res, req, err.Error())
 		return
 	}
-	if err = deleteWeightEntry(db, user.Id, entry.Id); err != nil {
+	if err = db.DeleteWeightEntry(dbs, user.Id, entry.Id); err != nil {
 		sess.Set("errMsg", err.Error())
 		http.Redirect(res, req, "/", http.StatusSeeOther)
 		return

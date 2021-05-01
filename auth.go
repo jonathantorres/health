@@ -8,6 +8,7 @@ import (
 
 	"golang.org/x/crypto/bcrypt"
 
+	"github.com/jonathantorres/health/internal/db"
 	"github.com/jonathantorres/health/internal/session"
 )
 
@@ -18,7 +19,7 @@ func login(res http.ResponseWriter, req *http.Request) {
 		http.Redirect(res, req, "/", http.StatusFound)
 		return
 	}
-	db, err := initDb()
+	dbs, err := db.InitDb()
 	if err != nil {
 		serve500(res, req, err.Error())
 		return
@@ -27,7 +28,7 @@ func login(res http.ResponseWriter, req *http.Request) {
 		req.ParseForm()
 		email := req.PostForm["email"][0]
 		pass := req.PostForm["password"][0]
-		if err = authenticate(db, res, req, sess, email, pass); err != nil {
+		if err = authenticate(dbs, res, req, sess, email, pass); err != nil {
 			sess.Set("errMsg", err.Error())
 			http.Redirect(res, req, "/login", http.StatusSeeOther)
 			return
@@ -45,14 +46,14 @@ func login(res http.ResponseWriter, req *http.Request) {
 	cleanupErrorAndSuccessMessages(sess)
 }
 
-func authenticate(db *sql.DB, res http.ResponseWriter, req *http.Request, sess *session.Session, email, pass string) error {
+func authenticate(dbs *sql.DB, res http.ResponseWriter, req *http.Request, sess *session.Session, email, pass string) error {
 	sql := `
 		SELECT id, name, last_name, email, password
 		FROM users
 		WHERE email = ?
 		LIMIT 1
 	`
-	rows, err := db.Query(sql, email)
+	rows, err := dbs.Query(sql, email)
 	if err != nil {
 		log.Printf("err: %s", err)
 		return err
@@ -101,7 +102,7 @@ func register(res http.ResponseWriter, req *http.Request) {
 		http.Redirect(res, req, "/", http.StatusFound)
 		return
 	}
-	db, err := initDb()
+	dbs, err := db.InitDb()
 	if err != nil {
 		serve500(res, req, err.Error())
 		return
@@ -119,12 +120,12 @@ func register(res http.ResponseWriter, req *http.Request) {
 			http.Redirect(res, req, "/register", http.StatusSeeOther)
 			return
 		}
-		if err := registerUser(db, name, lastName, email, pass); err != nil {
+		if err := db.RegisterUser(dbs, name, lastName, email, pass); err != nil {
 			sess.Set("errMsg", err.Error())
 			http.Redirect(res, req, "/register", http.StatusSeeOther)
 			return
 		}
-		if err = authenticate(db, res, req, sess, email, pass); err != nil {
+		if err = authenticate(dbs, res, req, sess, email, pass); err != nil {
 			sess.Set("errMsg", err.Error())
 			http.Redirect(res, req, "/login", http.StatusSeeOther)
 			return
