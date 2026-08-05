@@ -2,19 +2,16 @@
 
 namespace App;
 
-use App\BloodPressure;
-use App\Weight;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable implements CanResetPasswordContract
 {
-    use Notifiable;
-    use SoftDeletes;
-    use CanResetPassword;
+    use HasFactory, Notifiable, SoftDeletes, CanResetPassword;
 
     /**
      * The attributes that are mass assignable.
@@ -35,11 +32,13 @@ class User extends Authenticatable implements CanResetPasswordContract
     ];
 
     /**
-     * The attributes that should be mutated to dates.
+     * The attributes that should be cast.
      *
      * @var array
      */
-    protected $dates = ['deleted_at'];
+    protected $casts = [
+        'deleted_at' => 'datetime',
+    ];
 
     /**
      * The blood pressures entered by the user.

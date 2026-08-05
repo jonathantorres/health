@@ -11,7 +11,7 @@ class LoginTest extends DuskTestCase
 {
     use DatabaseMigrations;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
     }
@@ -33,7 +33,7 @@ class LoginTest extends DuskTestCase
     /** @test */
     public function existing_user_should_be_able_to_login()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $this->browse(function (Browser $browser) use ($user) {
             $browser->visit('/login')
                     ->assertSee('Login')
@@ -49,7 +49,7 @@ class LoginTest extends DuskTestCase
     /** @test */
     public function existing_user_should_be_able_to_logout()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
                     ->visit('/')

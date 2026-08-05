@@ -12,7 +12,7 @@ class WeightTest extends DuskTestCase
 {
     use DatabaseMigrations;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
     }
@@ -20,7 +20,7 @@ class WeightTest extends DuskTestCase
      /** @test */
     public function user_should_see_all_weight_entries()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
                     ->visit('/')
@@ -35,7 +35,7 @@ class WeightTest extends DuskTestCase
     /** @test */
     public function user_can_enter_a_new_weight_entry()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
                     ->visit('/')
@@ -57,8 +57,8 @@ class WeightTest extends DuskTestCase
     /** @test */
     public function user_can_edit_an_existing_weight_entry()
     {
-        $user = factory(User::class)->create();
-        $readings = factory(Weight::class, 5)->create([
+        $user = User::factory()->create();
+        $readings = Weight::factory()->count(5)->create([
             'user_id' => $user->id,
         ]);
         $this->browse(function (Browser $browser) use ($user) {
@@ -83,8 +83,8 @@ class WeightTest extends DuskTestCase
     /** @test */
     public function user_can_delete_an_existing_weight_entry()
     {
-        $user = factory(User::class)->create();
-        $readings = factory(Weight::class, 5)->create([
+        $user = User::factory()->create();
+        $readings = Weight::factory()->count(5)->create([
             'user_id' => $user->id,
         ]);
         $this->browse(function (Browser $browser) use ($user) {
