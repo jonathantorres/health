@@ -2,13 +2,13 @@
 
 namespace App;
 
-use App\User;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class BloodPressure extends Model
 {
-    use SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     /**
      * The table associated with the model.
@@ -27,11 +27,14 @@ class BloodPressure extends Model
     ];
 
     /**
-     * The attributes that should be mutated to dates.
+     * The attributes that should be cast.
      *
-     * @var array
+     * @var array<string, string>
      */
-    protected $dates = ['deleted_at', 'reading_date'];
+    protected $casts = [
+        'deleted_at' => 'datetime',
+        'reading_date' => 'datetime',
+    ];
 
     /**
      * Calculate the severity of this reading.

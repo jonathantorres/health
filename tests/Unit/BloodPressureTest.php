@@ -5,25 +5,24 @@ namespace Tests\Unit;
 use App\BloodPressure;
 use App\User;
 use Carbon\Carbon;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class BloodPressureTest extends TestCase
 {
-    use DatabaseMigrations;
+    use RefreshDatabase;
 
-    private $user;
+    private User $user;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
-        $this->user = factory(User::class)->create();
+        $this->user = User::factory()->create();
     }
 
     /** @test */
-    public function normal_blood_pressure_severity_is_calculated()
+    public function normal_blood_pressure_severity_is_calculated(): void
     {
         $normalReading = BloodPressure::create([
             'systolic' => 120,
@@ -36,7 +35,7 @@ class BloodPressureTest extends TestCase
     }
 
     /** @test */
-    public function pre_blood_pressure_severity_is_calculated()
+    public function pre_blood_pressure_severity_is_calculated(): void
     {
         $preReading = BloodPressure::create([
             'systolic' => 130,
@@ -49,7 +48,7 @@ class BloodPressureTest extends TestCase
     }
 
     /** @test */
-    public function stage1_blood_pressure_severity_is_calculated()
+    public function stage1_blood_pressure_severity_is_calculated(): void
     {
         $stage1Reading = BloodPressure::create([
             'systolic' => 140,
@@ -62,7 +61,7 @@ class BloodPressureTest extends TestCase
     }
 
     /** @test */
-    public function stage2_blood_pressure_severity_is_calculated()
+    public function stage2_blood_pressure_severity_is_calculated(): void
     {
         $stage2Reading = BloodPressure::create([
             'systolic' => 161,
@@ -74,3 +73,4 @@ class BloodPressureTest extends TestCase
         $this->assertSame($stage2Reading->severity()['text'], 'Stage 2 Hypertension');
     }
 }
+
