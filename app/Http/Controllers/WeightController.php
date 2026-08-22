@@ -29,7 +29,7 @@ class WeightController extends Controller
     public function add(Request $request)
     {
         if ($request->isMethod('post')) {
-            $this->validate($request, [
+            $request->validate([
                 'weight' => 'required|numeric',
                 'entered-date' => 'required',
             ]);
@@ -75,7 +75,7 @@ class WeightController extends Controller
         }
 
         if ($request->isMethod('post')) {
-            $this->validate($request, [
+            $request->validate([
                 'weight' => 'required|numeric',
                 'entered-date' => 'required',
             ]);

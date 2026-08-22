@@ -29,7 +29,7 @@ class BloodPressureController extends Controller
     public function add(Request $request)
     {
         if ($request->isMethod('post')) {
-            $this->validate($request, [
+            $request->validate([
                 'sys' => 'required|numeric',
                 'dia' => 'required|numeric',
                 'pulse' => 'required|numeric',
@@ -101,7 +101,7 @@ class BloodPressureController extends Controller
         }
 
         if ($request->isMethod('post')) {
-            $this->validate($request, [
+            $request->validate([
                 'sys' => 'required|numeric',
                 'dia' => 'required|numeric',
                 'pulse' => 'required|numeric',
