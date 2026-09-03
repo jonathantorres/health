@@ -47,8 +47,8 @@ class RegistrationTest extends DuskTestCase
                     ->type('password', 'secret')
                     ->type('password_confirmation', 'secret')
                     ->press('Register')
-                    ->assertPathIs('/register')
-                    ->assertSee('The email has already been taken.');
+                    ->waitForText('The email has already been taken.')
+                    ->assertPathIs('/register');
         });
     }
 }

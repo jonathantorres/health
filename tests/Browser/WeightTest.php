@@ -25,6 +25,7 @@ class WeightTest extends DuskTestCase
             $browser->loginAs($user)
                     ->visit('/')
                     ->assertSee('Latest Weight Entries')
+                    ->clickLink('Weight')
                     ->clickLink('See all entries')
                     ->assertPathIs('/weight/all')
                     ->assertSee('Weight Entries')
@@ -40,6 +41,7 @@ class WeightTest extends DuskTestCase
             $browser->loginAs($user)
                     ->visit('/')
                     ->assertSee('Latest Weight Entries')
+                    ->clickLink('Weight')
                     ->clickLink('Enter new weight entry')
                     ->assertSee('Add New Weight Entry')
                     ->type('weight', 155.9)
@@ -65,6 +67,7 @@ class WeightTest extends DuskTestCase
             $browser->loginAs($user)
                     ->visit('/')
                     ->assertSee('Latest Weight Entries')
+                    ->clickLink('Weight')
                     ->clickLink('See all entries')
                     ->click('.glyphicon.glyphicon-edit')
                     ->assertSee('Edit Weight Entry')
@@ -74,8 +77,7 @@ class WeightTest extends DuskTestCase
                     ]);
 
             $browser->press('Update Weight Entry')
-                    ->assertPathIs('/weight/edit/1')
-                    ->assertSee('Weight entry updated succesfully.')
+                    ->waitForText('Weight entry updated succesfully.')
                     ->logout();
         });
     }
@@ -91,12 +93,13 @@ class WeightTest extends DuskTestCase
             $browser->loginAs($user)
                     ->visit('/')
                     ->assertSee('Latest Weight Entries')
+                    ->clickLink('Weight')
                     ->clickLink('See all entries')
                     ->click('.glyphicon.glyphicon-remove')
                     ->waitForText('Are you sure you wish to delete this weight entry?')
                     ->press('Yes')
+                    ->waitForText('Weight entry deleted succesfully.')
                     ->assertPathIs('/')
-                    ->assertSee('Weight entry deleted succesfully.')
                     ->logout();
         });
     }

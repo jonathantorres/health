@@ -25,8 +25,8 @@ class LoginTest extends DuskTestCase
                     ->type('email', 'someone@email.com')
                     ->type('password', 'mypass')
                     ->press('Login')
-                    ->assertPathIs('/login')
-                    ->assertSee('These credentials do not match our records.');
+                    ->waitForText('These credentials do not match our records.')
+                    ->assertPathIs('/login');
         });
     }
 
@@ -40,9 +40,8 @@ class LoginTest extends DuskTestCase
                     ->type('email', $user->email)
                     ->type('password', 'secret')
                     ->press('Login')
-                    ->assertPathIs('/')
-                    ->assertSee('Latest Blood Pressure Readings')
-                    ->logout();
+                    ->waitForText('Latest Blood Pressure Readings')
+                    ->assertPathIs('/');
         });
     }
 
@@ -54,6 +53,7 @@ class LoginTest extends DuskTestCase
             $browser->loginAs($user)
                     ->visit('/')
                     ->assertSee('Latest Blood Pressure Readings')
+                    ->click('.navbar-right .dropdown-toggle')
                     ->clickLink('Logout')
                     ->assertPathIs('/login')
                     ->assertSee('Login');

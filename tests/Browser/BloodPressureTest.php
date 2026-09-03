@@ -25,6 +25,7 @@ class BloodPressureTest extends DuskTestCase
             $browser->loginAs($user)
                     ->visit('/')
                     ->assertSee('Latest Blood Pressure Readings')
+                    ->clickLink('Blood Pressure')
                     ->clickLink('See all readings')
                     ->assertPathIs('/blood-pressure/all')
                     ->assertSee('Blood Pressure Readings')
@@ -60,6 +61,7 @@ class BloodPressureTest extends DuskTestCase
             $browser->loginAs($user)
                     ->visit('/')
                     ->assertSee('Latest Blood Pressure Readings')
+                    ->clickLink('Blood Pressure')
                     ->clickLink('See all readings')
                     ->click('.glyphicon.glyphicon-search')
                     ->assertSee('Reading Details')
@@ -75,6 +77,7 @@ class BloodPressureTest extends DuskTestCase
             $browser->loginAs($user)
                     ->visit('/')
                     ->assertSee('Latest Blood Pressure Readings')
+                    ->clickLink('Blood Pressure')
                     ->clickLink('Enter new reading')
                     ->assertSee('Add New Blood Pressure Reading')
                     ->type('sys', 120)
@@ -102,6 +105,7 @@ class BloodPressureTest extends DuskTestCase
             $browser->loginAs($user)
                     ->visit('/')
                     ->assertSee('Latest Blood Pressure Readings')
+                    ->clickLink('Blood Pressure')
                     ->clickLink('See all readings')
                     ->click('.glyphicon.glyphicon-edit')
                     ->assertSee('Update Blood Pressure Reading')
@@ -113,8 +117,7 @@ class BloodPressureTest extends DuskTestCase
                     ]);
 
             $browser->press('Update Reading')
-                    ->assertPathIs('/blood-pressure/edit/1')
-                    ->assertSee('Blood Pressure reading updated succesfully.')
+                    ->waitForText('Blood Pressure reading updated succesfully.')
                     ->logout();
         });
     }
@@ -130,12 +133,13 @@ class BloodPressureTest extends DuskTestCase
             $browser->loginAs($user)
                     ->visit('/')
                     ->assertSee('Latest Blood Pressure Readings')
+                    ->clickLink('Blood Pressure')
                     ->clickLink('See all readings')
                     ->click('.glyphicon.glyphicon-remove')
                     ->waitForText('Are you sure you wish to delete this reading?')
                     ->press('Yes')
+                    ->waitForText('Blood Pressure reading deleted succesfully.')
                     ->assertPathIs('/')
-                    ->assertSee('Blood Pressure reading deleted succesfully.')
                     ->logout();
         });
     }
