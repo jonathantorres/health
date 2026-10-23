@@ -2,13 +2,13 @@
 
 namespace App;
 
-use App\User;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class BloodPressure extends Model
 {
-    use SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     /**
      * The table associated with the model.
@@ -27,11 +27,14 @@ class BloodPressure extends Model
     ];
 
     /**
-     * The attributes that should be mutated to dates.
+     * The attributes that should be cast.
      *
-     * @var array
+     * @var array<string, string>
      */
-    protected $dates = ['deleted_at', 'reading_date'];
+    protected $casts = [
+        'deleted_at' => 'datetime',
+        'reading_date' => 'datetime',
+    ];
 
     /**
      * Calculate the severity of this reading.
@@ -45,17 +48,17 @@ class BloodPressure extends Model
                 'text' => 'Normal',
                 'class' => 'primary'
             ];
-        } elseif (($this->systolic > 120 && $this->systolic <= 139) || ($this->diastolic > 80 && $this->diastolic <= 89)) {
+        } else if (($this->systolic > 120 && $this->systolic <= 139) || ($this->diastolic > 80 && $this->diastolic <= 89)) {
             return [
                 'text' => 'Pre Hypertension',
                 'class' => 'warning'
             ];
-        } elseif (($this->systolic >= 140 && $this->systolic <= 159) || ($this->diastolic >= 90 && $this->diastolic <= 99)) {
+        } else if (($this->systolic >= 140 && $this->systolic <= 159) || ($this->diastolic >= 90 && $this->diastolic <= 99)) {
             return [
                 'text' => 'Stage 1 Hypertension',
                 'class' => 'danger'
             ];
-        } elseif ($this->systolic >= 160 && $this->diastolic >= 100) {
+        } else if ($this->systolic >= 160 && $this->diastolic >= 100) {
             return [
                 'text' => 'Stage 2 Hypertension',
                 'class' => 'danger'

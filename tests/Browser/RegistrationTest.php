@@ -11,10 +11,10 @@ class RegistrationTest extends DuskTestCase
 {
     use DatabaseMigrations;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
-    }
+     }
 
     /** @test */
     public function register_guest_user()
@@ -37,7 +37,7 @@ class RegistrationTest extends DuskTestCase
     /** @test */
     public function existing_user_should_not_be_able_to_register()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $this->browse(function (Browser $browser) use ($user) {
             $browser->visit('/register')
                     ->assertSee('Register')
@@ -47,8 +47,8 @@ class RegistrationTest extends DuskTestCase
                     ->type('password', 'secret')
                     ->type('password_confirmation', 'secret')
                     ->press('Register')
-                    ->assertPathIs('/register')
-                    ->assertSee('The email has already been taken.');
+                    ->waitForText('The email has already been taken.')
+                    ->assertPathIs('/register');
         });
     }
 }

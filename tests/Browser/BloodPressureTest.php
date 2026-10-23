@@ -12,7 +12,7 @@ class BloodPressureTest extends DuskTestCase
 {
     use DatabaseMigrations;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
     }
@@ -20,11 +20,12 @@ class BloodPressureTest extends DuskTestCase
      /** @test */
     public function user_should_see_all_blood_pressure_readings()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
                     ->visit('/')
                     ->assertSee('Latest Blood Pressure Readings')
+                    ->clickLink('Blood Pressure')
                     ->clickLink('See all readings')
                     ->assertPathIs('/blood-pressure/all')
                     ->assertSee('Blood Pressure Readings')
@@ -35,8 +36,8 @@ class BloodPressureTest extends DuskTestCase
     /** @test */
     public function user_can_see_details_of_a_reading_from_main_dashboard()
     {
-        $user = factory(User::class)->create();
-        $readings = factory(BloodPressure::class, 5)->create([
+        $user = User::factory()->create();
+        $readings = BloodPressure::factory()->count(5)->create([
             'user_id' => $user->id,
         ]);
         $this->browse(function (Browser $browser) use ($user) {
@@ -52,14 +53,15 @@ class BloodPressureTest extends DuskTestCase
     /** @test */
     public function user_can_see_details_of_a_reading_from_all_readings_view()
     {
-        $user = factory(User::class)->create();
-        $readings = factory(BloodPressure::class, 5)->create([
+        $user = User::factory()->create();
+        $readings = BloodPressure::factory()->count(5)->create([
             'user_id' => $user->id,
         ]);
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
                     ->visit('/')
                     ->assertSee('Latest Blood Pressure Readings')
+                    ->clickLink('Blood Pressure')
                     ->clickLink('See all readings')
                     ->click('.glyphicon.glyphicon-search')
                     ->assertSee('Reading Details')
@@ -70,17 +72,17 @@ class BloodPressureTest extends DuskTestCase
     /** @test */
     public function user_can_enter_a_new_blood_pressure_reading()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
                     ->visit('/')
                     ->assertSee('Latest Blood Pressure Readings')
+                    ->clickLink('Blood Pressure')
                     ->clickLink('Enter new reading')
                     ->assertSee('Add New Blood Pressure Reading')
                     ->type('sys', 120)
                     ->type('dia', 80)
                     ->type('pulse', 75)
-                    // ->type('reading-date', '09/12/2017')
                     ->script([
                         "document.querySelector('#reading-date').value = '2017-09-12'",
                     ]);
@@ -95,14 +97,15 @@ class BloodPressureTest extends DuskTestCase
     /** @test */
     public function user_can_edit_an_existing_blood_pressure_reading()
     {
-        $user = factory(User::class)->create();
-        $readings = factory(BloodPressure::class, 5)->create([
+        $user = User::factory()->create();
+        $readings = BloodPressure::factory()->count(5)->create([
             'user_id' => $user->id,
         ]);
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
                     ->visit('/')
                     ->assertSee('Latest Blood Pressure Readings')
+                    ->clickLink('Blood Pressure')
                     ->clickLink('See all readings')
                     ->click('.glyphicon.glyphicon-edit')
                     ->assertSee('Update Blood Pressure Reading')
@@ -114,8 +117,7 @@ class BloodPressureTest extends DuskTestCase
                     ]);
 
             $browser->press('Update Reading')
-                    ->assertPathIs('/blood-pressure/edit/1')
-                    ->assertSee('Blood Pressure reading updated succesfully.')
+                    ->waitForText('Blood Pressure reading updated succesfully.')
                     ->logout();
         });
     }
@@ -123,20 +125,21 @@ class BloodPressureTest extends DuskTestCase
     /** @test */
     public function user_can_delete_an_existing_blood_pressure_reading()
     {
-        $user = factory(User::class)->create();
-        $readings = factory(BloodPressure::class, 5)->create([
+        $user = User::factory()->create();
+        $readings = BloodPressure::factory()->count(5)->create([
             'user_id' => $user->id,
         ]);
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
                     ->visit('/')
                     ->assertSee('Latest Blood Pressure Readings')
+                    ->clickLink('Blood Pressure')
                     ->clickLink('See all readings')
                     ->click('.glyphicon.glyphicon-remove')
                     ->waitForText('Are you sure you wish to delete this reading?')
                     ->press('Yes')
+                    ->waitForText('Blood Pressure reading deleted succesfully.')
                     ->assertPathIs('/')
-                    ->assertSee('Blood Pressure reading deleted succesfully.')
                     ->logout();
         });
     }

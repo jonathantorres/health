@@ -28,7 +28,9 @@ class AddUserIdToBloodPressuresTable extends Migration
     public function down()
     {
         Schema::table('blood_pressures', function (Blueprint $table) {
-            $table->dropForeign('blood_pressures_user_id_foreign');
+            if (Schema::getConnection()->getDriverName() !== 'sqlite') {
+                $table->dropForeign('blood_pressures_user_id_foreign');
+            }
             $table->dropColumn('user_id');
         });
     }

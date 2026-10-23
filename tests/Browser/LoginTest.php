@@ -11,7 +11,7 @@ class LoginTest extends DuskTestCase
 {
     use DatabaseMigrations;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
     }
@@ -25,35 +25,35 @@ class LoginTest extends DuskTestCase
                     ->type('email', 'someone@email.com')
                     ->type('password', 'mypass')
                     ->press('Login')
-                    ->assertPathIs('/login')
-                    ->assertSee('These credentials do not match our records.');
+                    ->waitForText('These credentials do not match our records.')
+                    ->assertPathIs('/login');
         });
     }
 
     /** @test */
     public function existing_user_should_be_able_to_login()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $this->browse(function (Browser $browser) use ($user) {
             $browser->visit('/login')
                     ->assertSee('Login')
                     ->type('email', $user->email)
                     ->type('password', 'secret')
                     ->press('Login')
-                    ->assertPathIs('/')
-                    ->assertSee('Latest Blood Pressure Readings')
-                    ->logout();
+                    ->waitForText('Latest Blood Pressure Readings')
+                    ->assertPathIs('/');
         });
     }
 
     /** @test */
     public function existing_user_should_be_able_to_logout()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
                     ->visit('/')
                     ->assertSee('Latest Blood Pressure Readings')
+                    ->click('.navbar-right .dropdown-toggle')
                     ->clickLink('Logout')
                     ->assertPathIs('/login')
                     ->assertSee('Login');
