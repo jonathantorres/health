@@ -1,64 +1,75 @@
-# Health
-[![Build Status](https://travis-ci.org/jonathantorres/health.svg?branch=master)](https://travis-ci.org/jonathantorres/health)
+# Nuxt Minimal Starter
 
-Web based app for health tracking and monitoring. Work in progress.
+Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
-#### Installation
-Just clone the repository.
+## Setup
+
+Make sure to install dependencies:
+
 ```bash
-git clone git@bitbucket.org:jonathantorres/health.git
+# npm
+npm install
+
+# pnpm
+pnpm install
+
+# yarn
+yarn install
+
+# bun
+bun install
 ```
 
-#### Install dependencies
-Install `php` dependencies with `composer` and `javascript` dependencies with `npm`.
-```bash
-composer install && npm install
-```
+## Development Server
 
-#### Environment and database setup
-Copy the included `.env.example` file to `.env`.
-```bash
-cp .env.example .env
-```
+Start the development server on `http://localhost:3000`:
 
-Login to your local mysql installation and create your local and testing database.
 ```bash
-mysql -u root -p ''
-create database health;
-create database heath_test;
-```
-
-Generate your application key
-```bash
-php artisan key:generate
-```
-
-And run your migrations and seeds, which will create your tables and a test user.
-```bash
-php artisan migrate && php artisan db:seed
-```
-
-#### Compile javascript and sass assets
-```bash
+# npm
 npm run dev
+
+# pnpm
+pnpm dev
+
+# yarn
+yarn dev
+
+# bun
+bun run dev
 ```
 
-#### Running the development server
-Once everything is installed in order, you can run your server.
-```
-php artisan serve
-```
+## Production
 
-Alternatively, if you have Laravel [Valet](https://laravel.com/docs/5.4/valet) installed (like I do) and configured you should be able to see your app running locally on `http://health.dev`.
+Build the application for production:
 
-#### Running unit tests
-Unit tests are done with PHPUnit. Run the unit test with the following command.
 ```bash
-vendor/bin/phpunit
+# npm
+npm run build
+
+# pnpm
+pnpm build
+
+# yarn
+yarn build
+
+# bun
+bun run build
 ```
 
-#### Running integration tests
-Integration tests are done with PHPUnit and Laravel Dusk. Run the following command to run the integration tests.
+Locally preview production build:
+
 ```bash
-php artisan dusk
+# npm
+npm run preview
+
+# pnpm
+pnpm preview
+
+# yarn
+yarn preview
+
+# bun
+bun run preview
 ```
+
+Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
