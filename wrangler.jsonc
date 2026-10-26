@@ -5,13 +5,13 @@
   "compatibility_flags": ["nodejs_compat"],
   "assets": {
     "directory": "./.output/public",
-    "binding": "ASSETS"
+    "binding": "ASSETS",
   },
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "health-db",
-      "database_id": "replace-with-your-database-id"
-    }
-  ]
+      "database_name": "health",
+      "database_id": "a076fe79-b94b-4db9-bd04-e735b872d619",
+    },
+  ],
 }
