@@ -49,7 +49,7 @@ const handleRegister = async () => {
     }
     await register(name.value, last_name.value, email.value, password.value, confirm_password.value)
     await navigateTo('/')
-  } catch (e: any) {
+  } catch (e) {
     error.value = e.data?.message || 'Registration failed'
   }
 }

@@ -65,7 +65,7 @@ const handleSubmit = async () => {
       }
     })
     await navigateTo('/')
-  } catch (e: any) {
+  } catch (e) {
     error.value = e.data?.message || 'Failed to update'
   }
 }

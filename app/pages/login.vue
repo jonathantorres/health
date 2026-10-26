@@ -43,7 +43,7 @@ const handleLogin = async () => {
     error.value = ''
     await login(email.value, password.value)
     await navigateTo('/')
-  } catch (e: any) {
+  } catch (e) {
     error.value = e.data?.message || 'Login failed'
   }
 }
