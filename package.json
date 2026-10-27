@@ -22,6 +22,6 @@
     "@types/better-sqlite3": "^9.6.0",
     "bcryptjs": "^3.0.3",
     "better-sqlite3": "^13.0.3",
-    "wrangler": "^4.152.0"
+    "wrangler": "^4.153.0"
   }
 }
